@@ -11,3 +11,16 @@ exports.index = function(req, res){
     });
   }
 };
+
+exports.userstuff = function(req, res){ // TODO: Temporary function for hacking away at user stuff
+  if(req.isAuthenticated()) {
+    var user = new Models.User;
+    user.findByUserId(req.user.id, function(err, userData){
+      console.log('user.getObjectName()', user.getObjectName(), userData);
+      res.send('See output in terminal');
+    });
+  } else {
+    res.redirect('/');
+    return;
+  }
+};

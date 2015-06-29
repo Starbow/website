@@ -12,5 +12,6 @@ module.exports = function (app, passport) {
   });
   app.get('/profile/info', controllerProfile.info);
   app.get('/profile/matchhistory', controllerProfile.matchhistory);
+  app.get('/userstuff', controllerIndex.userstuff); // TODO: Temporary development endpoint
   app.get('/', controllerIndex.index);
 };
