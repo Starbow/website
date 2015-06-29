@@ -158,7 +158,7 @@ Contains sensitive server-side assets, as opposed to the [`/public`](#folder-pub
 
 Contains SSL key and certificate.
 
-**TODO:** Move this to nginx.
+**TODO:** Move this to nginx. (See: https://github.com/Starbow/website/issues/1)
 
 ---
 
@@ -196,7 +196,7 @@ Do **not manually modify** the contents of this folder. Instead, compile the fil
 
 Common libraries, e.g. Twitter Bootstrap.
 
-**TODO:** Should be delivered through a trusted CDN website. For now, though, we store them ourselves.
+**TODO:** Should be delivered through a trusted CDN website. For now, though, we store them ourselves. (See: https://github.com/Starbow/website/issues/2)
 
 ---
 
