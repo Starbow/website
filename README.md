@@ -1,7 +1,7 @@
 Starbow website
 ==============================
 
-Code base for the Starbow website: http://starmodbow.com
+Code base for the Starbow website: http://starbowmod.com
 
 * Server-side framework: [Node.js](https://nodejs.org/) with [`express`](https://www.npmjs.com/package/express)
 * Database: [RethinkDB](http://rethinkdb.com/docs/install/)
