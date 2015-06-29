@@ -17,12 +17,12 @@ exports.startup = function(app, passport){
     if (~file.indexOf('.js')) require(process.env.ROOT + '/server/mvc/models/' + file);
   });
 
-  console.log("Boostrap: Configuring passport");
+  console.log("Bootstrap: Configuring passport");
   require(process.env.ROOT + '/server/bootstrap/passport.js')(passport);
 
-  console.log("Boostrap: Configuring express");
+  console.log("Bootstrap: Configuring express");
   require(process.env.ROOT + '/server/bootstrap/express.js')(app, passport);
 
-  console.log("Boostrap: Configuring routes");
+  console.log("Bootstrap: Configuring routes");
   require(process.env.ROOT + '/server/bootstrap/routes.js')(app, passport);
 };
