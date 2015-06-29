@@ -32,7 +32,7 @@ If you don't feel like writing your Git password every time you want to push to 
 ## Running the application
 
 1. In the root folder (`/website`), run `sudo node server.js` to start the application. (**Note:** Using port numbers below 3000, which 443 is, requires `sudo` privileges)
-2. In your browser, go to: https://localhost
+2. In your browser, go to: [https://localhost](https://localhost)
 
 If your browser complains that `https://localhost` isn't secure (certified SSL/HTTPS), just choose (in your browser) to continue anyway.
 
@@ -87,8 +87,9 @@ The folders are structured as follows:
   * [`/app`](#folder-public-app)
   * [`/cdn`](#folder-public-cdn)
 * [`/server`](#folder-server)
-  * [`/boostrap`](#folder-server-boostrap)
-    * [`/config`](#folder-server-boostrap-config)
+  * [`/boostrap`](#folder-server-bootstrap)
+    * [`/config`](#folder-server-bootstrap-config)
+      * [`/env`](#folder-server-bootstrap-config-env)
   * [`/mvc`](#folder-server-mvc)
     * [`/controllers`](#folder-server-mvc-controllers)
     * [`/models`](#folder-server-mvc-models)
@@ -193,7 +194,7 @@ Do **not manually modify** the contents of this folder. Instead, compile the fil
 <a name="folder-public-cdn"></a>
 ##### /public/cdn
 
-Common libraries, e.g. Bootstrap.
+Common libraries, e.g. Twitter Bootstrap.
 
 **TODO:** Should be delivered through a trusted CDN website. For now, though, we store them ourselves.
 
@@ -217,6 +218,13 @@ The server's bootstrap/startup code. Configures `express`, passport, routing, et
 ###### /server/bootstrap/config
 
 Contains server configurations such as database connection information and other authentication data.
+
+---
+
+<a name="folder-server-bootstrap-config-env"></a>
+####### /server/bootstrap/config/env
+
+Environment specific configurations ("production", "development", or "test").
 
 ---
 
