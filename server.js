@@ -3,8 +3,6 @@ var express = require('express');
 var passport = require('passport');
 var bootstrap = require(__dirname + '/server/bootstrap.js');
 
-var OAuthAccessToken; // TODO: Move to db
-
 var app = express();
 bootstrap.startup(app, passport);
 
