@@ -158,7 +158,7 @@ Contains sensitive server-side assets, as opposed to the [`/public`](#folder-pub
 
 Contains SSL key and certificate.
 
-**TODO:** Move this to nginx. (See: https://github.com/Starbow/website/issues/1)
+**TODO:** Move this to nginx. (See: https://github.com/Starbow/website/issues/1) Currently, a bogus key and certificate exists.
 
 ---
 
