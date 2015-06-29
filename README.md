@@ -21,6 +21,7 @@ Code base for the Starbow website: http://starbowmod.com
 2. Clone repository: `git clone https://github.com/Starbow/website`
 3. Run `npm install` to get all dependencies which are stored in the folder `node_modules`
 4. Clone/download the live Rethink database and import it into your local environment. (**Note:** We should probably consider doing an automated script for this purpose)
+5. Setup the `env.json` file (`/server/bootstrap/config/env/env.json`). **Note:** NEVER add this to git.
 
 ## Configuring SSH-key for git
 
