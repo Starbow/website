@@ -6,9 +6,11 @@ exports.info = function(req, res){
     res.redirect('/');
     return;
   }
+  /*
+  TODO: Implement using "Models.User"
   bnet.account.sc2({origin: 'eu', access_token: session.OAuthAccessToken}, function(bnetErr, bnetResp){
     res.send(JSON.stringify(bnetResp));
-  });
+  });*/
 };
 
 exports.matchhistory = function(req, res){
