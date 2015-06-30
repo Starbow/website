@@ -11,18 +11,15 @@ Object.keys(env).forEach(function(key){
 });
 process.env.ROOT = path.normalize(__dirname + '/..');
 
-var db = require(__dirname + '/bootstrap/config/db/rethinkdb.js');
-
 exports.startup = function(app, passport){
-  console.log("Bootstrap: Setting up database (RethinkDB)");
-  db.setup();
+  var dbConfig = require(process.env.ROOT + '/server/bootstrap/config/db/rethinkdb.js');
 
   console.log("Bootstrap: Setting up autoload models");
   var modelsPath = '/server/mvc/models';
   Models = {};
   fs.readdirSync(process.env.ROOT + modelsPath).forEach(function(file){
     if (~file.indexOf('.js')) {
-      require(process.env.ROOT + modelsPath + '/' + file)(db.getInstance());
+      require(process.env.ROOT + modelsPath + '/' + file)(dbConfig.config());
     }
   });
 
