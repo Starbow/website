@@ -1,5 +1,7 @@
-var fs = require('fs');
-var path = require('path');
+require("use-strict"); // Polices server code, applying "use strict" to all modules
+
+var fs = require("fs");
+var path = require("path");
 
 var env = {};
 var envFile = __dirname + '/bootstrap/config/env/env.json';

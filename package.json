@@ -32,6 +32,7 @@
     "rethinkdb": "^2.0.2",
     "rethinkdbdash": "^2.0.15",
     "sprintf-js": "^1.0.2",
-    "thinky": "^2.0.7"
+    "thinky": "^2.0.7",
+    "use-strict": "^1.0.1"
   }
 }
