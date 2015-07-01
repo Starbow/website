@@ -7,7 +7,6 @@ var ThinkyModel;
 module.exports = function(){
   var self = this,
     document = new ThinkyModel({}),
-    cryptr = null,
     exists = false;
 
   this.findByUserId = function(userId){
@@ -88,17 +87,13 @@ module.exports = function(){
     document.timeLatestLogin = r.now();
     return this;
   };
-  this.encryptOauthToken = function(token){
-    return self.getCryptr().encrypt(token);
+  this.encryptOauthToken = function(token, salt){
+    var cryptr = new Cryptr(salt);
+    return cryptr.encrypt(token);
   };
-  this.decryptOauthToken = function(encryptedToken){
-    return self.getCryptr().decrypt(encryptedToken);
-  };
-  this.getCryptr = function(){
-    if (cryptr === null) {
-      cryptr = new Cryptr(process.env.BNET_OAUTH_TOKEN_ENCRYPTION_SALT);
-    }
-    return cryptr;
+  this.decryptOauthToken = function(encryptedToken, salt){
+    var cryptr = new Cryptr(salt);
+    return cryptr.decrypt(encryptedToken);
   };
 };
 

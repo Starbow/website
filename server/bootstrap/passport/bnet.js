@@ -10,11 +10,12 @@ module.exports = new BnetStrategy(
   }, function(accessToken, refreshToken, profile, done) {
     if (accessToken !== null && profile.id > 0) {
       var user = new Models.User();
+      var oauthTokenEncryptionSalt = process.env.BNET_OAUTH_TOKEN_ENCRYPTION_SALT;
       user
         .findByUserId(profile.id)
         .then(function(){
           user.setValues({
-              oauthTokenEncrypted: user.encryptOauthToken(accessToken),
+              oauthTokenEncrypted: user.encryptOauthToken(accessToken, oauthTokenEncryptionSalt),
               oauthType: "bnet"
           }).updateTimeLatestLogin();
           if (!user.exists()) {
