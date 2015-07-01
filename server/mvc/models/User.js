@@ -2,18 +2,18 @@ var Promise = require("bluebird");
 var Cryptr = require("cryptr");
 
 var thinky, r;
-var ThinkyUserModel;
+var ThinkyModel;
 
 module.exports = function(){
   var self = this,
-    document = new ThinkyUserModel({}),
+    document = new ThinkyModel({}),
     cryptr = null,
     exists = false;
 
   this.findByUserId = function(userId){
     exists = false;
     return new Promise(function(resolve, reject){
-      ThinkyUserModel
+      ThinkyModel
         .filter({"userId": userId})
         .orderBy(r.desc("timeCreated"))
         .limit(1)
@@ -106,7 +106,7 @@ module.exports.init = function(dbConfig){
   thinky = require("thinky")(dbConfig);
   r = thinky.r;
   var type = thinky.type;
-  ThinkyUserModel = thinky.createModel("users", {
+  ThinkyModel = thinky.createModel("users", {
     userId: type.number().integer().default(null).min(1).required().allowNull(false),
     oauthType: type.string().default(null).min(1).required().allowNull(false),
     oauthTokenEncrypted: type.string().default(null).min(1).required().allowNull(false),
@@ -114,5 +114,5 @@ module.exports.init = function(dbConfig){
     timeModified: type.date().default(r.now()).required().allowNull(false),
     timeLatestLogin: type.date().default(r.now()).required().allowNull(false),
   });
-  ThinkyUserModel.ensureIndex("timeCreated");
+  ThinkyModel.ensureIndex("timeCreated");
 };
