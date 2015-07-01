@@ -3,17 +3,13 @@ var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var cookieSession = require('cookie-session');
 var bodyParser = require('body-parser');
-var swig = require('swig');
+var ejs = require('ejs');
 
 module.exports = function(app, passport) {
   app.use(express.static(process.env.ROOT + '/public'));
 
-  swig.setDefaults({
-    cache: false
-  });
-
   // Set views path, template engine and default layout
-  app.engine('html', swig.renderFile);
+  app.engine('html', ejs.renderFile);
   app.set('views', process.env.ROOT + '/server/mvc/views');
   app.set('view engine', 'html');
 

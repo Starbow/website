@@ -22,6 +22,7 @@
     "cookie-session": "^1.1.0",
     "cryptr": "^1.0.0",
     "debug": "^2.2.0",
+    "ejs": "^2.3.2",
     "express": "^4.13.0",
     "express-session": "^1.11.3",
     "extend": "^2.0.1",
@@ -31,7 +32,6 @@
     "rethinkdb": "^2.0.2",
     "rethinkdbdash": "^2.0.15",
     "sprintf-js": "^1.0.2",
-    "swig": "^1.4.2",
     "thinky": "^2.0.7"
   }
 }
