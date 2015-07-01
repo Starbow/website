@@ -4,7 +4,7 @@ var Cryptr = require("cryptr");
 var thinky, r;
 var ThinkyUserModel;
 
-Models.User = function(){
+module.exports = function(){
   var self = this,
     document = new ThinkyUserModel({}),
     cryptr = null,
@@ -102,7 +102,7 @@ Models.User = function(){
   };
 };
 
-module.exports = function(dbConfig) {
+module.exports.init = function(dbConfig){
   thinky = require("thinky")(dbConfig);
   r = thinky.r;
   var type = thinky.type;

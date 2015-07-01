@@ -14,15 +14,6 @@ Object.keys(env).forEach(function(key){
 process.env.ROOT = path.normalize(__dirname + '/..');
 
 exports.startup = function(app, passport){
-
-  console.log("Bootstrap: Setting up autoload models");
-  var modelsPath = '/server/mvc/models';
-  Models = {};
-  fs.readdirSync(process.env.ROOT + modelsPath).forEach(function(file){
-    if (~file.indexOf('.js')) {
-      require(process.env.ROOT + modelsPath + '/' + file)(dbConfig.config());
-    }
-  });
   var dbConfig = require('./bootstrap/config/db/rethinkdb.js');
 
   console.log("Bootstrap: Configuring passport");
@@ -30,6 +21,9 @@ exports.startup = function(app, passport){
 
   console.log("Bootstrap: Configuring express");
   require('./bootstrap/express.js')(app, passport);
+
+  console.log("Bootstrap: Configuring models");
+  require('./mvc/models.js')(dbConfig.config());
 
   console.log("Bootstrap: Configuring routes");
   require('./bootstrap/routes.js')(app, passport);
