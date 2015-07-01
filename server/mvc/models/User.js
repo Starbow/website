@@ -1,8 +1,9 @@
 var Promise = require("bluebird");
 var Cryptr = require("cryptr");
 
-var thinky, r;
-var ThinkyModel;
+var thinky,
+  r,
+  ThinkyModel;
 
 module.exports = function(){
   var self = this,
@@ -97,8 +98,8 @@ module.exports = function(){
   };
 };
 
-module.exports.init = function(dbConfig){
-  thinky = require("thinky")(dbConfig);
+module.exports.init = function(_thinky){
+  thinky = _thinky;
   r = thinky.r;
   var type = thinky.type;
   ThinkyModel = thinky.createModel("users", {
