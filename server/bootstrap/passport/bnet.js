@@ -1,4 +1,5 @@
 var BnetStrategy = require('passport-bnet').Strategy;
+var Models = new require(process.env.ROOT + '/server/mvc/models.js');
 
 module.exports = new BnetStrategy(
   {
@@ -8,7 +9,7 @@ module.exports = new BnetStrategy(
     callbackURL: "https://localhost/auth/bnet/callback"
   }, function(accessToken, refreshToken, profile, done) {
     if (accessToken !== null && profile.id > 0) {
-      var user = new Models.User;
+      var user = new Models.User();
       user
         .findByUserId(profile.id)
         .then(function(){
