@@ -14,7 +14,7 @@ module.exports = {
     var bogusThinky = require("thinky")(bogusThinkyConfig);
     bogusThinky.r.table("users").delete().run().finally(callback);
   },
-  "CanFindByUserId": function(test) {
+  "Can findByUserId": function(test) {
     test.expect(1);
     var user = new Models.User();
     user
@@ -27,7 +27,7 @@ module.exports = {
         test.done();
       });
   },
-  "FoundUserIsNotValidAndDoesNotExistInDatabase": function(test) {
+  "Found user is not valid and does not exist in database": function(test) {
     test.expect(2);
     var user = new Models.User();
     user
@@ -41,7 +41,7 @@ module.exports = {
         test.done();
       });
   },
-  "InvalidUserCannotBeSaved": function(test) {
+  "Invalid user cannot be saved": function(test) {
     test.expect(2);
     var user = new Models.User();
     user
@@ -55,7 +55,7 @@ module.exports = {
         test.done();
       });
   },
-  "ValidUserCanBeSaved": function(test) {
+  "Valid user can be saved": function(test) {
     test.expect(5);
     var user = new Models.User();
     user
@@ -77,14 +77,14 @@ module.exports = {
         test.done();
       });
   },
-  "OauthTokenIsEncryptedCorrectly": function(test){
+  "Oauth token is encrypted correctly": function(test){
     test.expect(1);
     var user = new Models.User();
     var encryptedToken = user.encryptOauthToken("my_little_oauth_token", "encryption_salt_123");
     test.strictEqual(encryptedToken, "41a65d5a9d2156f20daff6add137ea3465854d5c3c262ddb52ae64251d7a9d9e");
     test.done();
   },
-  "EncryptedOauthTokenIsDecryptedCorrectly": function(test){
+  "Encrypted Oauth token is decrypted correctly": function(test){
     test.expect(1);
     var user = new Models.User();
     var encryptedToken = "41a65d5a9d2156f20daff6add137ea3465854d5c3c262ddb52ae64251d7a9d9e";
