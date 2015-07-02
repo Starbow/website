@@ -27,6 +27,7 @@
     "express-session": "^1.11.3",
     "extend": "^2.0.1",
     "glob": "^5.0.12",
+    "morgan": "^1.6.0",
     "nodeunit": "^0.9.1",
     "passport": "^0.2.2",
     "passport-bnet": "^1.1.1",

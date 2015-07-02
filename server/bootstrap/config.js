@@ -18,6 +18,20 @@ var config = {
       db: process.env.DB_NAME
     }
   },
+  log: {
+    access: {
+      format: process.env.LOG_FORMAT,
+      options: {
+        stream: "access.log"
+      }
+    },
+    error: {
+      format: process.env.LOG_FORMAT,
+      options: {
+        stream: "error.log"
+      }
+    }
+  }
 };
 
 Object.freeze(config);
