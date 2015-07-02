@@ -27,5 +27,4 @@ build/Release
 node_modules
 
 # Sensitive data
-server/bootstrap/config/config.json
 server/bootstrap/config/env/env.json

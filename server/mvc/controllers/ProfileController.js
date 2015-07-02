@@ -1,5 +1,5 @@
-var config = require(process.env.ROOT + '/server/bootstrap/config/config.js');
-var bnet = require('battlenet-api')(config.BNET_ID);
+var config = require(process.env.ROOT + '/server/bootstrap/config.js');
+var bnet = require('battlenet-api')(config.auth.bnet.clientID);
 var Models = require('../models.js');
 
 exports.info = function(req, res){
