@@ -1,4 +1,5 @@
 var logs = require("./logs");
+var morgan = require("morgan");
 var sprintf = require("sprintf-js").sprintf;
 var IndexController = require(process.env.ROOT + '/server/mvc/controllers/IndexController.js');
 var ProfileController = require(process.env.ROOT + '/server/mvc/controllers/ProfileController.js');
@@ -36,10 +37,20 @@ module.exports = function (app, logs, passport) {
       || (~err.message.indexOf('Cast to ObjectId failed')))) {
       return next(); // Treat as 404
     }
+    res.status(500);
     var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    var fileOutput = sprintf("%s | \"%s %s\" | Stack:\n%s", ip, req.method, req.originalUrl, err.stack);
+    var httpVersion = req.httpVersionMajor + '.' + req.httpVersionMinor;
+    var fileOutput = sprintf(
+      "%s | \"%s %s HTTP/%s\" %s | Stack:\n%s",
+      ip,
+      req.method,
+      req.originalUrl,
+      httpVersion,
+      res.statusCode,
+      err.stack
+    );
     logs.error.error(fileOutput);
-    res.status(500).render('../error/500', {error: err.stack});
+    res.render('../error/500', {error: err.stack});
   });
 
   // 404: The user messed up
