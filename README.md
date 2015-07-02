@@ -95,6 +95,7 @@ The folders are structured as follows:
   * [`/boostrap`](#folder-server-bootstrap)
     * [`/config`](#folder-server-bootstrap-config)
       * [`/env`](#folder-server-bootstrap-config-env)
+  * [`/data`](#folder-server-data)
   * [`/mvc`](#folder-server-mvc)
     * [`/controllers`](#folder-server-mvc-controllers)
     * [`/models`](#folder-server-mvc-models)
@@ -233,6 +234,13 @@ Contains server configurations such as database connection information and other
 ####### /server/bootstrap/config/env
 
 Environment specific configurations ("production", "development", or "test").
+
+---
+
+<a name="folder-server-data"></a>
+##### /server/data
+
+Data folder containing logs, cached data, and temporarily stored files. The folder is excluded from Git, but will automatically be generated on system startup (in the bootstrap).
 
 ---
 

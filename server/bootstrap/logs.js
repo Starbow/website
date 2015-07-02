@@ -1,6 +1,9 @@
 var morgan = require('morgan');
 var fs = require('fs');
 
+var logs = {},
+  logsDirPath = process.env.ROOT + "/server/data/logs";
+
 var Log = function(logConfig){
   this.getLogFormat = function() {
 		return logConfig.format;
@@ -10,7 +13,7 @@ var Log = function(logConfig){
 		try {
 			if ('stream' in logConfig.options) {
 				options = {
-					stream: fs.createWriteStream(process.cwd() + '/' + logConfig.options.stream, {flags: 'a'})
+					stream: fs.createWriteStream(logsDirPath + '/' + logConfig.options.stream, {flags: 'a'})
 				};
 			}
 		} catch (e) {
@@ -21,7 +24,11 @@ var Log = function(logConfig){
 };
 
 module.exports = function(config){
-  for (var logName in config.log) {
-    module.exports[logName] = new Log(config.log[logName]);
+  if (!fs.existsSync(logsDirPath)) {
+    fs.mkdirSync(logsDirPath, "0755");
   }
+  for (var logName in config.log) {
+    logs[logName] = new Log(config.log[logName]);
+  }
+  return logs;
 };

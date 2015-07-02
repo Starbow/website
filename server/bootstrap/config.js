@@ -20,13 +20,13 @@ var config = {
   },
   log: {
     access: {
-      format: process.env.LOG_FORMAT,
+      format: "tiny",
       options: {
         stream: "access.log"
       }
     },
     error: {
-      format: process.env.LOG_FORMAT,
+      format: process.env.LOG_ERROR_FORMAT,
       options: {
         stream: "error.log"
       }
