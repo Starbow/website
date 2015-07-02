@@ -13,5 +13,30 @@ module.exports = function (app, passport) {
   app.get('/profile/info', ProfileController.info);
   app.get('/profile/matchhistory', ProfileController.matchhistory);
   app.get('/userstuff', IndexController.userstuff); // TODO: Temporary development endpoint
+  app.get('/provokeerror', IndexController.provokeerror); // TODO: Temporary endpoint
   app.get('/', IndexController.index);
+
+  /**
+   * Error handling
+   */
+
+  // 500: We messed up
+  app.use(function(err, req, res, next){
+    if (err.message
+      && (~err.message.indexOf('not found')
+      || (~err.message.indexOf('Cast to ObjectId failed')))) {
+      return next(); // Treat as 404
+    }
+    console.error(err.stack);
+    res.status(500).render('../error/500', {error: err.stack});
+  });
+
+  // 404: The user messed up
+  app.use(function(req, res, next){
+    res.status(404).render('../error/404', {
+      url: req.originalUrl,
+      error: 'Not found'
+    });
+  });
+
 };
