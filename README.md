@@ -14,6 +14,7 @@ Code base for the Starbow website: http://starbowmod.com
 1. [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 2. [Node.js](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager#ubuntu-mint-elementary-os)
 3. [RethinkDB](http://rethinkdb.com/docs/install/)
+4. [nodeunit](https://www.npmjs.com/package/nodeunit) (`sudo npm install nodeunit -g`)
 
 ## Installation
 
@@ -96,6 +97,9 @@ The folders are structured as follows:
     * [`/models`](#folder-server-mvc-models)
     * [`/views`](#folder-server-mvc-views)
   * [`/scripts`](#folder-server-scripts)
+* [`tests`](#folder-tests)
+  * [`integration`](#folder-tests-integration)
+  * [`unit`](#folder-tests-unit)
 
 ### Folder structure details
 
@@ -254,5 +258,26 @@ Models. They do the hard number crunching and communicates with the database.
 ###### /server/mvc/views
 
 View templates. Not used often since React will generally take care of the view layer/UI.
+
+---
+
+<a name="folder-tests"></a>
+#### /tests
+
+Contains tests written the verify the logic in the application, e.g. for models like "User".
+
+---
+
+<a name="folder-tests-integration"></a>
+##### /tests/integration
+
+Integration tests. I.e. verify that different modules work together and produce expected outcome.
+
+---
+
+<a name="folder-tests-unit"></a>
+##### /tests/unit
+
+Unit tests. I.e. verify that a single module works and the internal logic produces expected results.
 
 ---
