@@ -1,21 +1,17 @@
+var config = require(process.env.ROOT + '/server/bootstrap/config.js');
 var BnetStrategy = require('passport-bnet').Strategy;
-var Models = new require(process.env.ROOT + '/server/mvc/models.js');
+var Models = require(process.env.ROOT + '/server/mvc/models.js');
 
 module.exports = new BnetStrategy(
-  {
-    clientID: process.env.BNET_ID,
-    clientSecret: process.env.BNET_SECRET,
-    scope: "sc2.profile",
-    callbackURL: "https://localhost/auth/bnet/callback"
-  }, function(accessToken, refreshToken, profile, done) {
+  config.auth.bnet,
+  function(accessToken, refreshToken, profile, done) {
     if (accessToken !== null && profile.id > 0) {
       var user = new Models.User();
-      var oauthTokenEncryptionSalt = process.env.BNET_OAUTH_TOKEN_ENCRYPTION_SALT;
       user
         .findByUserId(profile.id)
         .then(function(){
           user.setValues({
-              oauthTokenEncrypted: user.encryptOauthToken(accessToken, oauthTokenEncryptionSalt),
+              oauthTokenEncrypted: user.encryptOauthToken(accessToken, config.auth.bnet.encryptionSalt),
               oauthType: "bnet"
           }).updateTimeLatestLogin();
           if (!user.exists()) {

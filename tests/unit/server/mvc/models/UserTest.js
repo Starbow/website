@@ -1,13 +1,14 @@
 var path = require("path");
 
-var bogusThinkyConfig = {db: "bogus"};
-var Models = {};
+var bogusConfig = {},
+  bogusThinkyConfig = {db: "bogus"},
+  Models = {};
 
 module.exports = {
   setUp: function(callback){
     Models.User = require(path.normalize(__dirname + "/../../../../../server/mvc/models/User.js"));
     var bogusThinky = require("thinky")(bogusThinkyConfig);
-    Models.User.init(bogusThinky);
+    Models.User.init(bogusConfig, bogusThinky);
     callback();
   },
   tearDown: function(callback){

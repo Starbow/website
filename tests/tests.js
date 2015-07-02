@@ -14,9 +14,7 @@ catch(e) {
   process.exit();
 }
 
-require("../server/bootstrap/config/env.js")(__dirname + "/..");
-
 var glob = require("glob");
 
-var files = glob.sync(process.env.ROOT + "/tests/*/**/*Test.js");
+var files = glob.sync(__dirname + "/*/**/*Test.js");
 reporter.run(files);

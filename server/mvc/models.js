@@ -2,7 +2,7 @@ var fs = require('fs');
 
 var modelsPath = __dirname + "/models";
 
-module.exports = function(thinky){
+module.exports = function(config, thinky){
   fs.readdirSync(modelsPath).forEach(function(file){
     if (~file.indexOf('.js')) {
       /**
@@ -15,7 +15,7 @@ module.exports = function(thinky){
        */
       var name = file.replace(/\.js$/, '');
       module.exports[name] = require(modelsPath + '/' + file);
-      module.exports[name].init(thinky);
+      module.exports[name].init(config, thinky);
       delete module.exports[name].init; // Ensure 'init' cannot be called again
     }
   });

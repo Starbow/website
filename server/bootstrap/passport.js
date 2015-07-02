@@ -1,4 +1,4 @@
-var bnet = require('./passport/bnet');
+var bnet = require('./passport/strategies/bnet');
 
 module.exports = function(passport) {
   passport.serializeUser(function(user, done) {
