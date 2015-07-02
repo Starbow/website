@@ -10,7 +10,7 @@ module.exports = function(app, passport) {
 
   // Set views path, template engine and default layout
   app.engine('html', ejs.renderFile);
-  app.set('views', process.env.ROOT + '/server/mvc/views');
+  app.set('views', process.env.ROOT + '/server/mvc/views/application');
   app.set('view engine', 'html');
 
   // bodyParser should be above methodOverride
