@@ -4,7 +4,7 @@ require("./bootstrap/config/env.js")(__dirname + "/..");
 
 exports.startup = function(app, passport){
   var dbConfig = require('./bootstrap/config/db/rethinkdb.js');
-  var thinky = require("thinky")(dbConfig.config());
+  var thinky = require("thinky")(dbConfig);
 
   console.log("Bootstrap: Configuring passport");
   require('./bootstrap/passport.js')(passport);
