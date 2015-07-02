@@ -55,7 +55,10 @@ For additional help and information on PM2, see: https://www.digitalocean.com/co
 
 # The application
 
-**Demo app:** For a good demo application/skeleton, see: https://github.com/madhums/node-express-mongoose-demo/
+**Good demo/skeleton apps:**
+
+1. https://github.com/madhums/node-express-mongoose-demo/
+2. https://github.com/meanjs/mean
 
 ## Application workflow
 
