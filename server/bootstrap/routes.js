@@ -1,5 +1,5 @@
-var controllerIndex = require(process.env.ROOT + '/server/mvc/controllers/index.js');
-var controllerProfile = require(process.env.ROOT + '/server/mvc/controllers/profile.js');
+var IndexController = require(process.env.ROOT + '/server/mvc/controllers/IndexController.js');
+var ProfileController = require(process.env.ROOT + '/server/mvc/controllers/ProfileController.js');
 
 module.exports = function (app, passport) {
   app.get('/auth/bnet', passport.authenticate('bnet'));
@@ -10,8 +10,8 @@ module.exports = function (app, passport) {
     req.logout();
     res.redirect('/');
   });
-  app.get('/profile/info', controllerProfile.info);
-  app.get('/profile/matchhistory', controllerProfile.matchhistory);
-  app.get('/userstuff', controllerIndex.userstuff); // TODO: Temporary development endpoint
-  app.get('/', controllerIndex.index);
+  app.get('/profile/info', ProfileController.info);
+  app.get('/profile/matchhistory', ProfileController.matchhistory);
+  app.get('/userstuff', IndexController.userstuff); // TODO: Temporary development endpoint
+  app.get('/', IndexController.index);
 };
