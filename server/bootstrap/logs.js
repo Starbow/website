@@ -1,34 +1,43 @@
 var morgan = require('morgan');
+var winston = require('winston');
 var fs = require('fs');
 
-var logs = {},
-  logsDirPath = process.env.ROOT + "/server/data/logs";
+var logsDirPath = process.env.ROOT + "/server/data/logs";
 
-var Log = function(logConfig){
-  this.getLogFormat = function() {
-		return logConfig.format;
-	},
-	this.getLogOptions = function() {
-		var options = {};
-		try {
-			if ('stream' in logConfig.options) {
-				options = {
-					stream: fs.createWriteStream(logsDirPath + '/' + logConfig.options.stream, {flags: 'a'})
-				};
-			}
-		} catch (e) {
-			options = {};
-		}
-		return options;
-	}
+var getAccessLog = function(accessConfig){
+  accessConfig.options.stream = fs.createWriteStream(logsDirPath + '/' + accessConfig.options.stream, {flags: 'a'});
+  return morgan(accessConfig.format, accessConfig.options);
+};
+
+var getErrorLog = function(errorConfig){
+  errorConfig.file.filename = logsDirPath + "/" + errorConfig.file.filename;
+  return new winston.Logger({
+      transports: [
+        new winston.transports.Console(errorConfig.console),
+        new winston.transports.File(errorConfig.file)
+      ],
+      exitOnError: false
+  });
+};
+
+var getManualLog = function(manualConfig){
+  manualConfig.file.filename = logsDirPath + "/" + manualConfig.file.filename;
+  return new winston.Logger({
+      transports: [
+        new winston.transports.Console(manualConfig.console),
+        new winston.transports.File(manualConfig.file)
+      ],
+      exitOnError: false
+  });
 };
 
 module.exports = function(config){
   if (!fs.existsSync(logsDirPath)) {
     fs.mkdirSync(logsDirPath, "0755");
   }
-  for (var logName in config.log) {
-    logs[logName] = new Log(config.log[logName]);
-  }
-  return logs;
+  return {
+    access: getAccessLog(config.log.access),
+    error: getErrorLog(config.log.error),
+    manual: getManualLog(config.log.manual),
+  };
 };

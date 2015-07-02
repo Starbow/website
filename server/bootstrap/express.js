@@ -7,8 +7,8 @@ var morgan = require('morgan');
 var ejs = require('ejs');
 
 module.exports = function(app, logs, passport) {
-  // Register logger
-  app.use(morgan(logs.error.getLogFormat(), logs.error.getLogOptions()));
+  // Access log
+  app.use(logs.access);
 
   // Forward requests to public assets folder
   app.use(express.static(process.env.ROOT + '/public'));

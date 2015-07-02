@@ -27,5 +27,5 @@ exports.startup = function(app, passport){
   require('./mvc/models.js')(config, thinky);
 
   console.log("Bootstrap: Configuring routes");
-  require('./bootstrap/routes.js')(app, passport);
+  require('./bootstrap/routes.js')(app, logs, passport);
 };

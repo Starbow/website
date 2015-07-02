@@ -1,7 +1,9 @@
+var logs = require("./logs");
+var sprintf = require("sprintf-js").sprintf;
 var IndexController = require(process.env.ROOT + '/server/mvc/controllers/IndexController.js');
 var ProfileController = require(process.env.ROOT + '/server/mvc/controllers/ProfileController.js');
 
-module.exports = function (app, passport) {
+module.exports = function (app, logs, passport) {
   app.get('/auth/bnet', passport.authenticate('bnet'));
   app.get('/auth/bnet/callback', passport.authenticate('bnet', {failureRedirect: '/'}), function(req, res){
     res.redirect('/');
@@ -13,8 +15,15 @@ module.exports = function (app, passport) {
   app.get('/profile/info', ProfileController.info);
   app.get('/profile/matchhistory', ProfileController.matchhistory);
   app.get('/userstuff', IndexController.userstuff); // TODO: Temporary development endpoint
-  app.get('/provokeerror', IndexController.provokeerror); // TODO: Temporary endpoint
   app.get('/', IndexController.index);
+
+  /**
+   * Development-only routes
+   */
+  if (process.env.NODE_ENV == 'development') {
+    var DevExamplesController = require(process.env.ROOT + '/server/mvc/controllers/DevExamplesController.js');
+    app.get('/dev-examples/provokeerror', DevExamplesController.provokeerror);
+  }
 
   /**
    * Error handling
@@ -27,7 +36,9 @@ module.exports = function (app, passport) {
       || (~err.message.indexOf('Cast to ObjectId failed')))) {
       return next(); // Treat as 404
     }
-    console.error(err.stack);
+    var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    var fileOutput = sprintf("%s | \"%s %s\" | Stack:\n%s", ip, req.method, req.originalUrl, err.stack);
+    logs.error.error(fileOutput);
     res.status(500).render('../error/500', {error: err.stack});
   });
 
@@ -38,5 +49,4 @@ module.exports = function (app, passport) {
       error: 'Not found'
     });
   });
-
 };
