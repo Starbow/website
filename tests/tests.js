@@ -14,7 +14,7 @@ catch(e) {
   process.exit();
 }
 
-require("../server/bootstrap/config/env.js")(__dirname + "/..");
+require("../server/bootstrap/config/env/env.js")(__dirname + "/..");
 
 var glob = require("glob");
 

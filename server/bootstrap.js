@@ -1,10 +1,10 @@
 require("use-strict"); // Polices server code, applying "use strict" to all modules
 
-require("./bootstrap/config/env.js")(__dirname + "/..");
+require("./bootstrap/config/env/env.js")(__dirname + "/..");
+var config = require("./bootstrap/config/config.js");
 
 exports.startup = function(app, passport){
-  var dbConfig = require('./bootstrap/config/db/rethinkdb.js');
-  var thinky = require("thinky")(dbConfig);
+  var thinky = require("thinky")(config.rethinkdb);
 
   console.log("Bootstrap: Configuring passport");
   require('./bootstrap/passport.js')(passport);
@@ -13,7 +13,7 @@ exports.startup = function(app, passport){
   require('./bootstrap/express.js')(app, passport);
 
   console.log("Bootstrap: Configuring models");
-  require('./mvc/models.js')(thinky);
+  require('./mvc/models.js')(config, thinky);
 
   console.log("Bootstrap: Configuring routes");
   require('./bootstrap/routes.js')(app, passport);

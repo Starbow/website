@@ -1,7 +1,8 @@
 var Promise = require("bluebird");
 var Cryptr = require("cryptr");
 
-var thinky,
+var config,
+  thinky,
   r,
   ThinkyModel;
 
@@ -98,7 +99,8 @@ module.exports = function(){
   };
 };
 
-module.exports.init = function(_thinky){
+module.exports.init = function(_config, _thinky){
+  config = _config;
   thinky = _thinky;
   r = thinky.r;
   var type = thinky.type;
