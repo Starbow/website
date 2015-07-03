@@ -1,6 +1,4 @@
-var bnet = require('./passport/strategies/bnet');
-
-module.exports = function(passport) {
+module.exports = function(config, passport) {
   passport.serializeUser(function(user, done) {
     done(null, user);
   });
@@ -9,5 +7,6 @@ module.exports = function(passport) {
   });
 
   // Use strategies
+  var bnet = require('./passport/strategies/bnet')(config.auth.bnet);
   passport.use(bnet);
 };

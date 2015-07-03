@@ -64,4 +64,13 @@ var config = {
 
 Object.freeze(config);
 
-module.exports = config;
+module.exports = function(){
+  /**
+   * HERE BE DRAGONS!
+   * Overrides the current function with a failsafe.
+   */
+  module.exports = function(){
+    throw new Error("Please don't reference \"config.js\" anywhere; it should only only be run once - in boostrap!");
+  };
+  return config;
+};

@@ -89,12 +89,12 @@ module.exports = function(){
     document.timeLatestLogin = r.now();
     return this;
   };
-  this.encryptOauthToken = function(token, salt){
-    var cryptr = new Cryptr(salt);
+  this.encryptOauthToken = function(token){
+    var cryptr = new Cryptr(config.auth.bnet.encryptionSalt);
     return cryptr.encrypt(token);
   };
-  this.decryptOauthToken = function(encryptedToken, salt){
-    var cryptr = new Cryptr(salt);
+  this.decryptOauthToken = function(encryptedToken){
+    var cryptr = new Cryptr(config.auth.bnet.encryptionSalt);
     return cryptr.decrypt(encryptedToken);
   };
 };
