@@ -9,7 +9,9 @@ Code base for the Starbow website: http://starbowmod.com
 
 # Get started
 
-**Prerequisites:**
+## Prerequisites
+
+The following stacks/software is needed in order to run the server on your local machine.
 
 1. [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 2. [Node.js](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager#ubuntu-mint-elementary-os)
@@ -33,8 +35,10 @@ If you don't feel like writing your Git password every time you want to push to 
 
 ## Running the application
 
-1. In the root folder (`/website`), run `sudo node server.js` to start the application. (**Note:** Using port numbers below 3000, which 443 is, requires `sudo` privileges)
-2. In your browser, go to: [https://localhost](https://localhost)
+1. Start the database. In a separate tab/window in your terminal write: `rethinkdb`
+2. Start the server. In the root folder (`/website`), run `sudo node server.js` to start the application. (**Note:** Using port numbers below 3000, which 443 is, requires `sudo` privileges)
+3. In your terminal, you'll now see output as the server is being configured or potentially throws errors.
+4. In your browser, go to: [https://localhost](https://localhost)
 
 If your browser complains that `https://localhost` isn't secure (certified SSL/HTTPS), just choose (in your browser) to continue anyway.
 
