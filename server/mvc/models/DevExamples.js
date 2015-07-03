@@ -14,6 +14,9 @@ module.exports = function(){
       resolve(true);
     });
   };
+  this.getAccessLogConfigData = function(){
+    return config.log.access;
+  };
 };
 
 module.exports.init = function(_config, _thinky){

@@ -24,6 +24,14 @@ exports["provoke-error"] = function(req, res){
 };
 
 /**
+ * Example: How to retrieve "config" data from a model in a controller.
+ */
+exports["retrieve-config-from-model"] = function(req, res){
+  var devExamples = new Models.DevExamples();
+  return res.send("Access log config data: " + JSON.stringify(devExamples.getAccessLogConfigData()));
+};
+
+/**
  * Example: How to use the manual log. The 'server/mvc/log' writes to 'server/data/logs/manual.log'
  */
 exports["write-manual-log"] = function(req, res){

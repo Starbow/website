@@ -26,6 +26,7 @@ module.exports = function (app, logs, passport) {
     app.get('/dev-examples', DevExamplesController["index"]);
     app.get('/dev-examples/model-interaction', DevExamplesController["model-interaction"]);
     app.get('/dev-examples/provoke-error', DevExamplesController["provoke-error"]);
+    app.get('/dev-examples/retrieve-config-from-model', DevExamplesController["retrieve-config-from-model"]);
     app.get('/dev-examples/write-manual-log', DevExamplesController["write-manual-log"]);
   }
 
