@@ -23,7 +23,8 @@ module.exports = function (app, logs, passport) {
    */
   if (process.env.NODE_ENV == 'development') {
     var DevExamplesController = require(process.env.ROOT + '/server/mvc/controllers/DevExamplesController.js');
-    app.get('/dev-examples/provokeerror', DevExamplesController.provokeerror);
+    app.get('/dev-examples/provoke-error', DevExamplesController["provoke-error"]);
+    app.get('/dev-examples/write-manual-log', DevExamplesController["write-manual-log"]);
   }
 
   /**

@@ -23,7 +23,10 @@ exports.startup = function(app, passport){
   }
 
   console.log("Bootstrap: Configuring logs");
-  var logs = require('./bootstrap/logs.js')(config);
+  var logs = require('./bootstrap/logs.js');
+  logs.init(config);
+  var log = require('./mvc/log.js');
+  log.init(logs.manual);
 
   try {
     console.log("Bootstrap: Configuring passport");

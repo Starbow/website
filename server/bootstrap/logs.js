@@ -4,40 +4,29 @@ var fs = require('fs');
 
 var logsDirPath = process.env.ROOT + "/server/data/logs";
 
-var getAccessLog = function(accessConfig){
-  accessConfig.options.stream = fs.createWriteStream(logsDirPath + '/' + accessConfig.options.stream, {flags: 'a'});
-  return morgan(accessConfig.format, accessConfig.options);
+if (!fs.existsSync(logsDirPath)) {
+  fs.mkdirSync(logsDirPath, "0755");
+}
+
+var getAccessLog = function(subConfig){
+  subConfig.options.stream = fs.createWriteStream(logsDirPath + '/' + subConfig.options.stream, {flags: 'a'});
+  return morgan(subConfig.format, subConfig.options);
 };
 
-var getErrorLog = function(errorConfig){
-  errorConfig.file.filename = logsDirPath + "/" + errorConfig.file.filename;
+var getWinstonLog = function(subConfig){
+  subConfig.file.filename = logsDirPath + "/" + subConfig.file.filename;
   return new winston.Logger({
       transports: [
-        new winston.transports.Console(errorConfig.console),
-        new winston.transports.File(errorConfig.file)
+        new winston.transports.Console(subConfig.console),
+        new winston.transports.File(subConfig.file)
       ],
       exitOnError: false
   });
 };
 
-var getManualLog = function(manualConfig){
-  manualConfig.file.filename = logsDirPath + "/" + manualConfig.file.filename;
-  return new winston.Logger({
-      transports: [
-        new winston.transports.Console(manualConfig.console),
-        new winston.transports.File(manualConfig.file)
-      ],
-      exitOnError: false
-  });
-};
-
-module.exports = function(config){
-  if (!fs.existsSync(logsDirPath)) {
-    fs.mkdirSync(logsDirPath, "0755");
-  }
-  return {
-    access: getAccessLog(config.log.access),
-    error: getErrorLog(config.log.error),
-    manual: getManualLog(config.log.manual),
-  };
+module.exports.init = function(config){
+  module.exports.access = getAccessLog(config.log.access);
+  module.exports.error = getWinstonLog(config.log.error);
+  module.exports.manual = getWinstonLog(config.log.manual);
+  delete module.exports.init; // Voodoo: The function deletes itself to prevent re-init
 };
