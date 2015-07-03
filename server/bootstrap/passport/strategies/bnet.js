@@ -11,14 +11,10 @@ module.exports = new BnetStrategy(
         .findByUserId(profile.id)
         .then(function(){
           user.setValues({
+              userId: profile.id,
               oauthTokenEncrypted: user.encryptOauthToken(accessToken, config.auth.bnet.encryptionSalt),
               oauthType: "bnet"
           }).updateTimeLatestLogin();
-          if (!user.exists()) {
-            user.setValues({
-                userId: profile.id
-            });
-          }
           user
             .save()
             .then(function(){
