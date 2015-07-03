@@ -30,3 +30,14 @@ exports["write-manual-log"] = function(req, res){
   log.debug("This message is an example of how to use the 'log' module in 'server/mvc'");
   return res.send("Wrote debug message in 'manual.log'");
 };
+
+/**
+ * Make a nice index page with links to examples.
+ */
+var actions = Object.keys(exports);
+exports.index = function(req, res){
+  return res.render('dev-examples/index', {
+    uriBase: '/dev-examples',
+    actions: actions
+  });
+};
