@@ -8,7 +8,7 @@ if (!fs.existsSync(logsDirPath)) {
   fs.mkdirSync(logsDirPath, "0755");
 }
 
-var getAccessLog = function(subConfig){
+var getMorganLog = function(subConfig){
   subConfig.options.stream = fs.createWriteStream(logsDirPath + '/' + subConfig.options.stream, {flags: 'a'});
   return morgan(subConfig.format, subConfig.options);
 };
@@ -25,7 +25,7 @@ var getWinstonLog = function(subConfig){
 };
 
 module.exports.init = function(config){
-  module.exports.access = getAccessLog(config.log.access);
+  module.exports.access = getMorganLog(config.log.access);
   module.exports.error = getWinstonLog(config.log.error);
   module.exports.manual = getWinstonLog(config.log.manual);
   delete module.exports.init; // Voodoo: The function deletes itself to prevent re-init
