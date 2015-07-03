@@ -6,6 +6,15 @@ console.log("Bootstrap: Setting up 'env' and 'config'");
 require("./bootstrap/config/env/env.js");
 var config = require("./bootstrap/config.js");
 
+var isReady = false,
+    onReadyCallback;
+
+var runOnReadyCallback = function(){
+  if (typeof(onReadyCallback) == "function") {
+    onReadyCallback();
+  }
+};
+
 exports.startup = function(app, passport){
   console.log("Bootstrap: Ensuring 'server/data' directory exists");
   var dataDirPath = process.env.ROOT + "/server/data";
@@ -34,5 +43,15 @@ exports.startup = function(app, passport){
     logs.error.error('Uncaught ' + errorType + ":", e);
     process.exit(); // Crash and burn; learn2code
     return;
+  }
+
+  isReady = true;
+  runOnReadyCallback();
+};
+
+exports.onReady = function(callback){
+  onReadyCallback = callback;
+  if (isReady) {
+    runOnReadyCallback();
   }
 };
