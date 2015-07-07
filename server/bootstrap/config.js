@@ -25,7 +25,7 @@ var config = {
         stream: process.env.LOG_ACCESS_FILE
       }
     },
-    error: { // winston
+    framework: { // winston
       console: {
         level: 'error',
         handleExceptions: true,
@@ -34,7 +34,7 @@ var config = {
       },
       file: {
         level: 'error',
-        filename: process.env.LOG_ERROR_FILE,
+        filename: process.env.LOG_FRAMEWORK_FILE,
         handleExceptions: true,
         json: false,
         maxsize: 5242880, //5MB
@@ -42,7 +42,7 @@ var config = {
         colorize: false
       }
     },
-    manual: { // winston
+    mvc: { // winston
       console: {
         level: 'debug',
         handleExceptions: true,
@@ -51,7 +51,7 @@ var config = {
       },
       file: {
         level: 'debug',
-        filename: process.env.LOG_MANUAL_FILE,
+        filename: process.env.LOG_MVC_FILE,
         handleExceptions: true,
         json: false,
         maxsize: 5242880, //5MB

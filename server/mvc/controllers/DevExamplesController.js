@@ -17,10 +17,10 @@ exports["model-interaction"] = function(req, res){
 };
 
 /**
- * Example: How Errors and Exceptions automatically appear in 'server/data/logs/error.log'.
+ * Example: How Errors and Exceptions automatically appear in 'server/data/logs/framework.log'.
  */
-exports["provoke-error"] = function(req, res){
-  throw new Error("This should show the '500' page, output in console (with colors), and write to 'error.log'");
+exports["provoke-framework-error"] = function(req, res){
+  throw new Error("This should show the '500' page, output in console (with colors), and write to 'framework.log'");
 };
 
 /**
@@ -32,11 +32,11 @@ exports["retrieve-config-from-model"] = function(req, res){
 };
 
 /**
- * Example: How to use the manual log. The 'server/mvc/log' writes to 'server/data/logs/manual.log'
+ * Example: How to use the mvc log. The 'server/mvc/log' writes to 'server/data/logs/mvc.log'
  */
-exports["write-manual-log"] = function(req, res){
+exports["write-mvc-log"] = function(req, res){
   log.debug("This message is an example of how to use the 'log' module in 'server/mvc'");
-  return res.send("Wrote debug message in 'manual.log'");
+  return res.send("Wrote debug message in 'mvc.log'");
 };
 
 /**

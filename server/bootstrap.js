@@ -26,7 +26,7 @@ exports.startup = function(app, passport){
   var logs = require('./bootstrap/logs.js');
   logs.init(config);
   var log = require('./mvc/log.js');
-  log.init(logs.manual);
+  log.init(logs.mvc);
 
   try {
     console.log("Bootstrap: Configuring passport");
@@ -43,7 +43,7 @@ exports.startup = function(app, passport){
     require('./bootstrap/routes.js')(app, logs, passport);
   } catch (e) {
     var errorType = (e instanceof Error) ? "Error" : "Exception";
-    logs.error.error('Uncaught ' + errorType + ":", e);
+    logs.framework.error('Uncaught ' + errorType + ":", e);
     process.exit(); // Crash and burn; learn2code
     return;
   }
