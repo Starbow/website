@@ -8,7 +8,18 @@ var sprintf = require('sprintf-js').sprintf;
  * Example: How to get informations about the current "worker" from cluster.
  */
 exports["cluster-current-worker"] = function(req, res){
-  return res.send(sprintf("The current worker is: [id: %s]", cluster.worker.id));
+  return res.render('dev-examples/cluster-current-worker', {
+    workerId: cluster.worker.id,
+    killUri: '/dev-examples/cluster-current-worker-kill'
+  });
+};
+
+/**
+ * Example: Kills the current worker. Check log to verify.
+ */
+exports["cluster-current-worker-kill"] = function(req, res){
+  cluster.worker.kill();
+  return res.redirect('/dev-examples/cluster-current-worker');
 };
 
 /**

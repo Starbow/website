@@ -24,6 +24,7 @@ module.exports = function (app, logs, passport) {
     var DevExamplesController = require(process.env.ROOT + '/server/mvc/controllers/DevExamplesController.js');
     app.get('/dev-examples', DevExamplesController["index"]);
     app.get('/dev-examples/cluster-current-worker', DevExamplesController["cluster-current-worker"]);
+    app.get('/dev-examples/cluster-current-worker-kill', DevExamplesController["cluster-current-worker-kill"]);
     app.get('/dev-examples/model-interaction', DevExamplesController["model-interaction"]);
     app.get('/dev-examples/provoke-framework-error', DevExamplesController["provoke-framework-error"]);
     app.get('/dev-examples/retrieve-config-from-model', DevExamplesController["retrieve-config-from-model"]);
