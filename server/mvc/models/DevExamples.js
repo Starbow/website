@@ -9,7 +9,7 @@ module.exports = function(){
   this.whatIsOnePlusTwo = function(){
     return 1 + 2;
   };
-  this.promimeMeEverythingWillBeAlright = function(){
+  this.promiseMeEverythingWillBeAlright = function(){
     return new Promise(function(resolve, reject){
       resolve(true);
     });

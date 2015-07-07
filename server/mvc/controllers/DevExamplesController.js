@@ -9,7 +9,7 @@ exports["model-interaction"] = function(req, res){
   var devExamples = new Models.DevExamples();
   assert.strictEqual(devExamples.whatIsOnePlusTwo(), 3, "What is 1+2, indeed?");
   devExamples
-    .promimeMeEverythingWillBeAlright()
+    .promiseMeEverythingWillBeAlright()
     .then(function(isItAlright){
       assert.ok(isItAlright, "Is it alright?");
       return res.send("Interacted with model 'Models.DevExamples' without breaking stuff!");
