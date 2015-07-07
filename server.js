@@ -28,7 +28,8 @@ logs.init(config);
 
 if (cluster.isMaster) {
   var cpuCount = require('os').cpus().length;
-  logs.cluster.info(sprintf('Server: %s workers available. Start them up...', cpuCount));
+  logs.cluster.info(sprintf("Server: Starting up [Master pid: %s]", process.pid));
+  logs.cluster.info(sprintf("Server: %s workers available. Start them up...", cpuCount));
    // Firstly, disable console.log spam and keep cluster from automatically grabbing stdin/out/err
   //cluster.setupMaster({silent: true});
   // Fork workers
@@ -36,14 +37,15 @@ if (cluster.isMaster) {
       cluster.fork();
   }
   cluster.on('online', function(worker){
-    logs.cluster.info(sprintf('Server: Worker online: [id: %s] [pid: %s]', worker.id, worker.process.pid));
+    logs.cluster.info(sprintf("Server: Worker online: [id: %s] [pid: %s]", worker.id, worker.process.pid));
   });
   cluster.on('exit', function(deadWorker, code, signal){
-    logs.cluster.warn(sprintf('Server: Worker died: [id: %s] [pid: %s] [code: %s] [signal: %s]',
-      worker.id, deadWorker.process.pid, code, signal));
     var worker = cluster.fork(); // Restart the worker
-    logs.cluster.warn(sprintf('Server: Worker [id: %s] [pid: %s] replaced with new worker: [id: %s] [pid: %s]',
-      worker.id, deadWorker.process.pid, worker.id, worker.process.pid));
+    logs.cluster.warn(sprintf(
+      "Server: Worker died: [id: %s] [pid: %s] [code: %s] [signal: %s]. "
+      + "Started new replacement worker: [id: %s] [pid: %s]",
+      worker.id, deadWorker.process.pid, code, signal, worker.id, worker.process.pid
+    ));
   });
 } else {
   var bootstrap = require(__dirname + '/server/bootstrap.js');
