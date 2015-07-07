@@ -31,7 +31,7 @@ exports.startup = function(app, config, logs){
     // Load and configure models
     require('./mvc/models.js')(config, thinky);
 
-    // Configure routs
+    // Configure routes
     require('./bootstrap/routes.js')(app, logs, passport);
   } catch (e) {
     var errorType = (e instanceof Error) ? "Error" : "Exception";
