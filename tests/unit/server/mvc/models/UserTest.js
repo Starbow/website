@@ -1,6 +1,12 @@
 var path = require("path");
 
-var bogusConfig = {},
+var bogusConfig = {
+    auth: {
+      bnet: {
+        encryptionSalt: "encryption_salt_123"
+      }
+    }
+  },
   bogusThinkyConfig = {db: "bogus"},
   Models = {};
 
@@ -15,30 +21,17 @@ module.exports = {
     var bogusThinky = require("thinky")(bogusThinkyConfig);
     bogusThinky.r.table("users").delete().run().finally(callback);
   },
-  "Can findByUserId": function(test) {
-    test.expect(1);
+  "Can findByUserId, but promise rejects (error)": function(test) {
+    test.expect(3);
     var user = new Models.User();
     user
       .findByUserId(1)
-      .then(function(){
-        test.equal(typeof(user.getValues()), "object", "Has bogus valus");
-        test.done();
-      })
       .error(function(err){
-        test.done();
-      });
-  },
-  "Found user is not valid and does not exist in database": function(test) {
-    test.expect(2);
-    var user = new Models.User();
-    user
-      .findByUserId(1)
-      .then(function(){
         test.ok(!user.isValid(), "Should not be valid");
-        test.ok(!user.exists(), "Should not exist");
-        test.done();
+        test.ok(!user.existsInDatabase(), "Should not exist in database");
+        test.equal(typeof(user.getValues()), "object", "Has bogus valus");
       })
-      .error(function(err){
+      .finally(function(){
         test.done();
       });
   },
@@ -47,12 +40,11 @@ module.exports = {
     var user = new Models.User();
     user
       .save()
-      .then(function(){
-        test.done();
-      })
       .error(function(err){
         test.ok(!user.isValid(), "Should not be valid");
-        test.ok(!user.exists(), "Should not exist");
+        test.ok(!user.existsInDatabase(), "Should not exist");
+      })
+      .finally(function(){
         test.done();
       });
   },
@@ -68,7 +60,7 @@ module.exports = {
       .save()
       .then(function(){
         test.ok(user.isValid(), "Should be valid");
-        test.ok(user.exists(), "Should exist");
+        test.ok(user.existsInDatabase(), "Should exist");
         test.strictEqual(user.getValue('userId'), 1, "Value: userId");
         test.strictEqual(user.getValue('oauthType'), "bogus", "Value: oauthType");
         test.strictEqual(user.getValue('oauthTokenEncrypted'), "123bogus", "Value: oauthType");
@@ -81,7 +73,7 @@ module.exports = {
   "Oauth token is encrypted correctly": function(test){
     test.expect(1);
     var user = new Models.User();
-    var encryptedToken = user.encryptOauthToken("my_little_oauth_token", "encryption_salt_123");
+    var encryptedToken = user.encryptOauthToken("my_little_oauth_token");
     test.strictEqual(encryptedToken, "41a65d5a9d2156f20daff6add137ea3465854d5c3c262ddb52ae64251d7a9d9e");
     test.done();
   },
@@ -89,7 +81,7 @@ module.exports = {
     test.expect(1);
     var user = new Models.User();
     var encryptedToken = "41a65d5a9d2156f20daff6add137ea3465854d5c3c262ddb52ae64251d7a9d9e";
-    var token = user.decryptOauthToken(encryptedToken, "encryption_salt_123");
+    var token = user.decryptOauthToken(encryptedToken);
     test.strictEqual(token, "my_little_oauth_token");
     test.done();
   },

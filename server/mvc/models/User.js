@@ -8,29 +8,21 @@ var config,
 
 module.exports = function(){
   var self = this,
-    document = new ThinkyModel({}),
-    exists = false;
+    document = new ThinkyModel({});
 
   this.findByUserId = function(userId){
-    exists = false;
     return new Promise(function(resolve, reject){
       ThinkyModel
-        .filter({"userId": userId})
-        .orderBy(r.desc("timeCreated"))
-        .limit(1)
+        .get(userId)
         .run()
-        .then(function(docs){
-          if (Array.isArray(docs) && docs.length) {
-            exists = true;
-            document = docs[0];
-          }
+        .then(function(doc){
+          document = doc;
           return resolve();
         })
         .error(reject);
     });
   };
   this.save = function(){
-    exists = false;
     return new Promise(function(resolve, reject){
       document.merge({"timeModified": r.now()});
       try {
@@ -41,7 +33,6 @@ module.exports = function(){
       document
         .save()
         .then(function(){
-          exists = true;
           return resolve();
         })
         .error(reject);
@@ -82,8 +73,8 @@ module.exports = function(){
     }
     return true;
   };
-  this.exists = function(){
-    return exists;
+  this.existsInDatabase = function(){
+    return document.isSaved();
   };
   this.updateTimeLatestLogin = function(){
     document.timeLatestLogin = r.now();
@@ -111,6 +102,8 @@ module.exports.init = function(_config, _thinky){
     timeCreated: type.date().default(r.now()).required().allowNull(false),
     timeModified: type.date().default(r.now()).required().allowNull(false),
     timeLatestLogin: type.date().default(r.now()).required().allowNull(false),
+  }, {
+    "pk": "userId"
   });
   ThinkyModel.ensureIndex("timeCreated");
 };

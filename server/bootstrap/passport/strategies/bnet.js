@@ -1,5 +1,6 @@
 var BnetStrategy = require('passport-bnet').Strategy;
 var Models = require(process.env.ROOT + '/server/mvc/models.js');
+var log = require(process.env.ROOT + '/server/mvc/log');
 
 module.exports = function(authBnetConfig){
   return new BnetStrategy(
@@ -10,29 +11,27 @@ module.exports = function(authBnetConfig){
         user
           .findByUserId(profile.id)
           .then(function(){
-            user.setValues({
-                oauthTokenEncrypted: user.encryptOauthToken(accessToken),
-                oauthType: "bnet"
-            }).updateTimeLatestLogin();
-            if (!user.exists()) {
-              user.setValues({
-                  userId: profile.id
-              });
-            }
-            user
-              .save()
-              .then(function(){
-                console.log('Save: success', user.getValues());
-                return done(null, profile);
-              })
-              .error(function(err){
-                console.log("BnetStrategy (2):", err);
-                return done(null, null);
-              });
+            log.debug("Updating existing user. 'profile':\n", profile);
           })
           .error(function(err){
-            console.log("BnetStrategy (1):", err);
-            return done(null, null);
+            log.debug("Creating new user. 'profile':\n", profile);
+          })
+          .finally(function(){
+            user.setValues({
+                oauthTokenEncrypted: user.encryptOauthToken(accessToken),
+                oauthType: "bnet",
+                userId: profile.id
+            })
+            .updateTimeLatestLogin()
+            .save()
+            .then(function(){
+              log.debug("User saved successfully. Values:\n", user.getValues());
+              return done(null, profile);
+            })
+            .error(function(err){
+              log.error("BnetStrategy (1):", err);
+              return done(null, null);
+            });
           });
       } else {
         return done(null, null);
