@@ -1,10 +1,9 @@
 var fs = require('fs');
 var express = require('express');
-var passport = require('passport');
 var bootstrap = require(__dirname + '/server/bootstrap.js');
 
 var app = express();
-bootstrap.startup(app, passport);
+bootstrap.startup(app);
 
 // Create an HTTPS service
 var https = require('https');

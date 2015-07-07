@@ -1,6 +1,7 @@
 require("use-strict"); // Polices server code, applying "use strict" to all modules
 
 var fs = require('fs');
+var passport = require('passport');
 
 console.log("Bootstrap: Setting up 'env' and 'config'");
 require("./bootstrap/config/env/env.js");
@@ -15,7 +16,7 @@ var runOnReadyCallback = function(){
   }
 };
 
-exports.startup = function(app, passport){
+exports.startup = function(app){
   console.log("Bootstrap: Ensuring 'server/data' directory exists");
   var dataDirPath = process.env.ROOT + "/server/data";
   if (!fs.existsSync(dataDirPath)) {
