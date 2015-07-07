@@ -1,6 +1,15 @@
 var log = require("../log");
 var Models = require('../models.js');
 var assert = require('assert');
+var cluster = require('cluster');
+var sprintf = require('sprintf-js').sprintf;
+
+/**
+ * Example: How to get informations about the current "worker" from cluster.
+ */
+exports["cluster-current-worker"] = function(req, res){
+  return res.send(sprintf("The current worker is: [id: %s]", cluster.worker.id));
+};
 
 /**
  * Example: How interact with a model.
