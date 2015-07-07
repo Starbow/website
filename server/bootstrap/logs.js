@@ -26,7 +26,7 @@ var getWinstonLog = function(subConfig){
 
 module.exports.init = function(config){
   module.exports.access = getMorganLog(config.log.access);
-  module.exports.error = getWinstonLog(config.log.error);
-  module.exports.manual = getWinstonLog(config.log.manual);
+  module.exports.framework = getWinstonLog(config.log.framework);
+  module.exports.mvc = getWinstonLog(config.log.mvc);
   delete module.exports.init; // Voodoo: The function deletes itself to prevent re-init
 };

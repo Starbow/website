@@ -25,9 +25,9 @@ module.exports = function (app, logs, passport) {
     var DevExamplesController = require(process.env.ROOT + '/server/mvc/controllers/DevExamplesController.js');
     app.get('/dev-examples', DevExamplesController["index"]);
     app.get('/dev-examples/model-interaction', DevExamplesController["model-interaction"]);
-    app.get('/dev-examples/provoke-error', DevExamplesController["provoke-error"]);
+    app.get('/dev-examples/provoke-framework-error', DevExamplesController["provoke-framework-error"]);
     app.get('/dev-examples/retrieve-config-from-model', DevExamplesController["retrieve-config-from-model"]);
-    app.get('/dev-examples/write-manual-log', DevExamplesController["write-manual-log"]);
+    app.get('/dev-examples/write-mvc-log', DevExamplesController["write-mvc-log"]);
   }
 
   /**
@@ -53,7 +53,7 @@ module.exports = function (app, logs, passport) {
       res.statusCode,
       err.stack
     );
-    logs.error.error(fileOutput);
+    logs.framework.error(fileOutput);
     res.render('../error/500', {error: err.stack});
   });
 
