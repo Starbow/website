@@ -4,7 +4,7 @@ var fs = require('fs');
 
 console.log("Bootstrap: Setting up 'env' and 'config'");
 require("./bootstrap/config/env/env.js");
-var config = require("./bootstrap/config.js");
+var config = require("./bootstrap/config.js")();
 
 var isReady = false,
     onReadyCallback;
@@ -30,7 +30,7 @@ exports.startup = function(app, passport){
 
   try {
     console.log("Bootstrap: Configuring passport");
-    require('./bootstrap/passport.js')(passport);
+    require('./bootstrap/passport.js')(config, passport);
 
     console.log("Bootstrap: Configuring express");
     require('./bootstrap/express.js')(app, logs, passport);
