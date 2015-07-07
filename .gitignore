@@ -29,3 +29,4 @@ node_modules
 # Sensitive data
 server/data/*
 server/config/env/env.*.json
+!server/config/env/env.example.json
