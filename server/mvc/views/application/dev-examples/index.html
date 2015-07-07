@@ -1,0 +1,8 @@
+<h1>Development examples</h1>
+<p>These examples are not available in production.</p>
+<ul>
+<% for(var i=0; i<actions.length; i++) {%>
+  <% var url = uriBase + "/" + actions[i] %>
+   <li><a href="<%= url %>"><%= url %></a></li>
+<% } %>
+</ul>
