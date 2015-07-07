@@ -23,8 +23,12 @@ The following stacks/software is needed in order to run the server on your local
 1. Create/go to the directory on your machine from which you want to run the website code.
 2. Clone repository: `git clone https://github.com/Starbow/website`
 3. Run `npm install` to get all dependencies which are stored in the folder `node_modules`
-4. Clone/download the live Rethink database and import it into your local environment. (**Note:** We should probably consider doing an automated script for this purpose)
-5. Setup the `env.json` file (`/server/config/env/env.json`). **Note:** NEVER add this to git.
+4. Clone/download the live Rethink database and import it into your local environment.
+  - **Note:** We should probably consider doing an automated script for this purpose
+5. Setup the `env.development.json` file (in `/server/config/env/env.json`).
+  - You can base the JSON on the contents in `env.example.json`, and change the values accordingly.
+  - **Note:** NEVER add these files to git: [`env.production.json`, `env.development.json`, `env.test.json`]
+  - The structure of `env.example.json` must match that of the environment specific `env.*.json` files.
 
 ## Configuring SSH-key for git
 
@@ -36,7 +40,9 @@ If you don't feel like writing your Git password every time you want to push to 
 ## Running the application
 
 1. Start the database. In a separate tab/window in your terminal write: `rethinkdb`
-2. Start the server. In the root folder (`/website`), run `sudo node server.js` to start the application. (**Note:** Using port numbers below 3000, which 443 is, requires `sudo` privileges)
+2. Start the server. In the root folder (`/website`), run `sudo node server.js` to start the application.
+  - **Note:** Using port numbers below 3000, which 443 is, requires `sudo` privileges.
+  - If you haven't configured the environment variable `NODE_ENV`, you may need to run: `sudo NODE_ENV=development node server.js`.
 3. In your terminal, you'll now see output as the server is being configured or potentially throws errors.
 4. In your browser, go to: [https://localhost](https://localhost)
 
