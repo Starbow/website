@@ -1,11 +1,9 @@
 require("use-strict"); // Polices server code, applying "use strict" to all modules
 
 var fs = require('fs');
+var cluster = require('cluster');
 var passport = require('passport');
-
-console.log("Bootstrap: Setting up 'env' and 'config'");
-require("./bootstrap/config/env/env.js");
-var config = require("./bootstrap/config.js")();
+var sprintf = require('sprintf-js').sprintf;
 
 var isReady = false,
     onReadyCallback;
@@ -16,35 +14,28 @@ var runOnReadyCallback = function(){
   }
 };
 
-exports.startup = function(app){
-  console.log("Bootstrap: Ensuring 'server/data' directory exists");
-  var dataDirPath = process.env.ROOT + "/server/data";
-  if (!fs.existsSync(dataDirPath)) {
-    fs.mkdirSync(dataDirPath);
-  }
-
-  console.log("Bootstrap: Configuring logs");
-  var logs = require('./bootstrap/logs.js');
-  logs.init(config);
+exports.startup = function(app, config, logs){
   var log = require('./mvc/log.js');
   log.init(logs.mvc);
 
   try {
-    console.log("Bootstrap: Configuring passport");
+    // Configure passport
     require('./bootstrap/passport.js')(config, passport);
 
-    console.log("Bootstrap: Configuring express");
+    // Configure express
     require('./bootstrap/express.js')(app, logs, passport);
 
-    console.log("Bootstrap: Configuring models");
+    // Configure thinkg (rethinkdb)
     var thinky = require("thinky")(config.db.thinky);
+
+    // Load and configure models
     require('./mvc/models.js')(config, thinky);
 
-    console.log("Bootstrap: Configuring routes");
+    // Configure routs
     require('./bootstrap/routes.js')(app, logs, passport);
   } catch (e) {
     var errorType = (e instanceof Error) ? "Error" : "Exception";
-    logs.framework.error('Uncaught ' + errorType + ":", e);
+    logs.framework.error(sprintf("Worker [id: %s]: Uncaught '%s':", cluster.worker.id, errorType), e);
     process.exit(); // Crash and burn; learn2code
     return;
   }

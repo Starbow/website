@@ -28,4 +28,5 @@ node_modules
 
 # Sensitive data
 server/data/*
-server/bootstrap/config/env/env.json
+server/config/env/env.*.json
+!server/config/env/env.example.json

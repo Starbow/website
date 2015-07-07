@@ -1,4 +1,3 @@
-var logs = require("./logs");
 var morgan = require("morgan");
 var sprintf = require("sprintf-js").sprintf;
 var IndexController = require(process.env.ROOT + '/server/mvc/controllers/IndexController.js');
@@ -24,6 +23,7 @@ module.exports = function (app, logs, passport) {
   if (process.env.NODE_ENV == 'development') {
     var DevExamplesController = require(process.env.ROOT + '/server/mvc/controllers/DevExamplesController.js');
     app.get('/dev-examples', DevExamplesController["index"]);
+    app.get('/dev-examples/cluster-current-worker', DevExamplesController["cluster-current-worker"]);
     app.get('/dev-examples/model-interaction', DevExamplesController["model-interaction"]);
     app.get('/dev-examples/provoke-framework-error', DevExamplesController["provoke-framework-error"]);
     app.get('/dev-examples/retrieve-config-from-model', DevExamplesController["retrieve-config-from-model"]);

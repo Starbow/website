@@ -1,6 +1,8 @@
 var fs = require("fs");
 var sprintf = require("sprintf-js").sprintf;
 
+require("./env/env.js");
+
 var config = {
   auth: {
     bnet: {
@@ -25,15 +27,32 @@ var config = {
         stream: process.env.LOG_ACCESS_FILE
       }
     },
-    framework: { // winston
+    cluster: {
       console: {
-        level: 'error',
+        level: 'debug',
         handleExceptions: true,
         json: false,
         colorize: true
       },
       file: {
-        level: 'error',
+        level: 'debug',
+        filename: process.env.LOG_CLUSTER_FILE,
+        handleExceptions: true,
+        json: false,
+        maxsize: 5242880, //5MB
+        maxFiles: 5,
+        colorize: false
+      }
+    },
+    framework: { // winston
+      console: {
+        level: 'debug',
+        handleExceptions: true,
+        json: false,
+        colorize: true
+      },
+      file: {
+        level: 'debug',
         filename: process.env.LOG_FRAMEWORK_FILE,
         handleExceptions: true,
         json: false,
