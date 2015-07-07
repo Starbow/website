@@ -51,10 +51,16 @@ exports["write-mvc-log"] = function(req, res){
 /**
  * Make a nice index page with links to examples.
  */
-var actions = Object.keys(exports);
+var actionNames = Object.keys(exports);
 exports.index = function(req, res){
+  var actions = [];
+  for (var i in actionNames) {
+    actions.push({
+      name: actionNames[i],
+      uri: "/dev-examples/" + actionNames[i]
+    });
+  }
   return res.render('dev-examples/index', {
-    uriBase: '/dev-examples',
     actions: actions
   });
 };
