@@ -17,6 +17,7 @@ module.exports = function(app, logs, passport) {
   app.engine('jsx', reactViews.createEngine());
   app.set('views', process.env.ROOT + '/server/mvc/views/application');
   app.set('view engine', 'jsx');
+  require('node-jsx').install({extension: '.jsx'}); // Makes jsx files work; i.e. not give default js syntax errors
 
   // bodyParser should be above methodOverride
   app.use(bodyParser.json());
