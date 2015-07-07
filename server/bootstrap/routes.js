@@ -44,6 +44,8 @@ module.exports = function (app, logs, passport) {
     res.status(500);
     var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     var httpVersion = req.httpVersionMajor + '.' + req.httpVersionMinor;
+    var stackTraceLines = err.stack.toString().replace(/\r\n|\n\r|\n|\r/g,"\n").split("\n");
+    var stack = stackTraceLines.slice(0, process.env.ERROR_STACKTRACE_SIZE).join("\n");
     var fileOutput = sprintf(
       "%s | \"%s %s HTTP/%s\" %s | Stack:\n%s",
       ip,
@@ -51,7 +53,7 @@ module.exports = function (app, logs, passport) {
       req.originalUrl,
       httpVersion,
       res.statusCode,
-      err.stack
+      stack
     );
     logs.framework.error(fileOutput);
     res.render('../error/500', {error: err.stack});
