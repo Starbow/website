@@ -2,7 +2,7 @@ var fs = require("fs");
 var path = require("path");
 var sprintf = require("sprintf-js").sprintf;
 
-var rootDir = path.normalize(__dirname + "/../../../..");
+var rootDir = path.normalize(__dirname + "/../../..");
 var env;
 var envFile = __dirname + '/env.json';
 
