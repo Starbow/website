@@ -20,4 +20,6 @@ http.createServer(function(req, res){
   res.end();
 }).listen(80, process.env.HOST);
 
-console.log('Secure server running at https://'+process.env.HOST+'/ (port: '+process.env.PORT+')');
+bootstrap.onReady(function(){
+  console.log('Secure server running at https://'+process.env.HOST+'/ (port: '+process.env.PORT+')');
+});

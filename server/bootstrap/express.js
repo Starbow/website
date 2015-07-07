@@ -3,9 +3,14 @@ var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var cookieSession = require('cookie-session');
 var bodyParser = require('body-parser');
+var morgan = require('morgan');
 var ejs = require('ejs');
 
-module.exports = function(app, passport) {
+module.exports = function(app, logs, passport) {
+  // Access log
+  app.use(logs.access);
+
+  // Forward requests to public assets folder
   app.use(express.static(process.env.ROOT + '/public'));
 
   // Set views path, template engine and default layout

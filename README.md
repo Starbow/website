@@ -86,8 +86,9 @@ We use `express` (https://www.npmjs.com/package/express) for managing the server
 The folders are structured as follows:
 
 * [`/client`](#folder-client)
-  * [`/layouts`](#folder-client-layouts)
   * [`/views`](#folder-client-views)
+    * [`application`](#folder-client-views-application)
+    * [`/layouts`](#folder-client-views-layouts)
 * [`/node_modules`](#folder-node_modules)
 * [`/private`](#folder-private)
   * [`/app`](#folder-private-app)
@@ -99,6 +100,7 @@ The folders are structured as follows:
   * [`/boostrap`](#folder-server-bootstrap)
     * [`/config`](#folder-server-bootstrap-config)
       * [`/env`](#folder-server-bootstrap-config-env)
+  * [`/data`](#folder-server-data)
   * [`/mvc`](#folder-server-mvc)
     * [`/controllers`](#folder-server-mvc-controllers)
     * [`/models`](#folder-server-mvc-models)
@@ -108,183 +110,65 @@ The folders are structured as follows:
   * [`integration`](#folder-tests-integration)
   * [`unit`](#folder-tests-unit)
 
-### Folder structure details
+### Folder structure with details
 
 ---
 
-<a name="folder-client"></a>
-#### /client
-
+* <a name="folder-client"></a>`/client`<br/>
 Contains logic and views for the client, exclusively. I.e. it contains the shell UI React needs to update a view layer, based on e.g. a JSON response.
-
----
-
-<a name="folder-client-layouts"></a>
-##### /client/layouts
-
-Layout files (also referred to as "page type templates") to be used and displayed in the client. These files are commonly HTML files functioning as wrappers with `head` and `body` tags.
-
-Updated by React.
-
----
-
-<a name="folder-client-views"></a>
-##### /client/views
-
-View files (or "content templates") to be used and displayed in the client. Commonly HTML files displaying page content a [layout](#folder-client-layouts) file.
-
-Updated by React.
-
----
-
-<a name="folder-node_modules"></a>
-#### /node_modules
-
-Do **not manually modify** the contents of this folder.
-
-The list of Node.js modules as listed in `package.json`.
-
-To **install** (add) a package:
-
-```
-npm install <package_name> --save
-```
-
-To **uninstall** (remove) a package:
-
-```
-npm uninstall <package_name> --save
-```
-
----
-
-<a name="folder-private"></a>
-#### /private
-
+  * <a name="folder-client-views"></a>`/views`<br/>
+  Sub-folders contain view files/templates.
+    * <a name="folder-client-views-application"></a>`/application`<br/>
+    View files (or "content templates") to be used and displayed in the client. Commonly HTML files displaying page content a [layout](#folder-client-views-layouts) file.<br/>
+    Updated by React.
+    * <a name="folder-client-views-layouts"></a>`/layouts`<br/>
+    Layout files (also referred to as "page type templates") to be used and displayed in the client. These files are commonly HTML files functioning as wrappers with `head` and `body` tags.<br/>
+    Updated by React.
+* <a name="folder-node_modules"></a>`/node_modules`<br/>
+Do **not manually modify** the contents of this folder.<br/>The list of Node.js modules as listed in `package.json`.<br/>
+To **install** (add) a package: `npm install <package_name> --save`<br/>
+To **uninstall** (remove) a package: `npm uninstall <package_name> --save`
+* <a name="folder-private"></a>`/private`<br/>
 Contains sensitive server-side assets, as opposed to the [`/public`](#folder-public) folder within which public assets (images, css, etc.) are stored.
-
----
-
-<a name="folder-private-ssl"></a>
-### /private/ssl
-
-Contains SSL key and certificate.
-
-**TODO:** Move this to nginx. (See: https://github.com/Starbow/website/issues/1) Currently, a bogus key and certificate exists.
-
----
-
-<a name="folder-private-app"></a>
-##### /private/app
-
-Contains unprocessed/uncompiled or source code files. These raw, unprocessed files may be Javascripts, CSS, image sprites, etc. which after being processed become available in the [`/public/app`](#folder-public-app) as their minified, optimized, and/or image sprite counterparts.
-
----
-
-<a name="folder-public"></a>
-#### /public
-
-A publicly accessible folder within which assets (images, css, etc.) are stored.
-
-All files in this folder are directly accessible in the URL by removing the `/public` namespace. E.g. if on the server the path is `/public/img.jpg`, the corresponding URL is: `https://localhost/img.jpg`
-
+  * <a name="folder-private-ssl"></a>`/ssl`<br/>
+  Contains SSL key and certificate.<br/>
+  **TODO:** Move this to nginx. (See: https://github.com/Starbow/website/issues/1) Currently, a bogus key and certificate exists.
+  * <a name="folder-private-app"></a>`/app`<br/>
+  Contains unprocessed/uncompiled or source code files. These raw, unprocessed files may be Javascripts, CSS, image sprites, etc. which after being processed become available in the [`/public/app`](#folder-public-app) as their minified, optimized, and/or image sprite counterparts.
+* <a name="folder-public"></a>`/public`<br/>
+A publicly accessible folder within which assets (images, css, etc.) are stored.<br/>All files in this folder are directly accessible in the URL by removing the `/public` namespace. E.g. if on the server the path is `/public/img.jpg`, the corresponding URL is: `https://localhost/img.jpg`<br/>
 **DO NOT STORE SENSITIVE ASSETS HERE!** For sensitive assets which are used internally in the application, or source code, use the [`/private`](#folder-private) folder.
-
----
-
-<a name="folder-public-app"></a>
-##### /public/app
-
-Contains compiled, minified, and/or optimized Javascript code, sprite images, etc.
-
-Corresponds to the folder: [`/private/app`](#folder-private-app)
-
-Do **not manually modify** the contents of this folder. Instead, compile the files through the [`/private/app`](#folder-private-app) folder.
-
----
-
-<a name="folder-public-cdn"></a>
-##### /public/cdn
-
-Common libraries, e.g. Twitter Bootstrap.
-
-**TODO:** Should be delivered through a trusted CDN website. For now, though, we store them ourselves. (See: https://github.com/Starbow/website/issues/2)
-
----
-
-<a name="folder-server"></a>
-#### /server
-
+  * <a name="folder-public-app"></a>`/app`<br/>
+  Contains compiled, minified, and/or optimized Javascript code, sprite images, etc.<br/>
+  Corresponds to the folder: [`/private/app`](#folder-private-app)<br/>
+  Do **not manually modify** the contents of this folder. Instead, compile the files through the [`/private/app`](#folder-private-app) folder.
+  * <a name="folder-public-cdn"></a>`/public/cdn`<br/>
+  Common libraries, e.g. Twitter Bootstrap.<br/>
+  **TODO:** Should be delivered through a trusted CDN website. For now, though, we store them ourselves. (See: https://github.com/Starbow/website/issues/2)
+* <a name="folder-server"></a>`/server`<br/>
 Server logic, exclusively.
-
----
-
-<a name="folder-server-bootstrap"></a>
-##### /server/bootstrap
-
-The server's bootstrap/startup code. Configures `express`, passport, routing, etc.
-
----
-
-<a name="folder-server-bootstrap-config"></a>
-###### /server/bootstrap/config
-
-Contains server configurations such as database connection information and other authentication data.
-
----
-
-<a name="folder-server-bootstrap-config-env"></a>
-####### /server/bootstrap/config/env
-
-Environment specific configurations ("production", "development", or "test").
-
----
-
-<a name="folder-server-mvc"></a>
-##### /server/mvc
-
-Model-View-Controller (MVC) files.
-
----
-
-<a name="folder-server-mvc-controllers"></a>
-###### /server/mvc/controllers
-
-Controller files. Corresponds to the specified router paths.
-
----
-
-<a name="folder-server-mvc-models"></a>
-###### /server/mvc/models
-
-Models. They do the hard number crunching and communicates with the database.
-
----
-
-<a name="folder-server-mvc-views"></a>
-###### /server/mvc/views
-
-View templates. Not used often since React will generally take care of the view layer/UI.
-
----
-
-<a name="folder-tests"></a>
-#### /tests
-
-Contains tests written the verify the logic in the application, e.g. for models like "User".
-
----
-
-<a name="folder-tests-integration"></a>
-##### /tests/integration
-
-Integration tests. I.e. verify that different modules work together and produce expected outcome.
-
----
-
-<a name="folder-tests-unit"></a>
-##### /tests/unit
-
-Unit tests. I.e. verify that a single module works and the internal logic produces expected results.
+  * <a name="folder-server-bootstrap"></a>`/bootstrap`
+  The server's bootstrap/startup code. Configures logs, `express`, `passport`, routing, etc.
+    * <a name="folder-server-bootstrap-config"></a>`/config`<br/>
+    Contains server configurations such as log settings, database connection information, authentication data, etc.
+      * <a name="folder-server-bootstrap-config-env"></a>`/env`<br/>
+      Environment specific configurations ("production", "development", or "test").
+  * <a name="folder-server-data"></a>`/data`<br/>
+  Data folder containing logs, cached data, and temporarily stored files. The folder is excluded from Git, but will automatically be generated on system startup (in the bootstrap).
+  * <a name="folder-server-mvc"></a>`/mvc`<br/>
+  Model-View-Controller (MVC) files.
+    * <a name="folder-server-mvc-controllers"></a>`/controllers`<br/>
+    Controller files. Corresponds to the specified router paths.
+    * <a name="folder-server-mvc-models"></a>`/models`<br/>
+    Models. They do the hard number crunching and communicates with the database.<br/>
+    Please implement models in a way that supports [integration](#folder-tests-integration) and [unit](#folder-tests-unit) tests. Often, this means heavy use of dependency injection.
+    * <a name="folder-server-mvc-views"></a>`/views`<br/>
+    View templates. Not used often since React will generally take care of the view layer/UI.
+  * <a name="folder-tests"></a>`/tests`<br/>
+  Contains tests written the verify the logic in the application, e.g. for models like "User".
+    * <a name="folder-tests-integration"></a>`/integration`<br/>
+    Integration tests. I.e. verify that different modules work together and produce expected outcome.
+    * <a name="folder-tests-unit"></a>`/unit`<br/>
+    Unit tests. I.e. verify that a single module works and the internal logic produces expected results.
 
 ---

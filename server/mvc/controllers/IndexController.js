@@ -27,6 +27,3 @@ exports.userstuff = function(req, res){ // TODO: Temporary function for hacking 
     });
   res.send('just user stuff');
 };
-exports.provokeerror = function(req, res){ // TODO: Temporary endpoint
-  throw new Error("This should show the 500 page");
-};

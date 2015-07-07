@@ -18,6 +18,48 @@ var config = {
       db: process.env.DB_NAME
     }
   },
+  log: {
+    access: { // morgan
+      format: "short",
+      options: {
+        stream: process.env.LOG_ACCESS_FILE
+      }
+    },
+    error: { // winston
+      console: {
+        level: 'error',
+        handleExceptions: true,
+        json: false,
+        colorize: true
+      },
+      file: {
+        level: 'error',
+        filename: process.env.LOG_ERROR_FILE,
+        handleExceptions: true,
+        json: false,
+        maxsize: 5242880, //5MB
+        maxFiles: 5,
+        colorize: false
+      }
+    },
+    manual: { // winston
+      console: {
+        level: 'debug',
+        handleExceptions: true,
+        json: false,
+        colorize: true
+      },
+      file: {
+        level: 'debug',
+        filename: process.env.LOG_MANUAL_FILE,
+        handleExceptions: true,
+        json: false,
+        maxsize: 5242880, //5MB
+        maxFiles: 5,
+        colorize: false
+      }
+    }
+  }
 };
 
 Object.freeze(config);
