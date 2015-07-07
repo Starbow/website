@@ -6,8 +6,8 @@ var Index = React.createClass({
     return (
       <DefaultLayout title={this.props.title}>
         <h1>Starbow</h1>
-        <p>User ID: <strong><%= userId %></strong><br/>
-        Battletag: <strong><%= battletag %></strong></p>
+        <p>User ID: <strong>{this.props.userId}</strong><br/>
+        Battletag: <strong>{this.props.battletag}</strong></p>
         <ul>
           <li><a href="/profile/info">SC2 Profile Info</a></li>
           <li><a href="/profile/matchhistory">See Match History</a></li>
