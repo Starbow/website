@@ -47,6 +47,9 @@ if (cluster.isMaster) {
       worker.id, deadWorker.process.pid, code, signal, worker.id, worker.process.pid
     ));
   });
+  process.on('exit', function() {
+    logs.cluster.info("Server: Shutting down");
+  });
 } else {
   var bootstrap = require(__dirname + '/server/bootstrap.js');
   var app = express();
