@@ -14,9 +14,12 @@ module.exports = function(config, thinky){
        * var foo = new Models.Foo();
        */
       var name = file.replace(/\.js$/, '');
-      module.exports[name] = require(modelsPath + '/' + file);
-      module.exports[name].init(config, thinky);
-      delete module.exports[name].init; // Ensure 'init' cannot be called again
+      var model = require(modelsPath + '/' + file);
+      if (model.hasOwnProperty("init") && typeof(model.init) == "function") {
+        module.exports[name] = model;
+        module.exports[name].init(config, thinky);
+        delete module.exports[name].init; // Ensure 'init' cannot be called again
+      }
     }
   });
 };
