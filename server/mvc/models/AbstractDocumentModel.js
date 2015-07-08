@@ -94,5 +94,8 @@ module.exports = function(child, document){
     }
   };
 
+  /**
+   * This is where the magic happens. The child Object is extended, providing additional, common functionality.
+   */
   extend(child, PublicFunctionsInheritedByChild);
 };
