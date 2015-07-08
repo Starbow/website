@@ -17,6 +17,10 @@ module.exports = {
     Models.DevExamples.init(bogusConfig, bogusThinky);
     callback();
   },
+  tearDown: function(callback){
+    var bogusThinky = require("thinky")(bogusThinkyConfig);
+    bogusThinky.r.table("devExamples").delete().run().finally(callback);
+  },
   "Can 'whatIsOnePlusTwo' produce the correct result?": function(test){
     test.expect(1);
     var devExamples = new Models.DevExamples;
@@ -42,6 +46,14 @@ module.exports = {
       "a": "Just an Object with lots of data"
     };
     test.deepEqual(devExamples.getAccessLogConfigData(), expected, "Should be identical");
+    test.done();
+  },
+  "Verify that list of public functions in the module is longer than those seen in the module itself": function(test){
+    test.expect(1);
+    var devExamples = new Models.DevExamples;
+    var verificationNumber = 4;
+    var list = devExamples.getListOfAllPublicFunctionsIncludingInherited();
+    test.ok(list.length > verificationNumber, "Should be more than " + verificationNumber)
     test.done();
   },
 };
