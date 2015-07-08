@@ -1,3 +1,4 @@
+var AbstractDocumentModel = require("./AbstractDocumentModel");
 var Promise = require("bluebird");
 var Cryptr = require("cryptr");
 
@@ -8,7 +9,7 @@ var config,
 
 module.exports = function(){
   var self = this,
-    document = new ThinkyModel({});
+    parent;
 
   this.findByUserId = function(userId){
     return new Promise(function(resolve, reject){
@@ -16,69 +17,19 @@ module.exports = function(){
         .get(userId)
         .run()
         .then(function(doc){
-          document = doc;
+          parent.document = doc;
           return resolve();
         })
         .error(reject);
     });
   };
   this.save = function(){
-    return new Promise(function(resolve, reject){
-      document.merge({"timeModified": r.now()});
-      try {
-        document.validate();
-      } catch (e) {
-        return reject(e);
-      }
-      document
-        .save()
-        .then(function(){
-          return resolve();
-        })
-        .error(reject);
-    });
-  };
-  this.setValue = function(key, value){
-    var obj = {};
-    obj[key] = value;
-    document.merge(obj);
-    document.validate();
-    return this;
-  };
-  this.setValues = function(obj){
-    document.merge(obj);
-    document.validate();
-    return this;
-  };
-  this.getValue = function(key){
-    var values = self.getValues();
-    if (values.hasOwnProperty(key)) {
-      return values[key];
-    }
-    return null;
-  };
-  this.getValues = function(){
-    var clone = {};
-    for (var i in document) {
-      if (document.hasOwnProperty(i))
-        clone[i] = document[i];
-    }
-    return clone;
-  };
-  this.isValid = function(){
-    try {
-      document.validate();
-    } catch (e) {
-      return false;
-    }
-    return true;
-  };
-  this.existsInDatabase = function(){
-    return document.isSaved();
+    parent.document.merge({"timeModified": r.now()});
+    return parent.save(); // Returns a promise
   };
   this.updateTimeLatestLogin = function(){
-    document.timeLatestLogin = r.now();
-    return this;
+    parent.document.timeLatestLogin = r.now();
+    return self;
   };
   this.encryptOauthToken = function(token){
     var cryptr = new Cryptr(config.auth.bnet.encryptionSalt);
@@ -88,6 +39,8 @@ module.exports = function(){
     var cryptr = new Cryptr(config.auth.bnet.encryptionSalt);
     return cryptr.decrypt(encryptedToken);
   };
+
+  parent = new AbstractDocumentModel(self, new ThinkyModel({}));
 };
 
 module.exports.init = function(_config, _thinky){
