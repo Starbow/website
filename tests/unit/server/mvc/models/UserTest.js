@@ -21,7 +21,7 @@ module.exports = {
     var bogusThinky = require("thinky")(bogusThinkyConfig);
     bogusThinky.r.table("users").delete().run().finally(callback);
   },
-  "Can findByUserId, but promise rejects (error)": function(test) {
+  "Can 'findByUserId', but promise rejects (error)": function(test) {
     test.expect(3);
     var user = new Models.User();
     user
@@ -64,9 +64,8 @@ module.exports = {
         test.strictEqual(user.getValue('userId'), 1, "Value: userId");
         test.strictEqual(user.getValue('oauthType'), "bogus", "Value: oauthType");
         test.strictEqual(user.getValue('oauthTokenEncrypted'), "123bogus", "Value: oauthType");
-        test.done();
       })
-      .error(function(err){
+      .finally(function(err){
         test.done();
       });
   },
@@ -83,6 +82,13 @@ module.exports = {
     var encryptedToken = "41a65d5a9d2156f20daff6add137ea3465854d5c3c262ddb52ae64251d7a9d9e";
     var token = user.decryptOauthToken(encryptedToken);
     test.strictEqual(token, "my_little_oauth_token");
+    test.done();
+  },
+  "Test 'guardIsValid' and 'guardExistsInDatabase' throw errors when user is invalid": function(test){
+    test.expect(2);
+    var user = new Models.User();
+    test.throws(function(){user.guardIsValid()}, Error, "Should not be valid");
+    test.throws(function(){user.guardExistsInDatabase()}, Error, "Should not exist in database");
     test.done();
   },
 };
