@@ -1,4 +1,5 @@
-var assert = require("assert");
+var assert = require('chai').assert;
+var expect = require('chai').expect;
 var Promise = require("bluebird");
 
 var DevExamples;
@@ -41,7 +42,7 @@ describe("DevExamples", function(){
       devExamples = new DevExamples;
     });
     it("Should return a promise", function(){
-      assert.ok(devExamples.promiseMeEverythingWillBeAlright() instanceof Promise);
+      expect(devExamples.promiseMeEverythingWillBeAlright()).to.be.an.instanceOf(Promise);
     });
     it("Should be alright", function(done){
       devExamples.promiseMeEverythingWillBeAlright().then(function(){
@@ -64,18 +65,18 @@ describe("DevExamples", function(){
       devExamples = new DevExamples;
     });
     it("Should return a promise", function(){
-      assert.ok(devExamples.saveInDatabaseAndReturnViaPromise("cake") instanceof Promise);
+      expect(devExamples.saveInDatabaseAndReturnViaPromise("cake")).to.be.an.instanceOf(Promise);
     });
     it("Should accept a String as value and return the document", function(done){
       devExamples.saveInDatabaseAndReturnViaPromise("cake").then(function(data){
-        assert.equal(typeof(data), "object");
+        assert.typeOf(data, "object");
         assert.equal(data.someText, "cake");
         done();
       });
     });
     it("Gives validation error when argument is not a String", function(done){
       devExamples.saveInDatabaseAndReturnViaPromise(undefined).error(function(err){
-        assert.equal(typeof(err), "object");
+        assert.typeOf(err, "object");
         assert.equal(err.toString(), "Document failed validation: Value for [someText] must be defined.");
         done();
       });
