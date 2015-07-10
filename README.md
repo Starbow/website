@@ -94,7 +94,7 @@ For tests, we use [`mocha`](http://mochajs.org/), which must be installed global
 
 Implementation via TDD and BDD is **highly** encouraged.
 
-All our tests - server-side, client-side, and otherwise - are located under [`/server/tests`](#folder-tests). The tests are split up into "unit", "integration", "database", and more.
+All our tests - server-side, client-side, and otherwise - are located under [`/tests`](#folder-tests). The tests are split up into "unit", "integration", "database", and more.
 
 ### Running all tests
 
