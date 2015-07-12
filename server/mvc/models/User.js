@@ -1,43 +1,43 @@
-var AbstractDocumentModel = require("./AbstractDocumentModel");
+var Class = require('jsclass/src/core').Class;
+var DocumentModel = require("./DocumentModel");
 var Promise = require("bluebird");
 var Cryptr = require("cryptr");
 
 var config, thinky, ThinkyModel;
 
-module.exports = function(){
-  var self = this, parent;
-
-  this.findByUserId = function(userId){
+module.exports = new Class(DocumentModel, {
+  initialize: function(){
+    this.callSuper(new ThinkyModel({}));
+  },
+  findByUserId: function(userId){
     return new Promise(function(resolve, reject){
       ThinkyModel
         .get(userId)
         .run()
         .then(function(doc){
-          parent.document = doc;
+          this.document = doc;
           return resolve();
         })
         .error(reject);
     });
-  };
-  this.save = function(){
-    parent.document.merge({"timeModified": thinky.r.now()});
-    return parent.save(); // Returns a promise
-  };
-  this.updateTimeLatestLogin = function(){
-    parent.document.timeLatestLogin = thinky.r.now();
-    return self;
-  };
-  this.encryptOauthToken = function(token){
+  },
+  save: function(){
+    this.document.merge({"timeModified": thinky.r.now()});
+    return this.callSuper(); // Returns a promise
+  },
+  updateTimeLatestLogin: function(){
+    this.document.timeLatestLogin = thinky.r.now();
+    return this;
+  },
+  encryptOauthToken: function(token){
     var cryptr = new Cryptr(config.auth.bnet.encryptionSalt);
     return cryptr.encrypt(token);
-  };
-  this.decryptOauthToken = function(encryptedToken){
+  },
+  decryptOauthToken: function(encryptedToken){
     var cryptr = new Cryptr(config.auth.bnet.encryptionSalt);
     return cryptr.decrypt(encryptedToken);
-  };
-
-  parent = new AbstractDocumentModel(self, new ThinkyModel({}));
-};
+  }
+});
 
 module.exports.init = function(_config, _thinky){
   config = _config;

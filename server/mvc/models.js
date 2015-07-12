@@ -11,12 +11,13 @@ module.exports = function(config, thinky){
        * the name for the corresponding export is "Foo".
        * Example usage:
        * var Models = require("models");
-       * var foo = new Models.Foo();
+       * var Foo = new Models.Foo();
+       * var foo = new Foo();
        */
       var name = file.replace(/\.js$/, '');
       var model = require(modelsPath + '/' + file);
+      module.exports[name] = model;
       if (model.hasOwnProperty("init") && typeof(model.init) == "function") {
-        module.exports[name] = model;
         module.exports[name].init(config, thinky);
         delete module.exports[name].init; // Ensure 'init' cannot be called again
       }

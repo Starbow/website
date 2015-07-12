@@ -1,30 +1,33 @@
+var Class = require('jsclass/src/core').Class;
+var DocumentModel = require("./DocumentModel");
 var Promise = require("bluebird");
 
 var config
   , thinky
   , ThinkyModel;
 
-module.exports = function(){
-  var self = this
-    , document = new ThinkyModel({});
-
-  this.whatIsOnePlusTwo = function(){
+module.exports = new Class(DocumentModel, {
+  initialize: function(){
+    this.callSuper(new ThinkyModel({}));
+  },
+  whatIsOnePlusTwo: function(){
     return 1 + 2;
-  };
-  this.promiseMeEverythingWillBeAlright = function(){
+  },
+  promiseMeEverythingWillBeAlright: function(){
     return new Promise(function(resolve, reject){
       resolve(true);
     });
-  };
-  this.getAccessLogConfigData = function(){
+  },
+  getAccessLogConfigData: function(){
     return config.log.access;
-  };
-  this.saveInDatabaseAndReturnViaPromise = function(value){
+  },
+  saveInDatabaseAndReturnViaPromise: function(value){
+    var self = this;
     return new Promise(function(resolve, reject){
-      document.merge({someText: value});
+      self.document.merge({someText: value});
       try {
-        document.validate();
-        document
+        self.document.validate();
+        self.document
           .save()
           .then(resolve)
           .error(reject);
@@ -32,8 +35,8 @@ module.exports = function(){
         reject(e);
       }
     });
-  };
-};
+  }
+});
 
 module.exports.init = function(_config, _thinky){
   config = _config;
