@@ -1,3 +1,3 @@
-#!/usr/bin/env node
-process.chdir(__dirname);
-require('./tests.js');
+#!/bin/bash
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+mocha -R dot "$DIR/*/**/*Test.js";

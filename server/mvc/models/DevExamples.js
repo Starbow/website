@@ -1,10 +1,12 @@
 var Promise = require("bluebird");
 
-var config,
-  thinky;
+var config
+  , thinky
+  , ThinkyModel;
 
 module.exports = function(){
-  var self = this;
+  var self = this
+    , document = new ThinkyModel({});
 
   this.whatIsOnePlusTwo = function(){
     return 1 + 2;
@@ -17,9 +19,26 @@ module.exports = function(){
   this.getAccessLogConfigData = function(){
     return config.log.access;
   };
+  this.saveInDatabaseAndReturnViaPromise = function(value){
+    return new Promise(function(resolve, reject){
+      document.merge({someText: value});
+      try {
+        document.validate();
+        document
+          .save()
+          .then(resolve)
+          .error(reject);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  };
 };
 
 module.exports.init = function(_config, _thinky){
   config = _config;
   thinky = _thinky;
+  ThinkyModel = thinky.createModel("DevExamples", {
+    someText: thinky.type.string().default(null).min(1).required().allowNull(false)
+  });
 };
