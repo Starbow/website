@@ -16,7 +16,7 @@ The following stacks/software is needed in order to run the server on your local
 1. [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 2. [Node.js](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager#ubuntu-mint-elementary-os)
 3. [RethinkDB](http://rethinkdb.com/docs/install/)
-4. [nodeunit](https://www.npmjs.com/package/nodeunit) (`sudo npm install nodeunit -g`)
+4. [mocha](http://mochajs.org/) (see more under [Tests](#tests))
 
 ## Installation
 
@@ -86,6 +86,45 @@ We use `express` (https://www.npmjs.com/package/express) for managing the server
 ## Client-side
 
 (TODO)
+
+<a name="tests"></a>
+## Tests
+
+For tests, we use [`mocha`](http://mochajs.org/), which must be installed globally (`sudo npm install mocha -g`).
+
+Implementation via TDD and BDD is **highly** encouraged.
+
+All our tests - server-side, client-side, and otherwise - are located under [`/tests`](#folder-tests). The tests are split up into "unit", "integration", "database", and more.
+
+### Running all tests
+
+To run all tests, simply run the following in your terminal:
+
+```shell
+./tests/tests.sh
+```
+
+Or use `mocha`'s "glob" logic. E.g.:
+
+```shell
+mocha tests/*/**/*Test.js
+```
+
+### Running a single test
+
+To run a single test, use:
+
+```
+mocha path/to/test.js
+```
+
+### Watching and auto-running tests
+
+If you want tests to automatically run when you modify a test file, use the `-w` option in `mocha`. E.g.:
+
+```
+mocha -w path/to/test.js
+```
 
 ## Application folder structure
 
