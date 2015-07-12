@@ -36,8 +36,8 @@ describe("User", function(){
         assert.ok(!user.isValid(), "Should not be valid");
         assert.ok(!user.existsInDatabase(), "Should not exist in database");
         assert.typeOf(user.getValues(), "object", "Object should contain default values");
-      })
-      .finally(done);
+        done();
+      });
   });
   it("Should not be able to save invalid user", function(done){
     var user = new Models.User();
@@ -46,8 +46,8 @@ describe("User", function(){
       .error(function(err){
         assert.ok(!user.isValid(), "Should not be valid");
         assert.ok(!user.existsInDatabase(), "Should not exist");
-      })
-      .finally(done);
+        done();
+      });
   });
   it("Can save a valid user", function(done){
     var user = new Models.User();
