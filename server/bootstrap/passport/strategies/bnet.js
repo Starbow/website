@@ -1,13 +1,13 @@
 var BnetStrategy = require('passport-bnet').Strategy;
-var Models = require(process.env.ROOT + '/server/mvc/models.js');
 var log = require(process.env.ROOT + '/server/mvc/log');
+var User = require(process.env.ROOT + "/server/mvc/models/User");
 
 module.exports = function(authBnetConfig){
   return new BnetStrategy(
     authBnetConfig,
     function(accessToken, refreshToken, profile, done) {
       if (accessToken !== null && profile.id > 0) {
-        var user = new Models.User();
+        var user = new User();
         user
           .findByUserId(profile.id)
           .then(function(){

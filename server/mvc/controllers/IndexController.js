@@ -1,4 +1,4 @@
-var Models = require('../models.js');
+var User = require("../models/User");
 
 exports.index = function(req, res){
   if(!req.isAuthenticated()) {
@@ -17,7 +17,7 @@ exports.userstuff = function(req, res){ // TODO: Temporary function for hacking 
   if (!req.isAuthenticated()) {
     return res.send('Not authenticated');
   }
-  var user = new Models.User();
+  var user = new User();
   user.findByUserId(req.user.id)
     .then(function(){
       console.log("user.getValues()", user.getValues());

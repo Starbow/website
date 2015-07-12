@@ -28,7 +28,7 @@ exports.startup = function(app, config, logs){
     // Configure thinkg (rethinkdb)
     var thinky = require("thinky")(config.db.thinky);
 
-    // Load and configure models
+    // Load and configure certain models
     require('./mvc/models.js')(config, thinky);
 
     // Configure routes

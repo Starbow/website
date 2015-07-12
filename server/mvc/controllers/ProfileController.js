@@ -1,11 +1,12 @@
-var Models = require('../models.js');
+var User = require("../models/User");
+var Battlenet = require("../models/Battlenet");
 
 exports.info = function(req, res){
   if(!req.isAuthenticated()) {
     res.redirect('/');
     return;
   }
-  var user = new Models.User();
+  var user = new User();
   user
     .findByUserId(req.user.id)
     .then(function(){
@@ -13,7 +14,7 @@ exports.info = function(req, res){
         throw new Error('User does not exit');
       }
       var oauthToken = user.decryptOauthToken(user.getValue('oauthTokenEncrypted'));
-      var battlenet = new Models.Battlenet();
+      var battlenet = new Battlenet();
       var bnet = require('battlenet-api')(battlenet.getClientId());
       bnet.account.sc2({origin: 'eu', access_token: oauthToken}, function(bnetErr, bnetResp){
         res.send(JSON.stringify(bnetResp));

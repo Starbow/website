@@ -1,8 +1,9 @@
 var log = require("../log");
-var Models = require('../models.js');
 var assert = require('assert');
 var cluster = require('cluster');
 var sprintf = require('sprintf-js').sprintf;
+
+var DevExamples = require("../models/DevExamples");
 
 /**
  * Example: How to get informations about the current "worker" from cluster.
@@ -26,13 +27,13 @@ exports["cluster-current-worker-kill"] = function(req, res){
  * Example: How interact with a model.
  */
 exports["model-interaction"] = function(req, res){
-  var devExamples = new Models.DevExamples();
+  var devExamples = new DevExamples();
   assert.strictEqual(devExamples.whatIsOnePlusTwo(), 3, "What is 1+2, indeed?");
   devExamples
     .promiseMeEverythingWillBeAlright()
     .then(function(isItAlright){
       assert.ok(isItAlright, "Is it alright?");
-      return res.send("Interacted with model 'Models.DevExamples' without breaking stuff!");
+      return res.send("Interacted with model 'DevExamples' without breaking stuff!");
     });
 };
 
@@ -47,7 +48,7 @@ exports["provoke-framework-error"] = function(req, res){
  * Example: How to retrieve "config" data from a model in a controller.
  */
 exports["retrieve-config-from-model"] = function(req, res){
-  var devExamples = new Models.DevExamples();
+  var devExamples = new DevExamples();
   return res.send("Access log config data: " + JSON.stringify(devExamples.getAccessLogConfigData()));
 };
 
