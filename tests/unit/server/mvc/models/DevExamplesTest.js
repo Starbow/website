@@ -14,11 +14,11 @@ var bogusThinky = require("thinky")({db: "bogus"});
 
 describe("DevExamples", function(){
   before(function(){
-    bogusThinky.r.db("bogus").tableDrop("DevExamples");
-    bogusThinky.r.db("bogus").tableCreate("DevExamples");
+    bogusThinky.r.tableDrop("DevExamples");
+    bogusThinky.r.tableCreate("DevExamples");
   });
   after(function(){
-    bogusThinky.r.db("bogus").tableDrop("DevExamples");
+    bogusThinky.r.tableDrop("DevExamples");
   });
   beforeEach(function(){
     DevExamples = require(__dirname + "/../../../../../server/mvc/models/DevExamples.js");
