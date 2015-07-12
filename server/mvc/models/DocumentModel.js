@@ -1,6 +1,9 @@
 var Class = require('jsclass/src/core').Class;
 var Promise = require("bluebird");
 
+var config
+  , thinky;
+
 module.exports =  new Class({
   initialize: function(document){
     this.document = document;
@@ -80,3 +83,16 @@ module.exports =  new Class({
     return this;
   },
 });
+
+module.exports.init = function(_config, _thinky){
+  config = _config;
+  thinky = _thinky;
+};
+
+module.exports.config = function(){
+  return config;
+};
+
+module.exports.thinky = function(){
+  return thinky;
+};
