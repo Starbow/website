@@ -2,15 +2,19 @@ var Class = require('jsclass/src/core').Class;
 var DocumentModel = require("./DocumentModel");
 var Promise = require("bluebird");
 
-var config = DocumentModel.config()
-  , thinky = DocumentModel.thinky();
-
-var ThinkyModel = thinky.createModel("DevExamples", {
-  someText: thinky.type.string().default(null).min(1).required().allowNull(false)
-});
+var ThinkyModel;
+var getThinkyModel = function(thinky){
+  if (ThinkyModel === undefined) {
+    ThinkyModel = thinky.createModel("DevExamples", {
+      someText: thinky.type.string().default(null).min(1).required().allowNull(false)
+    });
+  }
+  return ThinkyModel;
+};
 
 module.exports = new Class(DocumentModel, {
   initialize: function(){
+    var ThinkyModel = getThinkyModel(this.getThinky());
     this.callSuper(new ThinkyModel({}));
   },
   whatIsOnePlusTwo: function(){
@@ -22,7 +26,7 @@ module.exports = new Class(DocumentModel, {
     });
   },
   getAccessLogConfigData: function(){
-    return config.log.access;
+    return this.getConfig().log.access;
   },
   saveInDatabaseAndReturnViaPromise: function(value){
     var self = this;

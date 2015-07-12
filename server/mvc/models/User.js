@@ -3,23 +3,27 @@ var DocumentModel = require("./DocumentModel");
 var Promise = require("bluebird");
 var Cryptr = require("cryptr");
 
-var config = DocumentModel.config()
-  , thinky = DocumentModel.thinky();
-
-var ThinkyModel = thinky.createModel("users", {
-  userId: thinky.type.number().integer().default(null).min(1).required().allowNull(false),
-  oauthType: thinky.type.string().default(null).min(1).required().allowNull(false),
-  oauthTokenEncrypted: thinky.type.string().default(null).min(1).required().allowNull(false),
-  timeCreated: thinky.type.date().default(thinky.r.now()).required().allowNull(false),
-  timeModified: thinky.type.date().default(thinky.r.now()).required().allowNull(false),
-  timeLatestLogin: thinky.type.date().default(thinky.r.now()).required().allowNull(false),
-}, {
-  "pk": "userId"
-});
-ThinkyModel.ensureIndex("timeCreated");
+var ThinkyModel;
+var getThinkyModel = function(thinky){
+  if (ThinkyModel === undefined) {
+    ThinkyModel = thinky.createModel("users", {
+      userId: thinky.type.number().integer().default(null).min(1).required().allowNull(false),
+      oauthType: thinky.type.string().default(null).min(1).required().allowNull(false),
+      oauthTokenEncrypted: thinky.type.string().default(null).min(1).required().allowNull(false),
+      timeCreated: thinky.type.date().default(thinky.r.now()).required().allowNull(false),
+      timeModified: thinky.type.date().default(thinky.r.now()).required().allowNull(false),
+      timeLatestLogin: thinky.type.date().default(thinky.r.now()).required().allowNull(false),
+    }, {
+      "pk": "userId"
+    });
+    ThinkyModel.ensureIndex("timeCreated");
+  }
+  return ThinkyModel;
+};
 
 module.exports = new Class(DocumentModel, {
   initialize: function(){
+    var ThinkyModel = getThinkyModel(this.getThinky());
     this.callSuper(new ThinkyModel({}));
   },
   findByUserId: function(userId){
@@ -35,19 +39,19 @@ module.exports = new Class(DocumentModel, {
     });
   },
   save: function(){
-    this.document.merge({"timeModified": thinky.r.now()});
+    this.document.merge({"timeModified": this.getThinky().r.now()});
     return this.callSuper(); // Returns a promise
   },
   updateTimeLatestLogin: function(){
-    this.document.timeLatestLogin = thinky.r.now();
+    this.document.timeLatestLogin = this.getThinky().r.now();
     return this;
   },
   encryptOauthToken: function(token){
-    var cryptr = new Cryptr(config.auth.bnet.encryptionSalt);
+    var cryptr = new Cryptr(this.getConfig().auth.bnet.encryptionSalt);
     return cryptr.encrypt(token);
   },
   decryptOauthToken: function(encryptedToken){
-    var cryptr = new Cryptr(config.auth.bnet.encryptionSalt);
+    var cryptr = new Cryptr(this.getConfig().auth.bnet.encryptionSalt);
     return cryptr.decrypt(encryptedToken);
   }
 });

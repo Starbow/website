@@ -8,6 +8,12 @@ module.exports =  new Class({
   initialize: function(document){
     this.document = document;
   },
+  getConfig: function(){
+    return config;
+  },
+  getThinky: function(){
+    return thinky;
+  },
   save: function(){
     var self = this;
     return new Promise(function(resolve, reject){
@@ -87,12 +93,4 @@ module.exports =  new Class({
 module.exports.init = function(_config, _thinky){
   config = _config;
   thinky = _thinky;
-};
-
-module.exports.config = function(){
-  return config;
-};
-
-module.exports.thinky = function(){
-  return thinky;
 };
