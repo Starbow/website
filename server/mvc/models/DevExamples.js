@@ -2,9 +2,12 @@ var Class = require('jsclass/src/core').Class;
 var DocumentModel = require("./DocumentModel");
 var Promise = require("bluebird");
 
-var config
-  , thinky
-  , ThinkyModel;
+var config = DocumentModel.config()
+  , thinky = DocumentModel.thinky();
+
+var ThinkyModel = thinky.createModel("DevExamples", {
+  someText: thinky.type.string().default(null).min(1).required().allowNull(false)
+});
 
 module.exports = new Class(DocumentModel, {
   initialize: function(){
@@ -37,11 +40,3 @@ module.exports = new Class(DocumentModel, {
     });
   }
 });
-
-module.exports.init = function(_config, _thinky){
-  config = _config;
-  thinky = _thinky;
-  ThinkyModel = thinky.createModel("DevExamples", {
-    someText: thinky.type.string().default(null).min(1).required().allowNull(false)
-  });
-};

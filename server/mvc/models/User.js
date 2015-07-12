@@ -3,7 +3,20 @@ var DocumentModel = require("./DocumentModel");
 var Promise = require("bluebird");
 var Cryptr = require("cryptr");
 
-var config, thinky, ThinkyModel;
+var config = DocumentModel.config()
+  , thinky = DocumentModel.thinky();
+
+var ThinkyModel = thinky.createModel("users", {
+  userId: thinky.type.number().integer().default(null).min(1).required().allowNull(false),
+  oauthType: thinky.type.string().default(null).min(1).required().allowNull(false),
+  oauthTokenEncrypted: thinky.type.string().default(null).min(1).required().allowNull(false),
+  timeCreated: thinky.type.date().default(thinky.r.now()).required().allowNull(false),
+  timeModified: thinky.type.date().default(thinky.r.now()).required().allowNull(false),
+  timeLatestLogin: thinky.type.date().default(thinky.r.now()).required().allowNull(false),
+}, {
+  "pk": "userId"
+});
+ThinkyModel.ensureIndex("timeCreated");
 
 module.exports = new Class(DocumentModel, {
   initialize: function(){
@@ -38,20 +51,3 @@ module.exports = new Class(DocumentModel, {
     return cryptr.decrypt(encryptedToken);
   }
 });
-
-module.exports.init = function(_config, _thinky){
-  config = _config;
-  thinky = _thinky;
-  var type = thinky.type;
-  ThinkyModel = thinky.createModel("users", {
-    userId: type.number().integer().default(null).min(1).required().allowNull(false),
-    oauthType: type.string().default(null).min(1).required().allowNull(false),
-    oauthTokenEncrypted: type.string().default(null).min(1).required().allowNull(false),
-    timeCreated: type.date().default(thinky.r.now()).required().allowNull(false),
-    timeModified: type.date().default(thinky.r.now()).required().allowNull(false),
-    timeLatestLogin: type.date().default(thinky.r.now()).required().allowNull(false),
-  }, {
-    "pk": "userId"
-  });
-  ThinkyModel.ensureIndex("timeCreated");
-};

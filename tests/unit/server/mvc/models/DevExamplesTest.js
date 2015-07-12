@@ -2,15 +2,16 @@ var assert = require('chai').assert;
 var expect = require('chai').expect;
 var Promise = require("bluebird");
 
-var DevExamples;
 var bogusConfig = {
     log: {
       access: {
         "a": "Just an Object with lots of data"
       }
     }
-  };
-var bogusThinky = require("thinky")({db: "bogus"});
+  }
+  , bogusThinky = require("thinky")({db: "bogus"})
+  , Models = {}
+  , DocumentModel;
 
 describe("DevExamples", function(){
   before(function(){
@@ -21,9 +22,9 @@ describe("DevExamples", function(){
     bogusThinky.r.tableDrop("DevExamples");
   });
   beforeEach(function(){
-    DevExamples = require(__dirname + "/../../../../../server/mvc/models/DevExamples.js");
-    var bogusThinky = require("thinky")({db: "bogus"});
-    DevExamples.init(bogusConfig, bogusThinky);
+    DocumentModel = require(__dirname + "/../../../../../server/mvc/models/DocumentModel.js");
+    DocumentModel.init(bogusConfig, bogusThinky);
+    Models.DevExamples = require(__dirname + "/../../../../../server/mvc/models/DevExamples.js");
   });
   afterEach(function(done){
     bogusThinky.r.table("DevExamples").delete().run().finally(function(){
@@ -32,14 +33,14 @@ describe("DevExamples", function(){
   });
   describe("whatIsOnePlusTwo", function(){
     it("Should be 3", function(){
-      var devExamples = new DevExamples;
+      var devExamples = new Models.DevExamples;
       assert.strictEqual(devExamples.whatIsOnePlusTwo(), 3);
     });
   });
   describe("promiseMeEverythingWillBeAlright", function(){
     var devExamples;
     before(function(){
-      devExamples = new DevExamples;
+      devExamples = new Models.DevExamples;
     });
     it("Should return a promise", function(){
       expect(devExamples.promiseMeEverythingWillBeAlright()).to.be.an.instanceOf(Promise);
@@ -52,7 +53,7 @@ describe("DevExamples", function(){
   });
   describe("getAccessLogConfigData", function(){
     it("Should return raw config data, i.e. no logic", function(){
-      var devExamples = new DevExamples;
+      var devExamples = new Models.DevExamples;
       var expected = {
         "a": "Just an Object with lots of data"
       };
@@ -62,7 +63,7 @@ describe("DevExamples", function(){
   describe("saveInDatabaseAndReturnViaPromise", function(){
     var devExamples;
     before(function(){
-      devExamples = new DevExamples;
+      devExamples = new Models.DevExamples;
     });
     it("Should return a promise", function(){
       expect(devExamples.saveInDatabaseAndReturnViaPromise("cake")).to.be.an.instanceOf(Promise);

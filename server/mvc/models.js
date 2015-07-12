@@ -3,6 +3,9 @@ var fs = require('fs');
 var modelsPath = __dirname + "/models";
 
 module.exports = function(config, thinky){
+  var DocumentModel = require(modelsPath + "DocumentModel");
+  DocumentModel.init(config, thinky);
+  delete DocumentModel.init; // Don't allow "init" to be re-run
   fs.readdirSync(modelsPath).forEach(function(file){
     if (~file.indexOf('.js')) {
       /**
@@ -17,10 +20,6 @@ module.exports = function(config, thinky){
       var name = file.replace(/\.js$/, '');
       var model = require(modelsPath + '/' + file);
       module.exports[name] = model;
-      if (model.hasOwnProperty("init") && typeof(model.init) == "function") {
-        module.exports[name].init(config, thinky);
-        delete module.exports[name].init; // Ensure 'init' cannot be called again
-      }
     }
   });
 };
