@@ -1,12 +1,14 @@
-var ThinkyDocumentModel = require(__dirname + "/../../../../../server/mvc/models/ThinkyDocumentModel");
 var assert = require('chai').assert;
 var expect = require('chai').expect;
 var Promise = require("bluebird");
 
-var bogusConfig = {
+var modelsPath = __dirname + "/../../../../../server/mvc/models"
+  , bogusConfig = {
     bogus: "cake"
   }
-  , bogusThinky = require("thinky")({db: "bogus"});
+  , bogusThinky = require("thinky")({db: "bogus"})
+  , ConfigModel = require(modelsPath + "/ConfigModel")
+  , ThinkyDocumentModel = require(modelsPath + "/ThinkyDocumentModel");
 
 describe("ThinkyDocumentModel", function(){
   before(function(){
@@ -17,7 +19,8 @@ describe("ThinkyDocumentModel", function(){
   });
   beforeEach(function(){
     bogusThinky.r.tableCreate("ThinkyDocumentModel");
-    ThinkyDocumentModel.init(bogusConfig, bogusThinky);
+    ConfigModel.init(bogusConfig);
+    ThinkyDocumentModel.init(bogusThinky);
   });
   afterEach(function(){
     bogusThinky.r.tableDrop("ThinkyDocumentModel");

@@ -1,15 +1,12 @@
 var Class = require('jsclass/src/core').Class;
+var ConfigModel = require("./ConfigModel");
 var Promise = require("bluebird");
 
-var config
-  , thinky;
+var thinky;
 
-module.exports =  new Class({
+module.exports =  new Class(ConfigModel, {
   initialize: function(document){
     this.document = document;
-  },
-  getConfig: function(){
-    return config;
   },
   getThinky: function(){
     return thinky;
@@ -90,7 +87,6 @@ module.exports =  new Class({
   },
 });
 
-module.exports.init = function(_config, _thinky){
-  config = _config;
+module.exports.init = function(_thinky){
   thinky = _thinky;
 };

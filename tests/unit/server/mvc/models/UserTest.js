@@ -1,7 +1,8 @@
 var assert = require('chai').assert;
 var expect = require('chai').expect;
 
-var bogusConfig = {
+var modelsPath = __dirname + "/../../../../../server/mvc/models"
+  , bogusConfig = {
     auth: {
       bnet: {
         encryptionSalt: "encryption_salt_123"
@@ -9,8 +10,9 @@ var bogusConfig = {
     }
   }
   , bogusThinky = require("thinky")({db: "bogus"})
-  , Models = {}
-  , ThinkyDocumentModel;
+  , ConfigModel = require(modelsPath + "/ConfigModel")
+  , ThinkyDocumentModel = require(modelsPath + "/ThinkyDocumentModel")
+  , User;
 
 describe("User", function(){
   before(function(){
@@ -21,15 +23,15 @@ describe("User", function(){
     bogusThinky.r.tableDrop("users");
   });
   beforeEach(function(){
-    ThinkyDocumentModel = require(__dirname + "/../../../../../server/mvc/models/ThinkyDocumentModel");
-    ThinkyDocumentModel.init(bogusConfig, bogusThinky);
-    Models.User = require(__dirname + "/../../../../../server/mvc/models/User.js");
+    ConfigModel.init(bogusConfig);
+    ThinkyDocumentModel.init(bogusThinky);
+    User = require(modelsPath + "/User");
   });
   afterEach(function(done){
     bogusThinky.r.table("users").delete().run().finally(done);
   });
   it("Should not be able to find a non-existant user", function(done){
-    var user = new Models.User();
+    var user = new User();
     user
       .findByUserId(1)
       .error(function(err){
@@ -40,7 +42,7 @@ describe("User", function(){
       });
   });
   it("Should not be able to save invalid user", function(done){
-    var user = new Models.User();
+    var user = new User();
     user
       .save()
       .error(function(err){
@@ -50,7 +52,7 @@ describe("User", function(){
       });
   });
   it("Can save a valid user", function(done){
-    var user = new Models.User();
+    var user = new User();
     user
       .setValues({
         userId: 1,
@@ -68,12 +70,12 @@ describe("User", function(){
       });
   });
   it("Can encrypt oauth token correctly", function(){
-    var user = new Models.User();
+    var user = new User();
     var encryptedToken = user.encryptOauthToken("my_little_oauth_token");
     assert.strictEqual(encryptedToken, "41a65d5a9d2156f20daff6add137ea3465854d5c3c262ddb52ae64251d7a9d9e");
   });
   it("Can decrypt oauth token correctly", function(){
-    var user = new Models.User();
+    var user = new User();
     var encryptedToken = "41a65d5a9d2156f20daff6add137ea3465854d5c3c262ddb52ae64251d7a9d9e";
     var token = user.decryptOauthToken(encryptedToken);
     assert.strictEqual(token, "my_little_oauth_token");
