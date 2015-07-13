@@ -16,21 +16,34 @@ var modelsPath = __dirname + "/../../../../../server/mvc/models"
   , DevExamples;
 
 describe("DevExamples", function(){
-  before(function(){
-    bogusThinky.r.tableDrop("DevExamples");
-    ConfigModel.init(bogusConfig);
-    ThinkyDocumentModel.init(bogusThinky);
+  before(function(done){
+    var callback = function(){
+      ConfigModel.init(bogusConfig);
+      ThinkyDocumentModel.init(bogusThinky);
+      done();
+    };
+    bogusThinky.r.tableList().run().then(function(tables){
+      if (tables.indexOf("DevExamples") <= -1) {
+        bogusThinky.r.tableCreate("DevExamples").run().then(function(){
+          callback();
+        });
+      } else {
+        callback();
+      }
+    });
   });
-  after(function(){
-    bogusThinky.r.tableDrop("DevExamples");
+  after(function(done){
+    bogusThinky.r.table("DevExamples").delete().run().then(function(){
+      done();
+    });
   });
-  beforeEach(function(){
-    bogusThinky.r.tableCreate("DevExamples");
-    DevExamples = require(modelsPath + "/DevExamples");
+  beforeEach(function(done){
+    bogusThinky.r.table("DevExamples").delete().run().then(function(){
+      DevExamples = require(modelsPath + "/DevExamples");
+      done();
+    });
   });
-  afterEach(function(){
-    bogusThinky.r.tableDrop("DevExamples");
-  });
+
   describe("whatIsOnePlusTwo", function(){
     it("Should be 3", function(){
       var devExamples = new DevExamples;

@@ -15,22 +15,34 @@ var modelsPath = __dirname + "/../../../../../server/mvc/models"
   , User;
 
 describe("User", function(){
-  before(function(){
-    bogusThinky.r.tableDrop("users");
-    bogusThinky.r.tableCreate("users");
-    ConfigModel.init(bogusConfig);
-    ThinkyDocumentModel.init(bogusThinky);
+  before(function(done){
+    var callback = function(){
+      ConfigModel.init(bogusConfig);
+      ThinkyDocumentModel.init(bogusThinky);
+      done();
+    };
+    bogusThinky.r.tableList().run().then(function(tables){
+      if (tables.indexOf("users") <= -1) {
+        bogusThinky.r.tableCreate("users").run().then(function(){
+          callback();
+        });
+      } else {
+        callback();
+      }
+    });
   });
-  after(function(){
-    bogusThinky.r.tableDrop("users");
+  after(function(done){
+    bogusThinky.r.table("users").delete().run().then(function(){
+      done();
+    });
   });
-  beforeEach(function(){
-    bogusThinky.r.tableCreate("users");
-    User = require(modelsPath + "/User");
+  beforeEach(function(done){
+    bogusThinky.r.table("users").delete().run().then(function(){
+      User = require(modelsPath + "/User");
+      done();
+    });
   });
-  afterEach(function(){
-    bogusThinky.r.tableDrop("users");
-  });
+
   it("Should not be able to find a non-existant user", function(done){
     var user = new User();
     user
