@@ -24,6 +24,11 @@ describe("ThinkyDocumentModel", function(){
   afterEach(function(){
     bogusThinky.r.tableDrop("ThinkyDocumentModel");
   });
+  it("Should inherit correctly", function(){
+    var thinkyDocumentModel = new ThinkyDocumentModel;
+    expect(thinkyDocumentModel).to.be.an.instanceOf(ConfigModel);
+    expect(thinkyDocumentModel).to.be.an.instanceOf(ThinkyDocumentModel);
+  });
   describe("getThinky()", function(){
     it("Should return input thinky", function(){
       var thinkyDocumentModel = new ThinkyDocumentModel;
