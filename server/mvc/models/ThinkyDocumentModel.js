@@ -1,10 +1,10 @@
-var Class = require('jsclass/src/core').Class;
-var ConfigModel = require("./ConfigModel");
+var Class = require("node-class").class;
 var Promise = require("bluebird");
 
 var thinky;
 
-module.exports =  new Class(ConfigModel, {
+module.exports =  Class("ThinkyDocumentModel", {
+  extends: ["ConfigModel"],
   initialize: function(document){
     this.document = document;
   },

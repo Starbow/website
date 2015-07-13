@@ -1,6 +1,5 @@
 var assert = require('chai').assert;
 var expect = require('chai').expect;
-var Promise = require("bluebird");
 
 var modelsPath = __dirname + "/../../../../../server/mvc/models"
   , bogusConfig = {
@@ -13,24 +12,17 @@ var modelsPath = __dirname + "/../../../../../server/mvc/models"
 describe("ThinkyDocumentModel", function(){
   before(function(){
     bogusThinky.r.tableDrop("ThinkyDocumentModel");
+    ConfigModel.init(bogusConfig);
+    ThinkyDocumentModel.init(bogusThinky);
   });
   after(function(){
     bogusThinky.r.tableDrop("ThinkyDocumentModel");
   });
   beforeEach(function(){
     bogusThinky.r.tableCreate("ThinkyDocumentModel");
-    ConfigModel.init(bogusConfig);
-    ThinkyDocumentModel.init(bogusThinky);
   });
   afterEach(function(){
     bogusThinky.r.tableDrop("ThinkyDocumentModel");
-  });
-  describe("getConfig()", function(){
-    it("Should return input config", function(){
-      var thinkyDocumentModel = new ThinkyDocumentModel;
-      assert.typeOf(thinkyDocumentModel.getConfig(), "object");
-      assert.deepEqual(thinkyDocumentModel.getConfig(), {bogus:"cake"});
-    });
   });
   describe("getThinky()", function(){
     it("Should return input thinky", function(){

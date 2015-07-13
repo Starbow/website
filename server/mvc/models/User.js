@@ -1,5 +1,4 @@
-var Class = require('jsclass/src/core').Class;
-var ThinkyDocumentModel = require("./ThinkyDocumentModel");
+var Class = require("node-class").class;
 var Promise = require("bluebird");
 var Cryptr = require("cryptr");
 
@@ -21,10 +20,11 @@ var getThinkyModel = function(thinky){
   return ThinkyModel;
 };
 
-module.exports = new Class(ThinkyDocumentModel, {
+module.exports = Class("User", {
+  extends: ["ThinkyDocumentModel"],
   initialize: function(){
     var ThinkyModel = getThinkyModel(this.getThinky());
-    this.callSuper(new ThinkyModel({}));
+    this.__parent(new ThinkyModel({}));
   },
   findByUserId: function(userId){
     return new Promise(function(resolve, reject){
@@ -40,7 +40,7 @@ module.exports = new Class(ThinkyDocumentModel, {
   },
   save: function(){
     this.document.merge({"timeModified": this.getThinky().r.now()});
-    return this.callSuper(); // Returns a promise
+    return this.__parent(); // Returns a promise
   },
   updateTimeLatestLogin: function(){
     this.document.timeLatestLogin = this.getThinky().r.now();

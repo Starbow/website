@@ -18,20 +18,18 @@ var modelsPath = __dirname + "/../../../../../server/mvc/models"
 describe("DevExamples", function(){
   before(function(){
     bogusThinky.r.tableDrop("DevExamples");
-    bogusThinky.r.tableCreate("DevExamples");
+    ConfigModel.init(bogusConfig);
+    ThinkyDocumentModel.init(bogusThinky);
   });
   after(function(){
     bogusThinky.r.tableDrop("DevExamples");
   });
   beforeEach(function(){
-    ConfigModel.init(bogusConfig);
-    ThinkyDocumentModel.init(bogusThinky);
-    DevExamples = require(modelsPath + "/DevExamples.js");
+    bogusThinky.r.tableCreate("DevExamples");
+    DevExamples = require(modelsPath + "/DevExamples");
   });
-  afterEach(function(done){
-    bogusThinky.r.table("DevExamples").delete().run().finally(function(){
-      done();
-    });
+  afterEach(function(){
+    bogusThinky.r.tableDrop("DevExamples");
   });
   describe("whatIsOnePlusTwo", function(){
     it("Should be 3", function(){

@@ -18,17 +18,18 @@ describe("User", function(){
   before(function(){
     bogusThinky.r.tableDrop("users");
     bogusThinky.r.tableCreate("users");
+    ConfigModel.init(bogusConfig);
+    ThinkyDocumentModel.init(bogusThinky);
   });
   after(function(){
     bogusThinky.r.tableDrop("users");
   });
   beforeEach(function(){
-    ConfigModel.init(bogusConfig);
-    ThinkyDocumentModel.init(bogusThinky);
+    bogusThinky.r.tableCreate("users");
     User = require(modelsPath + "/User");
   });
-  afterEach(function(done){
-    bogusThinky.r.table("users").delete().run().finally(done);
+  afterEach(function(){
+    bogusThinky.r.tableDrop("users");
   });
   it("Should not be able to find a non-existant user", function(done){
     var user = new User();
