@@ -11,7 +11,7 @@ var bogusConfig = {
   }
   , bogusThinky = require("thinky")({db: "bogus"})
   , Models = {}
-  , DocumentModel;
+  , ThinkyDocumentModel;
 
 describe("DevExamples", function(){
   before(function(){
@@ -22,8 +22,8 @@ describe("DevExamples", function(){
     bogusThinky.r.tableDrop("DevExamples");
   });
   beforeEach(function(){
-    DocumentModel = require(__dirname + "/../../../../../server/mvc/models/DocumentModel.js");
-    DocumentModel.init(bogusConfig, bogusThinky);
+    ThinkyDocumentModel = require(__dirname + "/../../../../../server/mvc/models/ThinkyDocumentModel");
+    ThinkyDocumentModel.init(bogusConfig, bogusThinky);
     Models.DevExamples = require(__dirname + "/../../../../../server/mvc/models/DevExamples.js");
   });
   afterEach(function(done){

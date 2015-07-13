@@ -1,7 +1,7 @@
 var modelsPath = __dirname + "/models";
 
 module.exports = function(config, thinky){
-  var DocumentModel = require(modelsPath + "/DocumentModel");
-  DocumentModel.init(config, thinky);
-  delete DocumentModel.init; // Don't allow "init" to be re-run
+  var ThinkyDocumentModel = require(modelsPath + "/ThinkyDocumentModel");
+  ThinkyDocumentModel.init(config, thinky);
+  delete ThinkyDocumentModel.init; // Don't allow "init" to be re-run
 };
