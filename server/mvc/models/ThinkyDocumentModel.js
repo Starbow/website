@@ -1,13 +1,13 @@
 "use strict";
 
-var Class = require("js.class");
+var inherit = require("inherit");
 var ConfigModel = require("./ConfigModel");
 var Promise = require("bluebird");
 
 var thinky;
 
-module.exports = ConfigModel.extend({
-  create: function(document){
+module.exports = inherit(ConfigModel, {
+  __constructor: function(document){
     this.document = document;
   },
   getThinky: function(){

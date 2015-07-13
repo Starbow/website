@@ -1,6 +1,6 @@
 "use strict";
 
-var Class = require("js.class");
+var inherit = require("inherit");
 var ThinkyDocumentModel = require("./ThinkyDocumentModel");
 var Promise = require("bluebird");
 
@@ -14,10 +14,10 @@ var getThinkyModel = function(thinky){
   return ThinkyModel;
 };
 
-module.exports = ThinkyDocumentModel.extend({
-  create: function(){
+module.exports = inherit(ThinkyDocumentModel, {
+  __constructor: function(){
     var ThinkyModel = getThinkyModel(this.getThinky());
-    ThinkyDocumentModel.prototype.create.apply(this, [new ThinkyModel({})]);
+    this.__base(new ThinkyModel({}));
   },
   whatIsOnePlusTwo: function(){
     return 1 + 2;

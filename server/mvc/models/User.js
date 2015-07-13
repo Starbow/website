@@ -1,6 +1,6 @@
 "use strict";
 
-var Class = require("js.class");
+var inherit = require("inherit");
 var ThinkyDocumentModel = require("./ThinkyDocumentModel");
 var Promise = require("bluebird");
 var Cryptr = require("cryptr");
@@ -23,18 +23,19 @@ var getThinkyModel = function(thinky){
   return ThinkyModel;
 };
 
-module.exports = ThinkyDocumentModel.extend({
-  create: function(){
+module.exports = inherit(ThinkyDocumentModel, {
+  __constructor: function(){
     var ThinkyModel = getThinkyModel(this.getThinky());
-    ThinkyDocumentModel.prototype.create.apply(this, [new ThinkyModel({})]);
+    this.__base(new ThinkyModel({}));
   },
   findByUserId: function(userId){
+    var self = this;
     return new Promise(function(resolve, reject){
       ThinkyModel
         .get(userId)
         .run()
         .then(function(doc){
-          this.document = doc;
+          self.document = doc;
           return resolve();
         })
         .error(reject);
@@ -42,7 +43,7 @@ module.exports = ThinkyDocumentModel.extend({
   },
   save: function(){
     this.document.merge({"timeModified": this.getThinky().r.now()});
-    return ThinkyDocumentModel.prototype.save.apply(this);
+    return this.__base();
   },
   updateTimeLatestLogin: function(){
     this.document.timeLatestLogin = this.getThinky().r.now();

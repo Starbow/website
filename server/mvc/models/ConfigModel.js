@@ -3,11 +3,11 @@
 /**
  * A model from which the 'config' data for the application can be retrieved. Said data is injected.
  */
-var Class = require("js.class");
+var inherit = require("inherit");
 
 var config;
 
-module.exports = Class({
+module.exports = inherit({
   getConfig: function(){
     return config;
   },
