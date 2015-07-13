@@ -7,7 +7,7 @@ var inherit = require("inherit");
 
 var config;
 
-module.exports = inherit({
+module.exports = inherit({}, {
   getConfig: function(){
     return config;
   },

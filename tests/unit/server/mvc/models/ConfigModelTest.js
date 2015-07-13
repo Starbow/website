@@ -17,9 +17,8 @@ describe("ConfigModel", function(){
   });
   describe("getConfig()", function(){
     it("Will return the same config data it received on 'init'", function(){
-      var configModel = new ConfigModel;
-      assert.typeOf(configModel.getConfig(), "object");
-      assert.deepEqual(configModel.getConfig(), {bogus:"cake"});
+      assert.typeOf(ConfigModel.getConfig(), "object");
+      assert.deepEqual(ConfigModel.getConfig(), {bogus:"cake"});
     });
   });
 });

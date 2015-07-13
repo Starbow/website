@@ -31,9 +31,8 @@ describe("ThinkyDocumentModel", function(){
   });
   describe("getThinky()", function(){
     it("Should return input thinky", function(){
-      var thinkyDocumentModel = new ThinkyDocumentModel;
-      assert.typeOf(thinkyDocumentModel.getThinky(), "object");
-      assert.deepEqual(thinkyDocumentModel.getThinky(), bogusThinky);
+      assert.typeOf(ThinkyDocumentModel.getThinky(), "object");
+      assert.deepEqual(ThinkyDocumentModel.getThinky(), bogusThinky);
     });
   });
   describe("save()", function(){

@@ -1,17 +1,10 @@
-var Promise = require("bluebird");
+"use strict";
 
-var config,
-  thinky;
+var inherit = require("inherit");
+var ConfigModel = require("./ConfigModel");
 
-module.exports = function(){
-  var self = this;
-
-  this.getClientId = function(){
-    return config.auth.bnet.clientID;
-  };
-};
-
-module.exports.init = function(_config, _thinky){
-  config = _config;
-  thinky = _thinky;
-};
+module.exports = inherit(ConfigModel, {}, {
+  getClientId: function(){
+    return this.getConfig().auth.bnet.clientID;
+  }
+});

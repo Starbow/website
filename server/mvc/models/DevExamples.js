@@ -16,7 +16,7 @@ var getThinkyModel = function(thinky){
 
 module.exports = inherit(ThinkyDocumentModel, {
   __constructor: function(){
-    var ThinkyModel = getThinkyModel(this.getThinky());
+    var ThinkyModel = getThinkyModel(ThinkyDocumentModel.getThinky());
     this.__base(new ThinkyModel({}));
   },
   whatIsOnePlusTwo: function(){
@@ -28,7 +28,7 @@ module.exports = inherit(ThinkyDocumentModel, {
     });
   },
   getAccessLogConfigData: function(){
-    return this.getConfig().log.access;
+    return ThinkyDocumentModel.getConfig().log.access;
   },
   saveInDatabaseAndReturnViaPromise: function(value){
     var self = this;

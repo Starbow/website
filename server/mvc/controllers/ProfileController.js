@@ -14,8 +14,7 @@ exports.info = function(req, res){
         throw new Error('User does not exit');
       }
       var oauthToken = user.decryptOauthToken(user.getValue('oauthTokenEncrypted'));
-      var battlenet = new Battlenet();
-      var bnet = require('battlenet-api')(battlenet.getClientId());
+      var bnet = require('battlenet-api')(Battlenet.getClientId());
       bnet.account.sc2({origin: 'eu', access_token: oauthToken}, function(bnetErr, bnetResp){
         res.send(JSON.stringify(bnetResp));
       });

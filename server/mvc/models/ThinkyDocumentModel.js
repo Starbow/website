@@ -10,9 +10,6 @@ module.exports = inherit(ConfigModel, {
   __constructor: function(document){
     this.document = document;
   },
-  getThinky: function(){
-    return thinky;
-  },
   save: function(){
     var self = this;
     return new Promise(function(resolve, reject){
@@ -86,6 +83,10 @@ module.exports = inherit(ConfigModel, {
       throw new Error("User is not valid");
     }
     return this;
+  },
+}, {
+  getThinky: function(){
+    return thinky;
   },
 });
 

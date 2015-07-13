@@ -25,7 +25,7 @@ var getThinkyModel = function(thinky){
 
 module.exports = inherit(ThinkyDocumentModel, {
   __constructor: function(){
-    var ThinkyModel = getThinkyModel(this.getThinky());
+    var ThinkyModel = getThinkyModel(ThinkyDocumentModel.getThinky());
     this.__base(new ThinkyModel({}));
   },
   findByUserId: function(userId){
@@ -42,19 +42,19 @@ module.exports = inherit(ThinkyDocumentModel, {
     });
   },
   save: function(){
-    this.document.merge({"timeModified": this.getThinky().r.now()});
+    this.document.merge({"timeModified": ThinkyDocumentModel.getThinky().r.now()});
     return this.__base();
   },
   updateTimeLatestLogin: function(){
-    this.document.timeLatestLogin = this.getThinky().r.now();
+    this.document.timeLatestLogin = ThinkyDocumentModel.getThinky().r.now();
     return this;
   },
   encryptOauthToken: function(token){
-    var cryptr = new Cryptr(this.getConfig().auth.bnet.encryptionSalt);
+    var cryptr = new Cryptr(ThinkyDocumentModel.getConfig().auth.bnet.encryptionSalt);
     return cryptr.encrypt(token);
   },
   decryptOauthToken: function(encryptedToken){
-    var cryptr = new Cryptr(this.getConfig().auth.bnet.encryptionSalt);
+    var cryptr = new Cryptr(ThinkyDocumentModel.getConfig().auth.bnet.encryptionSalt);
     return cryptr.decrypt(encryptedToken);
   }
 });
