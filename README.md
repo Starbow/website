@@ -126,6 +126,14 @@ If you want tests to automatically run when you modify a test file, use the `-w`
 mocha -w path/to/test.js
 ```
 
+This also works with the glob pattern. E.g.:
+
+```
+mocha -w tests/*/**/*Test.js
+```
+
+**However**, saving one of the matched test files will run **all** tests matched by the glob pattern.
+
 ## Application folder structure
 
 The folders are structured as follows:
