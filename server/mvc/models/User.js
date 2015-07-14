@@ -50,10 +50,12 @@ module.exports = inherit(ThinkyDocumentModel, {
     return this;
   },
   encryptOauthToken: function(token){
+    this.guardIsString(token);
     var cryptr = new Cryptr(ThinkyDocumentModel.getConfig().auth.bnet.encryptionSalt);
     return cryptr.encrypt(token);
   },
   decryptOauthToken: function(encryptedToken){
+    this.guardIsString(encryptedToken);
     var cryptr = new Cryptr(ThinkyDocumentModel.getConfig().auth.bnet.encryptionSalt);
     return cryptr.decrypt(encryptedToken);
   }
