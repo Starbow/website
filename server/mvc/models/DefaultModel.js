@@ -34,7 +34,6 @@ module.exports = inherit({
       var objectAsString;
       try {
         objectAsString = JSON.stringify(v);
-        console.log("objectAsString", objectAsString)
         if ((objectAsString.length + 5) > 20) {
           objectAsString = objectAsString.substr(0, 15) + " ... }";
         }
@@ -51,21 +50,75 @@ module.exports = inherit({
     } catch (e) {}
     return str;
   },
-  isNull: function(v){
+  validateIsArray: function(v){
+    return (
+      this.validateIsObject(v)
+      && (v instanceof Array)
+    );
+  },
+  validateIsInteger: function(v){
+    return (
+      this.validateIsNumber(v)
+      && v === Math.floor(v)
+    );
+  },
+  validateIsNull: function(v){
     return (v === null);
   },
-  isString: function(v){
+  validateIsNumber: function(v){
+    return (typeof(v) == "number");
+  },
+  validateIsObject: function(v){
+    return (
+      !this.validateIsNull(v) // Javascript considers null to be an Object - derp
+      && (v instanceof Object)
+    );
+  },
+  validateIsString: function(v){
     return (typeof(v) == "string");
   },
+  validateIsUndefined: function(v){
+    return (v === undefined);
+  },
+  guardIsArray: function(v){
+    if (!this.validateIsArray(v)) {
+      throw new TypeError("guardIsArray: Parameter is not an Integer; provided: " + this.getHumanReadableTypeAndValue(v));
+    }
+    return this;
+  },
+  guardIsInteger: function(v){
+    if (!this.validateIsInteger(v)) {
+      throw new TypeError("guardIsInteger: Parameter is not an Integer; provided: " + this.getHumanReadableTypeAndValue(v));
+    }
+    return this;
+  },
   guardIsNull: function(v){
-    if (!this.isString(v)) {
-      throw new TypeError("Parameter is not null; provided: " + this.getHumanReadableTypeAndValue(v));
+    if (!this.validateIsNull(v)) {
+      throw new TypeError("guardIsNull: Parameter is not null; provided: " + this.getHumanReadableTypeAndValue(v));
+    }
+    return this;
+  },
+  guardIsNumber: function(v){
+    if (!this.validateIsNumber(v)) {
+      throw new TypeError("guardIsNumber: Parameter is not a Number; provided: " + this.getHumanReadableTypeAndValue(v));
+    }
+    return this;
+  },
+  guardIsObject: function(v){
+    if (!this.validateIsObject(v)) {
+      throw new TypeError("guardIsObject: Parameter is not an Integer; provided: " + this.getHumanReadableTypeAndValue(v));
     }
     return this;
   },
   guardIsString: function(v){
-    if (!this.isString(v)) {
-      throw new TypeError("Parameter is not a String; provided: " + this.getHumanReadableTypeAndValue(v));
+    if (!this.validateIsString(v)) {
+      throw new TypeError("guardIsString: Parameter is not a String; provided: " + this.getHumanReadableTypeAndValue(v));
+    }
+    return this;
+  },
+  guardIsUndefined: function(v){
+    if (!this.validateIsUndefined(v)) {
+      throw new TypeError("guardIsUndefined: Parameter is not a String; provided: " + this.getHumanReadableTypeAndValue(v));
     }
     return this;
   },
