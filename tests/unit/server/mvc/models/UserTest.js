@@ -49,8 +49,8 @@ describe("User", function(){
       user
         .findByUserId(1)
         .error(function(err){
-          assert.ok(!user.isValid(), "Should not be valid");
-          assert.ok(!user.existsInDatabase(), "Should not exist in database");
+          assert.ok(!user.validateIsValid(), "Should not be valid");
+          assert.ok(!user.validateExistsInDatabase(), "Should not exist in database");
           assert.typeOf(user.getValues(), "object", "Object should contain default values");
           done();
         });
@@ -62,8 +62,8 @@ describe("User", function(){
       user
         .save()
         .error(function(err){
-          assert.ok(!user.isValid(), "Should not be valid");
-          assert.ok(!user.existsInDatabase(), "Should not exist");
+          assert.ok(!user.validateIsValid(), "Should not be valid");
+          assert.ok(!user.validateExistsInDatabase(), "Should not exist");
           done();
         });
     });
@@ -77,8 +77,8 @@ describe("User", function(){
         })
         .save()
         .then(function(){
-          assert.ok(user.isValid(), "Should be valid");
-          assert.ok(user.existsInDatabase(), "Should exist");
+          assert.ok(user.validateIsValid(), "Should be valid");
+          assert.ok(user.validateExistsInDatabase(), "Should exist");
           assert.strictEqual(user.getValue('userId'), 1, "Value: userId");
           assert.strictEqual(user.getValue('oauthType'), "bogus", "Value: oauthType");
           assert.strictEqual(user.getValue('oauthTokenEncrypted'), "123bogus", "Value: oauthType");

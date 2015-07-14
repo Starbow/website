@@ -10,6 +10,20 @@ module.exports = inherit(ConfigModel, {
   __constructor: function(document){
     this.document = document;
   },
+  find: function(value){ // Find by primary key (pk)
+    var self = this;
+    return new Promise(function(resolve, reject){
+      self.document
+        .getModel()
+        .get(value)
+        .run()
+        .then(function(doc){
+          self.document = doc;
+          return resolve();
+        })
+        .error(reject);
+    });
+  },
   save: function(){
     var self = this;
     return new Promise(function(resolve, reject){
@@ -43,7 +57,7 @@ module.exports = inherit(ConfigModel, {
     if (values.hasOwnProperty(key)) {
       return values[key];
     }
-    return null;
+    return undefined;
   },
   getValues: function(){
     var clone = {};
@@ -57,14 +71,14 @@ module.exports = inherit(ConfigModel, {
    * Database validity check.
    * @return (Boolean) "true" if the document has been saved or fetched via the "get" function. Otherwise "false".
    */
-  existsInDatabase: function(){
+  validateExistsInDatabase: function(){
     return this.document.isSaved();
   },
   /**
-   * Document validity check. Does not check if the document exists in the database; for this, use "existsInDatabase".
+   * Document validity check. Does not check if the document exists in the database; for this, use "validateExistsInDatabase".
    * @return (Boolean) "true" if the entire document is valid. Otherwise "false".
    */
-  isValid: function(){
+  validateIsValid: function(){
     try {
       this.document.validate();
     } catch (e) {
@@ -73,14 +87,14 @@ module.exports = inherit(ConfigModel, {
     return true;
   },
   guardExistsInDatabase: function(){
-    if (!this.existsInDatabase()) {
-      throw new Error("User does not exist in database");
+    if (!this.validateExistsInDatabase()) {
+      throw new Error("guardExistsInDatabase: 'document' does not exist in database");
     }
     return this;
   },
   guardIsValid: function(){
-    if (!this.isValid()) {
-      throw new Error("User is not valid");
+    if (!this.validateIsValid()) {
+      throw new Error("guardIsValid: 'document' is not valid");
     }
     return this;
   },
