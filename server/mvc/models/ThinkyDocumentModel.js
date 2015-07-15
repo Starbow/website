@@ -24,6 +24,27 @@ module.exports = inherit(ConfigModel, {
         .error(reject);
     });
   },
+  findByFilter: function(filter, orderBy){
+    var self = this;
+    return new Promise(function(resolve, reject){
+      var model = self.document.getModel();
+      model.filter(filter);
+      if (self.validateIsObject(orderBy)) {
+        model.orderBy(orderBy);
+      }
+      model
+        .limit(1)
+        .run()
+        .then(function(docs){
+          if (!docs.length) {
+            return reject(new Error("Document not found"));
+          }
+          self.document = docs[0];
+          return resolve();
+        })
+        .error(reject);
+    });
+  },
   save: function(){
     var self = this;
     return new Promise(function(resolve, reject){
