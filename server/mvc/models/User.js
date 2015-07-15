@@ -10,10 +10,19 @@ var emailValidator = require("email-validator");
 var thinky = ThinkyDocumentModel.getThinky();
 var ThinkyModel = thinky.createModel("Users", {
   userId: thinky.type.number().integer().default(null).min(1).required().allowNull(false),
-  email: thinky.type.string().default(null).min(5).required().allowNull(true).validator(function(_email){
+  nickname: thinky.type.string().default(null).min(1).required().allowNull(true).validator(function(nickname){
     return (
-      _email === null
-      || emailValidator.validate(_email)
+      nickname === null
+      || (
+        typeof(nickname) == "string"
+        && nickname.length >= 2
+      )
+    );
+  }),
+  email: thinky.type.string().default(null).min(5).required().allowNull(true).validator(function(email){
+    return (
+      email === null
+      || emailValidator.validate(email)
     );
   }),
   emailVerificationCode: thinky.type.string().default(null).min(1).required().allowNull(true),
@@ -23,6 +32,15 @@ var ThinkyModel = thinky.createModel("Users", {
   timeCreated: thinky.type.date().default(thinky.r.now()).required().allowNull(false),
   timeModified: thinky.type.date().default(thinky.r.now()).required().allowNull(false),
   timeLatestLogin: thinky.type.date().default(thinky.r.now()).required().allowNull(false),
+  homeRegion: thinky.type.string().default(null).min(1).required().allowNull(true).validator(function(homeRegion){
+    return (
+      homeRegion === null
+      || (
+        typeof(homeRegion) == "string"
+        && (["us", "eu"].indexOf(homeRegion) > -1)
+      )
+    );
+  }),
   roles: thinky.type.array().default(function(){
     return ["user"];
   }).schema(thinky.type.string()).required().allowNull(false)
@@ -67,7 +85,7 @@ module.exports = inherit(ThinkyDocumentModel, {
     return cryptr.decrypt(encryptedToken);
   },
   generateEmailVerificationCode: function(){
-    this.guardExistsInDatabase();
+    this.guardIsValid();
     var salt = ThinkyDocumentModel.getConfig().user.email.verificationCodeSalt;
     var userIdZeroPadded = sprintf("%016f", this.document.userId);
     var cryptr = new Cryptr(salt);
@@ -76,27 +94,30 @@ module.exports = inherit(ThinkyDocumentModel, {
   validateEmailVerificationCode: function(verificationCode){
     return (verificationCode === this.generateEmailVerificationCode());
   },
-  validateEmailAddress: function(email){
-    return emailValidator.validate(email);
-  },
-  isEmailValid: function(){
-    this.guardIsValid();
+  hasHomeRegion: function(){
     return (
-      this.validateIsString(this.document.email)
-      && this.validateEmailAddress(this.document.email)
-    )
+      this.validateIsString(this.document.homeRegion)
+      && this.document.homeRegion.length
+    );
+  },
+  hasNickname: function(){
+    return (
+      this.validateIsString(this.document.nickname)
+      && this.document.nickname.length
+    );
   },
   isEmailVerified: function(){
     this.guardExistsInDatabase();
     return (
       (this.document.emailVerificationTime instanceof Date)
-      && this.document.emailVerificationTime().getTime() > 0
+      && this.document.emailVerificationTime.getTime() > 0
     );
   },
   isRegistrationComplete: function(){
     this.guardExistsInDatabase();
     return (
-      this.isEmailValid()
+      this.hasHomeRegion()
+      && this.hasNickname()
       && this.isEmailVerified()
     );
   },

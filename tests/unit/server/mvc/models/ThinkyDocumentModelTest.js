@@ -132,28 +132,24 @@ describe("ThinkyDocumentModel", function(){
   });
   describe("Values", function(){
     describe("setValue()", function(){
-      it("Cannot set value for invalid key", function(){
-        var thinkyDocumentModel = new ThinkyDocumentModel(new ThinkyModel({}));
-        assert.throws(function(){thinkyDocumentModel.setValue("bar", "abc");}, Error);
-      });
-      it("Can set value for valid key", function(){
+      it("Can set value", function(){
         var thinkyDocumentModel = new ThinkyDocumentModel(new ThinkyModel({}));
         thinkyDocumentModel.setValue("foo", "abc");
+        assert.equal(thinkyDocumentModel.document.foo, "abc");
       });
     });
     describe("setValues()", function(){
       it("Must receive a key-value paired Object", function(){
         var thinkyDocumentModel = new ThinkyDocumentModel(new ThinkyModel({}));
         var notAnObject = "foo";
-        assert.throws(function(){thinkyDocumentModel.setValues(notAnObject);}, Error);
+        assert.throws(function(){
+          thinkyDocumentModel.setValues(notAnObject);
+        }, Error, /Parameter is not an Object/);
       });
-      it("Cannot set invalid value", function(){
-        var thinkyDocumentModel = new ThinkyDocumentModel(new ThinkyModel({}));
-        assert.throws(function(){thinkyDocumentModel.setValues({"foo": 123});}, Error);
-      });
-      it("Can set value for valid key", function(){
+      it("Can set multiple values", function(){
         var thinkyDocumentModel = new ThinkyDocumentModel(new ThinkyModel({}));
         thinkyDocumentModel.setValues({"foo": "abc"});
+        assert.equal(thinkyDocumentModel.document.foo, "abc");
       });
     });
     describe("getValue()", function(){
@@ -183,17 +179,17 @@ describe("ThinkyDocumentModel", function(){
     });
   });
   describe("Validators", function(){
-    describe("validateExistsInDatabase()", function(){
+    describe("existsInDatabase()", function(){
       it("Will return false when document has not been saved or fetched", function(){
         var thinkyDocumentModel = new ThinkyDocumentModel(new ThinkyModel({}));
-        assert.ok(!thinkyDocumentModel.validateExistsInDatabase());
+        expect(thinkyDocumentModel.existsInDatabase()).to.be.false;
       });
       it("Will return false when document is invalid", function(done){
         var thinkyDocumentModel = new ThinkyDocumentModel(new ThinkyModel({}));
         thinkyDocumentModel
           .find(null)
           .error(function(){
-            assert.ok(!thinkyDocumentModel.validateExistsInDatabase());
+            expect(thinkyDocumentModel.existsInDatabase()).to.be.false;
             done();
           });
       });
@@ -203,7 +199,7 @@ describe("ThinkyDocumentModel", function(){
           .setValue("foo", "abc")
           .save()
           .then(function(){
-            assert.ok(thinkyDocumentModel.validateExistsInDatabase());
+            assert.ok(thinkyDocumentModel.existsInDatabase());
             done();
           });
       });
@@ -217,21 +213,21 @@ describe("ThinkyDocumentModel", function(){
             thinkyDocumentModel
               .find(id)
               .then(function(){
-                assert.ok(thinkyDocumentModel.validateExistsInDatabase());
+                assert.ok(thinkyDocumentModel.existsInDatabase());
                 done();
               });
           });
       });
     });
-    describe("validateIsValid()", function(){
+    describe("isValid()", function(){
       it("Is not valid when document has not been modified", function(){
         var thinkyDocumentModel = new ThinkyDocumentModel(new ThinkyModel({}));
-        assert.ok(!thinkyDocumentModel.validateIsValid());
+        expect(thinkyDocumentModel.isValid()).to.be.false;
       });
       it("Is valid when document has been modified with correct key-value pairs", function(){
         var thinkyDocumentModel = new ThinkyDocumentModel(new ThinkyModel({}));
         thinkyDocumentModel.setValue("foo", "abc");
-        assert.ok(thinkyDocumentModel.validateIsValid());
+        assert.ok(thinkyDocumentModel.isValid());
       });
     });
   });

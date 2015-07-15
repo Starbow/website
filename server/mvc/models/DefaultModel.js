@@ -82,7 +82,7 @@ module.exports = inherit({
   },
   guardIsArray: function(v){
     if (!this.validateIsArray(v)) {
-      throw new TypeError("guardIsArray: Parameter is not an Integer; provided: " + this.getHumanReadableTypeAndValue(v));
+      throw new TypeError("guardIsArray: Parameter is not an Array; provided: " + this.getHumanReadableTypeAndValue(v));
     }
     return this;
   },
@@ -106,7 +106,7 @@ module.exports = inherit({
   },
   guardIsObject: function(v){
     if (!this.validateIsObject(v)) {
-      throw new TypeError("guardIsObject: Parameter is not an Integer; provided: " + this.getHumanReadableTypeAndValue(v));
+      throw new TypeError("guardIsObject: Parameter is not an Object; provided: " + this.getHumanReadableTypeAndValue(v));
     }
     return this;
   },
@@ -118,7 +118,7 @@ module.exports = inherit({
   },
   guardIsUndefined: function(v){
     if (!this.validateIsUndefined(v)) {
-      throw new TypeError("guardIsUndefined: Parameter is not a String; provided: " + this.getHumanReadableTypeAndValue(v));
+      throw new TypeError("guardIsUndefined: Parameter is not undefined; provided: " + this.getHumanReadableTypeAndValue(v));
     }
     return this;
   },

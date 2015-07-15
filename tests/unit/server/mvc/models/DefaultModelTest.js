@@ -12,7 +12,7 @@ describe("DefaultModel", function(){
   describe("Human reabables", function(){
     var defaultModel = new DefaultModel;
     describe("getHumanReadableTypeAndValue()", function(){
-      var testCasesNonObject = [
+      var testCases = [
         {"value": "abc",                              "expected": "(String) abc"},
         {"value": undefined,                          "expected": "undefined"},
         {"value": 1,                                  "expected": "(Number) 1"},
@@ -23,7 +23,7 @@ describe("DefaultModel", function(){
         {"value": {"a":"b"},                          "expected": "(Object) {\"a\":\"b\"}"},
         {"value": {"a":"b",2:{3:4},4:"g","23":[4,5]}, "expected": "(Object) {\"2\":{\"3\":4},\"4 ... }"}, // Javascript orders keys in Objects alphanumerically
       ];
-      testCasesNonObject.forEach(function(testCase){
+      testCases.forEach(function(testCase){
         it("Human readable version works for: " + defaultModel.getHumanReadableTypeAndValue(testCase.value), function(){
           assert.deepEqual(defaultModel.getHumanReadableTypeAndValue(testCase.value), testCase.expected);
         });

@@ -65,12 +65,11 @@ module.exports = inherit(ConfigModel, {
     var obj = {};
     obj[key] = value;
     this.document.merge(obj);
-    this.document.validate();
     return this;
   },
   setValues: function(obj){
+    this.guardIsObject(obj);
     this.document.merge(obj);
-    this.document.validate();
     return this;
   },
   getValue: function(key){
@@ -92,14 +91,14 @@ module.exports = inherit(ConfigModel, {
    * Database validity check.
    * @return (Boolean) "true" if the document has been saved or fetched via the "get" function. Otherwise "false".
    */
-  validateExistsInDatabase: function(){
+  existsInDatabase: function(){
     return this.document.isSaved();
   },
   /**
-   * Document validity check. Does not check if the document exists in the database; for this, use "validateExistsInDatabase".
+   * Document validity check. Does not check if the document exists in the database; for this, use "existsInDatabase".
    * @return (Boolean) "true" if the entire document is valid. Otherwise "false".
    */
-  validateIsValid: function(){
+  isValid: function(){
     try {
       this.document.validate();
     } catch (e) {
@@ -108,13 +107,13 @@ module.exports = inherit(ConfigModel, {
     return true;
   },
   guardExistsInDatabase: function(){
-    if (!this.validateExistsInDatabase()) {
+    if (!this.existsInDatabase()) {
       throw new Error("guardExistsInDatabase: 'document' does not exist in database");
     }
     return this;
   },
   guardIsValid: function(){
-    if (!this.validateIsValid()) {
+    if (!this.isValid()) {
       throw new Error("guardIsValid: 'document' is not valid");
     }
     return this;

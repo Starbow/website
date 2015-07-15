@@ -10,7 +10,7 @@ exports.info = function(req, res){
   user
     .findByUserId(req.user.id)
     .then(function(){
-      if (!user.validateExistsInDatabase()) {
+      if (!user.existsInDatabase()) {
         throw new Error('User does not exit');
       }
       var oauthToken = user.decryptOauthToken(user.getValue('oauthTokenEncrypted'));
