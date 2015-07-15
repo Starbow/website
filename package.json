@@ -31,6 +31,7 @@
     "extend": "^2.0.1",
     "glob": "^5.0.12",
     "inherit": "^2.2.2",
+    "merge": "^1.2.0",
     "morgan": "^1.6.0",
     "passport": "^0.2.2",
     "passport-bnet": "^1.1.1",
