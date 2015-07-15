@@ -10,12 +10,12 @@ module.exports = inherit(ConfigModel, {
   __constructor: function(document){
     this.document = document;
   },
-  find: function(value){ // Find by primary key (pk)
+  find: function(id){ // Find by 'id' (or primary key)
     var self = this;
     return new Promise(function(resolve, reject){
       self.document
         .getModel()
-        .get(value)
+        .get(id)
         .run()
         .then(function(doc){
           self.document = doc;
