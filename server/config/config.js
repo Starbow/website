@@ -78,6 +78,11 @@ var config = {
         colorize: false
       }
     }
+  },
+  user: {
+    email: {
+      verificationCodeSalt: process.env.USER_EMAIL_VERIFICATION_CODE_SALT
+    }
   }
 };
 
