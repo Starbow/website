@@ -10,7 +10,8 @@ var modelsPath = __dirname + "/../../../../../server/mvc/models"
   , ThinkyDocumentModel = require(modelsPath + "/ThinkyDocumentModel");
 
 var ThinkyModel = bogusThinky.createModel("ThinkyDocumentModel", {
-  foo: bogusThinky.type.string().default(null).min(1).required().allowNull(false)
+  foo: bogusThinky.type.string().default(null).min(1).required().allowNull(false),
+  time: bogusThinky.type.date().default(bogusThinky.r.now()).required().allowNull(false),
 });
 
 describe("ThinkyDocumentModel", function(){
@@ -52,23 +53,81 @@ describe("ThinkyDocumentModel", function(){
       assert.deepEqual(ThinkyDocumentModel.getThinky(), bogusThinky);
     });
   });
-  describe("save()", function(){
-    it("Should not save an invalid document", function(done){
-      var thinkyDocumentModel = new ThinkyDocumentModel(undefined);
-      thinkyDocumentModel
-        .save()
-        .error(function(err){
-          expect(err).to.be.an.instanceOf(TypeError);
-          assert.equal(err.toString(), "TypeError: Cannot read property 'validate' of undefined");
-          done();
-        });
+  describe("Saving", function(){
+    describe("save()", function(){
+      it("Should not save an invalid document", function(done){
+        var thinkyDocumentModel = new ThinkyDocumentModel(undefined);
+        thinkyDocumentModel
+          .save()
+          .error(function(err){
+            expect(err).to.be.an.instanceOf(TypeError);
+            assert.equal(err.toString(), "TypeError: Cannot read property 'validate' of undefined");
+            done();
+          });
+      });
+      it("Should be able to save an valid document", function(done){
+        var ThinkyModel = bogusThinky.createModel("ThinkyDocumentModel_807ade1f", {});
+        var thinkyDocumentModel = new ThinkyDocumentModel(new ThinkyModel({}));
+        thinkyDocumentModel
+          .save()
+          .then(done);
+      });
     });
-    it("Should be able to save an valid document", function(done){
-      var ThinkyModel = bogusThinky.createModel("ThinkyDocumentModel_807ade1f", {});
-      var thinkyDocumentModel = new ThinkyDocumentModel(new ThinkyModel({}));
-      thinkyDocumentModel
-        .save()
-        .then(done);
+  });
+  describe("Finding", function(){
+    describe("find()", function(){
+      it("Will reject promise when no document is found", function(done){
+        var thinkyDocumentModel = new ThinkyDocumentModel(new ThinkyModel({}));
+        thinkyDocumentModel
+          .find("1")
+          .error(function(err){
+            assert.typeOf(err, "object");
+            expect(err.toString()).to.contain("Document not found: The query did not find a document and returned null in");
+            done();
+          });
+      });
+      it("Will successfully find a valid document", function(done){
+        var thinkyDocumentModel = new ThinkyDocumentModel(new ThinkyModel({}));
+        thinkyDocumentModel
+          .setValue("foo", "abc")
+          .save()
+          .then(function(){
+            var id = thinkyDocumentModel.document.id;
+            var subThinkyDocumentModel = new ThinkyDocumentModel(new ThinkyModel({}));
+            subThinkyDocumentModel
+              .find(id)
+              .then(function(){
+                done();
+              });
+          });
+      });
+    });
+    describe("findByFilter()", function(){
+      it("Will reject promise when no document is found", function(done){
+        var thinkyDocumentModel = new ThinkyDocumentModel(new ThinkyModel({}));
+        thinkyDocumentModel
+          .findByFilter({foo: "abc"})
+          .error(function(err){
+            expect(err).to.be.an.instanceOf(Error);
+            expect(err.toString()).to.contain("Document not found");
+            done();
+          });
+      });
+      it("Will successfully find a valid document", function(done){
+        var thinkyDocumentModel = new ThinkyDocumentModel(new ThinkyModel({}));
+        thinkyDocumentModel
+          .setValue("foo", "abc")
+          .save()
+          .then(function(){
+            var id = thinkyDocumentModel.document.id;
+            var subThinkyDocumentModel = new ThinkyDocumentModel(new ThinkyModel({}));
+            subThinkyDocumentModel
+              .findByFilter({foo: "abc"})
+              .then(function(){
+                done();
+              });
+          });
+      });
     });
   });
   describe("Values", function(){
@@ -117,7 +176,8 @@ describe("ThinkyDocumentModel", function(){
         var thinkyDocumentModel = new ThinkyDocumentModel(new ThinkyModel({}));
         var values = thinkyDocumentModel.getValues();
         assert.typeOf(values, "object");
-        assert.deepEqual(values, {"foo":null});
+        assert.strictEqual(values.foo, null);
+        assert.typeOf(values.time, "function");
         assert.notStrictEqual(values, thinkyDocumentModel.document, "It's a cloned Object; not the 'document' Object itself");
       });
     });
