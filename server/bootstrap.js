@@ -19,17 +19,17 @@ exports.startup = function(app, config, logs){
   log.init(logs.mvc);
 
   try {
-    // Configure passport
-    require('./bootstrap/passport.js')(config, passport);
-
-    // Configure express
-    require('./bootstrap/express.js')(app, logs, passport);
-
     // Configure thinkg (rethinkdb)
     var thinky = require("thinky")(config.db.thinky);
 
     // Load and configure certain models
     require('./mvc/models')(config, thinky);
+
+    // Configure passport
+    require('./bootstrap/passport.js')(config, passport);
+
+    // Configure express
+    require('./bootstrap/express.js')(app, logs, passport);
 
     // Configure routes
     require('./bootstrap/routes.js')(app, logs, passport);
