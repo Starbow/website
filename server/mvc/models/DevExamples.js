@@ -4,19 +4,13 @@ var inherit = require("inherit");
 var ThinkyDocumentModel = require("./ThinkyDocumentModel");
 var Promise = require("bluebird");
 
-var ThinkyModel;
-var getThinkyModel = function(thinky){
-  if (ThinkyModel === undefined) {
-    ThinkyModel = thinky.createModel("DevExamples", {
-      someText: thinky.type.string().default(null).min(1).required().allowNull(false)
-    });
-  }
-  return ThinkyModel;
-};
+var thinky = ThinkyDocumentModel.getThinky();
+var ThinkyModel = thinky.createModel("DevExamples", {
+  someText: thinky.type.string().default(null).min(1).required().allowNull(false)
+});
 
 module.exports = inherit(ThinkyDocumentModel, {
   __constructor: function(){
-    var ThinkyModel = getThinkyModel(ThinkyDocumentModel.getThinky());
     this.__base(new ThinkyModel({}));
   },
   whatIsOnePlusTwo: function(){
