@@ -1,26 +1,25 @@
-var User = require("../models/User");
-var Battlenet = require("../models/Battlenet");
+var BattlenetUser = require("../models/User/BattlenetUser");
 
 exports.info = function(req, res){
   if(!req.isAuthenticated()) {
     res.redirect('/');
     return;
   }
-  var user = new User();
-  user
+  var battlenetUser = new BattlenetUser;
+  battlenetUser
     .findByUserId(req.user.id)
     .then(function(){
-      if (!user.existsInDatabase()) {
-        throw new Error('User does not exit');
-      }
-      var oauthToken = user.decryptOauthToken(user.getValue('oauthTokenEncrypted'));
-      var bnet = require('battlenet-api')(Battlenet.getClientId());
-      bnet.account.sc2({origin: 'eu', access_token: oauthToken}, function(bnetErr, bnetResp){
-        res.send(JSON.stringify(bnetResp));
-      });
+      battlenetUser
+        .fetchSC2Info()
+        .then(function(info){
+          res.send(JSON.stringify(info));
+        })
+        .error(function(){
+          throw new Error('User does not exist 2');
+        });
     })
     .error(function(err){
-
+      throw new Error('User does not exist 1');
     });
 };
 
