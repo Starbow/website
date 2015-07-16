@@ -40,11 +40,27 @@ if (cluster.isMaster) {
     logs.cluster.info(sprintf("Server: Worker online: [id: %s] [pid: %s]", worker.id, worker.process.pid));
   });
   cluster.on('exit', function(deadWorker, code, signal){
+    if (typeof(deadWorker.parent) == "object" && code != 0 && signal !== null) {
+      if (deadWorker.parent.code == code && deadWorker.parent.signal == signal) {
+        logs.cluster.error(sprintf(
+          "Server: Worker died: [id: %s] [pid: %s] [code: %s] [signal: %s]. "
+          + "Will NOT start a new worker because the same error was caught twice.",
+          deadWorker.id, deadWorker.process.pid, code, signal
+        ));
+        return;
+      }
+    }
     var worker = cluster.fork(); // Restart the worker
+    worker.parent = {
+      id: deadWorker.id,
+      pid: deadWorker.process.pid,
+      code: code,
+      signal: signal
+    };
     logs.cluster.warn(sprintf(
       "Server: Worker died: [id: %s] [pid: %s] [code: %s] [signal: %s]. "
       + "Started new replacement worker: [id: %s] [pid: %s]",
-      worker.id, deadWorker.process.pid, code, signal, worker.id, worker.process.pid
+      deadWorker.id, deadWorker.process.pid, code, signal, worker.id, worker.process.pid
     ));
   });
   process.on('exit', function() {
