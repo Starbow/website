@@ -9,56 +9,11 @@ var Cryptr = require("cryptr");
 var sprintf = require("sprintf-js").sprintf;
 var emailValidator = require("email-validator");
 
-var thinky = ThinkyDocumentModel.getThinky();
-var ThinkyModel = thinky.createModel("Users", {
-  userId: thinky.type.number().integer().default(null).min(1).required().allowNull(false),
-  nickname: thinky.type.string().default(null).min(1).required().allowNull(true).validator(function(nickname){
-    return (
-      nickname === null
-      || (
-        typeof(nickname) == "string"
-        && nickname.length >= 2
-      )
-    );
-  }),
-  email: thinky.type.string().default(null).min(5).required().allowNull(true).validator(function(email){
-    return (
-      email === null
-      || emailValidator.validate(email)
-    );
-  }),
-  emailVerificationCode: thinky.type.string().default(null).min(1).required().allowNull(true),
-  emailVerificationTime: thinky.type.date().default(null).required().allowNull(true),
-  oauthType: thinky.type.string().default(null).min(1).required().allowNull(false),
-  oauthTokenEncrypted: thinky.type.string().default(null).min(1).required().allowNull(false),
-  timeCreated: thinky.type.date().default(thinky.r.now()).required().allowNull(false),
-  timeModified: thinky.type.date().default(thinky.r.now()).required().allowNull(false),
-  timeLatestLogin: thinky.type.date().default(thinky.r.now()).required().allowNull(false),
-  homeRegion: thinky.type.string().default(null).min(1).required().allowNull(true).validator(function(homeRegion){
-    return (
-      homeRegion === null
-      || (
-        typeof(homeRegion) == "string"
-        && (["us", "eu"].indexOf(homeRegion) > -1)
-      )
-    );
-  }),
-  roles: thinky.type.array().default(function(){
-    return ["user"];
-  }).schema(thinky.type.string()).required().allowNull(false)
-}, {
-  "pk": "userId"
-});
-ThinkyModel.ensureIndex("timeCreated");
-ThinkyModel.ensureIndex("emailVerificationTime");
-ThinkyModel.pre("save", function(next){
-  this.timeModified = ThinkyDocumentModel.getThinky().r.now();
-  next();
-});
+var ThinkyUserModel = require("./User/UserMapper")(ThinkyDocumentModel.getThinky());
 
 var User = inherit(ThinkyDocumentModel, {
   __constructor: function(){
-    this.__base(new ThinkyModel({}));
+    this.__base(new ThinkyUserModel({}));
   },
   findByUserId: function(userId){
     return this.findByFilter({userId: userId});
