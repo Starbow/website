@@ -22,7 +22,7 @@ module.exports = inherit(ThinkyDocumentModel, {
     });
   },
   getAccessLogConfigData: function(){
-    return ThinkyDocumentModel.getConfig().log.access;
+    return this.getConfig().log.access;
   },
   saveInDatabaseAndReturnViaPromise: function(value){
     var self = this;

@@ -67,28 +67,29 @@ var User = inherit(ThinkyDocumentModel, {
     return this.findByFilter({email: email});
   },
   findByEmailVerificationCode: function(emailVerificationCode){
+    var self = this;
     return this.findByFilter(
       {emailVerificationCode: emailVerificationCode},
-      {index: thinky.r.desc("emailVerificationTime")}
+      {index: self.getThinky().r.desc("emailVerificationTime")}
     );
   },
   updateTimeLatestLogin: function(){
-    this.document.timeLatestLogin = ThinkyDocumentModel.getThinky().r.now();
+    this.document.timeLatestLogin = this.getThinky().r.now();
     return this;
   },
   encryptOauthToken: function(token){
     this.guardIsString(token);
-    var cryptr = new Cryptr(ThinkyDocumentModel.getConfig().auth.bnet.encryptionSalt);
+    var cryptr = new Cryptr(this.getConfig().auth.bnet.encryptionSalt);
     return cryptr.encrypt(token);
   },
   decryptOauthToken: function(encryptedToken){
     this.guardIsString(encryptedToken);
-    var cryptr = new Cryptr(ThinkyDocumentModel.getConfig().auth.bnet.encryptionSalt);
+    var cryptr = new Cryptr(this.getConfig().auth.bnet.encryptionSalt);
     return cryptr.decrypt(encryptedToken);
   },
   generateEmailVerificationCode: function(){
     this.guardIsValid();
-    var salt = ThinkyDocumentModel.getConfig().user.email.verificationCodeSalt;
+    var salt = this.getConfig().user.email.verificationCodeSalt;
     var userIdZeroPadded = sprintf("%016f", this.document.userId);
     var cryptr = new Cryptr(salt);
     return cryptr.encrypt(userIdZeroPadded);
