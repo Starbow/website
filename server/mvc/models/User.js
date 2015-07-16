@@ -6,8 +6,6 @@ var ThinkyDocumentModel = require("./ThinkyDocumentModel");
 var Promise = require("bluebird");
 var sprintf = require("sprintf-js").sprintf;
 var Cryptr = require("cryptr");
-var sprintf = require("sprintf-js").sprintf;
-var emailValidator = require("email-validator");
 
 var ThinkyUserModel = require("./User/UserMapper")(ThinkyDocumentModel.getThinky());
 
