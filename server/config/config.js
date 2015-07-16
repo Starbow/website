@@ -1,6 +1,3 @@
-var fs = require("fs");
-var sprintf = require("sprintf-js").sprintf;
-
 require("./env/env.js");
 
 var config = {
