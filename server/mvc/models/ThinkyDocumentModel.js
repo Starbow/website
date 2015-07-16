@@ -6,7 +6,7 @@ var Promise = require("bluebird");
 
 var thinky;
 
-module.exports = inherit(ConfigModel, {
+var ThinkyDocumentModel = inherit(ConfigModel, {
   __constructor: function(document){
     this.document = document;
   },
@@ -118,11 +118,16 @@ module.exports = inherit(ConfigModel, {
     }
     return this;
   },
+  getThinky: function(){
+    return ThinkyDocumentModel.getThinky();
+  },
 }, {
   getThinky: function(){
     return thinky;
   },
 });
+
+module.exports = ThinkyDocumentModel;
 
 module.exports.init = function(_thinky){
   thinky = _thinky;
