@@ -1,6 +1,6 @@
 "use strict";
 
-var log = require(process.env.ROOT + '/server/mvc/log');
+var log = require("../log");
 var inherit = require("inherit");
 var ThinkyDocumentModel = require("./ThinkyDocumentModel");
 var Promise = require("bluebird");
