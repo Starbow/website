@@ -24,7 +24,7 @@ if (cluster.isMaster) {
   console.log(" - Configuring logs");
 }
 var logs = require('./server/config/logs');
-logs.init();
+logs.init(config);
 
 if (cluster.isMaster) {
   var cpuCount = require('os').cpus().length;
