@@ -29,8 +29,8 @@ logs.init(config);
 if (cluster.isMaster) {
   var cpuCount = require('os').cpus().length;
   var workersMaxCount = cpuCount;
-  if (typeof(process.env.WORKERS_MAX_COUNT) == "number") {
-    workersMaxCount = Math.min(cpuCount, Math.max(Math.floor(process.env.WORKERS_MAX_COUNT), 0));
+  if (typeof(process.env.WORKERS_MAX_COUNT) == "string" && process.env.WORKERS_MAX_COUNT.match(/^\d+$/)) {
+    workersMaxCount = Math.min(cpuCount, Math.max(Math.floor(process.env.WORKERS_MAX_COUNT), 1));
   }
   logs.cluster.info(sprintf("Server: Starting up [Master pid: %s]", process.pid));
   logs.cluster.info(sprintf("Server: %s workers available. Start them up...", workersMaxCount));
