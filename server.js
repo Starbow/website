@@ -45,12 +45,15 @@ if (cluster.isMaster) {
   cluster.on('exit', function(deadWorker, code, signal){
     if (typeof(deadWorker.parent) == "object" && code != 0 && signal !== null) {
       if (deadWorker.parent.code == code && deadWorker.parent.signal == signal) {
-        logs.cluster.error(sprintf(
-          "Server: Worker died: [id: %s] [pid: %s] [code: %s] [signal: %s]. "
-          + "Will NOT start a new worker because the same error was caught twice.",
-          deadWorker.id, deadWorker.process.pid, code, signal
-        ));
-        return;
+        var msLimit = 500;
+        if ((deadWorker.parent.time + msLimit) > (new Date()).getTime()) {
+          logs.cluster.error(sprintf(
+            "Server: Worker died: [id: %s] [pid: %s] [code: %s] [signal: %s]. "
+            + "Will NOT start a new worker because the same error was caught twice within " + msLimit + "ms.",
+            deadWorker.id, deadWorker.process.pid, code, signal
+          ));
+          return;
+        }
       }
     }
     var worker = cluster.fork(); // Restart the worker
@@ -58,7 +61,8 @@ if (cluster.isMaster) {
       id: deadWorker.id,
       pid: deadWorker.process.pid,
       code: code,
-      signal: signal
+      signal: signal,
+      time: (new Date()).getTime()
     };
     logs.cluster.warn(sprintf(
       "Server: Worker died: [id: %s] [pid: %s] [code: %s] [signal: %s]. "
