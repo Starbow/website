@@ -4,14 +4,11 @@ var inherit = require("inherit");
 var ThinkyDocumentModel = require("./ThinkyDocumentModel");
 var Promise = require("bluebird");
 
-var thinky = ThinkyDocumentModel.getThinky();
-var ThinkyModel = thinky.createModel("DevExamples", {
-  someText: thinky.type.string().default(null).min(1).required().allowNull(false)
-});
+var ThinkyDevExamplesModel = require("./DevExamples/DevExamplesMapper")(ThinkyDocumentModel.getThinky());
 
 module.exports = inherit(ThinkyDocumentModel, {
   __constructor: function(){
-    this.__base(new ThinkyModel({}));
+    this.__base(new ThinkyDevExamplesModel({}));
   },
   whatIsOnePlusTwo: function(){
     return 1 + 2;
