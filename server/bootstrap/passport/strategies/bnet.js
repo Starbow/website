@@ -7,31 +7,14 @@ module.exports = function(authBnetConfig){
     authBnetConfig,
     function(accessToken, refreshToken, profile, done) {
       if (accessToken !== null && profile.id > 0) {
-        var user = new User();
-        user
-          .findByUserId(profile.id)
+        User
+          .createOrUpdate(profile.id, accessToken, "bnet")
           .then(function(){
-            log.debug("Updating existing user. 'profile':\n", profile);
+            return done(null, profile)
           })
-          .error(function(err){
-            log.debug("Creating new user. 'profile':\n", profile);
-          })
-          .finally(function(){
-            user.setValues({
-                oauthTokenEncrypted: user.encryptOauthToken(accessToken),
-                oauthType: "bnet",
-                userId: profile.id
-            })
-            .updateTimeLatestLogin()
-            .save()
-            .then(function(){
-              log.debug("User saved successfully. Values:\n", user.getValues());
-              return done(null, profile);
-            })
-            .error(function(err){
-              log.error("BnetStrategy (1):", err);
-              return done(null, null);
-            });
+          .error(function(){
+            log.error("BnetStrategy (1):", err);
+            return done(null, null);
           });
       } else {
         return done(null, null);

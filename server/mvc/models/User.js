@@ -1,8 +1,10 @@
 "use strict";
 
+var log = require(process.env.ROOT + '/server/mvc/log');
 var inherit = require("inherit");
 var ThinkyDocumentModel = require("./ThinkyDocumentModel");
 var Promise = require("bluebird");
+var sprintf = require("sprintf-js").sprintf;
 var Cryptr = require("cryptr");
 var sprintf = require("sprintf-js").sprintf;
 var emailValidator = require("email-validator");
@@ -54,7 +56,7 @@ ThinkyModel.pre("save", function(next){
   next();
 });
 
-module.exports = inherit(ThinkyDocumentModel, {
+var User = inherit(ThinkyDocumentModel, {
   __constructor: function(){
     this.__base(new ThinkyModel({}));
   },
@@ -125,4 +127,34 @@ module.exports = inherit(ThinkyDocumentModel, {
     this.guardExistsInDatabase();
     return (this.document.roles.indexOf("admin") > -1);
   },
+}, {
+  createOrUpdate: function(userId, accessToken, oauthType){
+    return new Promise(function(resolve, reject){
+      var user = new User();
+      user
+        .findByUserId(userId)
+        .then(function(){
+          log.debug(sprintf("Updating existing user: [userId: %s]", userId));
+        })
+        .error(function(err){
+          log.debug(sprintf("Creating new user: [userId: %s]", userId));
+        })
+        .finally(function(){
+          user.setValues({
+              oauthTokenEncrypted: user.encryptOauthToken(accessToken),
+              oauthType: oauthType,
+              userId: userId
+          })
+          .updateTimeLatestLogin()
+          .save()
+          .then(function(){
+            log.debug("User saved successfully. Values:\n", user.getValues());
+            return resolve();
+          })
+          .error(reject);
+        });
+    });
+  }
 });
+
+module.exports = User;
