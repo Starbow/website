@@ -24,7 +24,7 @@ exports.userstuff = function(req, res){ // TODO: Temporary function for hacking 
       return res.send('just user stuff');
     })
     .error(function(err){
-      console.log("user.findByUserId error", err);
+      console.log("user.findByUserId error" , req.user.id, "\n\n", err);
       return res.send("user.findByUserId error");
     });
 };
