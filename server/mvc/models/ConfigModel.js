@@ -8,11 +8,17 @@ var DefaultModel = require("./DefaultModel");
 
 var config;
 
-module.exports = inherit(DefaultModel, {}, {
+var ConfigModel = inherit(DefaultModel, {
+  getConfig: function(){
+    return ConfigModel.getConfig();
+  },
+}, {
   getConfig: function(){
     return config;
   },
 });
+
+module.exports = ConfigModel;
 
 module.exports.init = function(_config){
   config = _config;
