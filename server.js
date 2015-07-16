@@ -24,16 +24,19 @@ if (cluster.isMaster) {
   console.log(" - Configuring logs");
 }
 var logs = require('./server/config/logs');
-logs.init(config);
+logs.init();
 
 if (cluster.isMaster) {
   var cpuCount = require('os').cpus().length;
+  var workersMaxCount = cpuCount;
+  if (typeof(process.env.WORKERS_MAX_COUNT) == "number") {
+    workersMaxCount = Math.min(cpuCount, Math.max(Math.floor(process.env.WORKERS_MAX_COUNT), 0));
+  }
   logs.cluster.info(sprintf("Server: Starting up [Master pid: %s]", process.pid));
-  logs.cluster.info(sprintf("Server: %s workers available. Start them up...", cpuCount));
-   // Firstly, disable console.log spam and keep cluster from automatically grabbing stdin/out/err
-  //cluster.setupMaster({silent: true});
+  logs.cluster.info(sprintf("Server: %s workers available. Start them up...", workersMaxCount));
+
   // Fork workers
-  for (var i=0; i<cpuCount; i++) {
+  for (var i=0; i<workersMaxCount; i++) {
       cluster.fork();
   }
   cluster.on('online', function(worker){
