@@ -26,13 +26,13 @@ exports.startup = function(app, config, logs){
     require('./mvc/models')(config, thinky);
 
     // Configure passport
-    require('./bootstrap/passport.js')(config, passport);
+    require('./bootstrap/passport')(config, passport);
 
     // Configure express
-    require('./bootstrap/express.js')(app, logs, passport);
+    require('./bootstrap/express')(app, logs, passport);
 
     // Configure routes
-    require('./bootstrap/routes.js')(app, logs, passport);
+    require('./bootstrap/routes')(app, logs, passport);
   } catch (e) {
     var errorType = (e instanceof Error) ? "Error" : "Exception";
     logs.framework.error(sprintf("Worker [id: %s]: Uncaught '%s':", cluster.worker.id, errorType), e);
