@@ -35,8 +35,7 @@ var getModel = function(thinky){
         );
       }),
       timeCreated: thinky.type.date().default(thinky.r.now()).required().allowNull(false),
-      timeModified: thinky.type.date().default(thinky.r.now()).required().allowNull(false),
-      timeLatestLogin: thinky.type.date().default(thinky.r.now()).required().allowNull(false)
+      timeModified: thinky.type.date().default(thinky.r.now()).required().allowNull(false)
     }, {
       "pk": "userProfileId"
     });
@@ -49,7 +48,6 @@ var getModel = function(thinky){
   }
   return Model;
 };
-
 
 module.exports = function(thinky){
   return getModel(thinky);
