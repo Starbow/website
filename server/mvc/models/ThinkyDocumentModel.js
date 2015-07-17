@@ -24,7 +24,8 @@ var ThinkyDocumentModel = inherit(ConfigModel, {
         .error(reject);
     });
   },
-  findByFilter: function(filter, orderBy, num = 1){
+  findByFilter: function(filter, orderBy, num){
+    num = typeof num !== "undefined" ? num : 1;
     var self = this;
     return new Promise(function(resolve, reject){
       var model = self.document.getModel();
