@@ -15,7 +15,7 @@ var getModel = function(thinky){
             && (["us", "eu"].indexOf(homeRegion) > -1)
           )
         );
-      }).schema(thinky.type.string()).required().allowNull(false),
+      }),
       characterName: thinky.type.string().default(null).required().allowNull(true).validator(function(nickname){
         return (
           characterName === null
