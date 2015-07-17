@@ -8,7 +8,7 @@ module.exports = function(authBnetConfig){
     function(accessToken, refreshToken, profile, done) {
       if (accessToken !== null && profile.id > 0) {
         User
-          .createOrUpdate(profile.id, accessToken, "bnet")
+          .createOrUpdate(profile.id, profile.battletag, accessToken, "bnet")
           .then(function(){
             return done(null, profile)
           })

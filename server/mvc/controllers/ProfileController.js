@@ -10,7 +10,7 @@ exports.info = function(req, res){
     .findByUserId(req.user.id)
     .then(function(){
       battlenetUser
-        .fetchSC2Info()
+        .fetchSC2InfoByRegion('eu')
         .then(function(info){
           res.send(JSON.stringify(info));
         })

@@ -5,16 +5,18 @@ var IndexController = require(process.env.ROOT + '/server/mvc/controllers/IndexC
 var AdminController = require(process.env.ROOT + '/server/mvc/controllers/AdminController.js');
 var Admin_UsersController = require(process.env.ROOT + '/server/mvc/controllers/Admin/UsersController.js');
 var ProfileController = require(process.env.ROOT + '/server/mvc/controllers/ProfileController.js');
+var BattlenetController = require(process.env.ROOT + '/server/mvc/controllers/BattlenetController.js');
 
 module.exports = function (app, logs, passport) {
   app.get('/auth/bnet', passport.authenticate('bnet'));
   app.get('/auth/bnet/callback', passport.authenticate('bnet', {failureRedirect: '/'}), function(req, res){
-    res.redirect('/');
+    res.redirect('/bnet');
   });
   app.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/');
   });
+  app.get('/bnet', BattlenetController.index);
   app.get('/profile/info', ProfileController.info);
   app.get('/profile/matchhistory', ProfileController.matchhistory);
   app.get('/userstuff', IndexController.userstuff); // TODO: Temporary development endpoint

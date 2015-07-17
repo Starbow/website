@@ -24,7 +24,8 @@ var ThinkyDocumentModel = inherit(ConfigModel, {
         .error(reject);
     });
   },
-  findByFilter: function(filter, orderBy){
+  findByFilter: function(filter, orderBy, num){
+    num = typeof num !== "undefined" ? num : 1;
     var self = this;
     return new Promise(function(resolve, reject){
       var model = self.document.getModel();
@@ -33,7 +34,7 @@ var ThinkyDocumentModel = inherit(ConfigModel, {
         model.orderBy(orderBy);
       }
       model
-        .limit(1)
+        .limit(num)
         .run()
         .then(function(docs){
           if (!docs.length) {

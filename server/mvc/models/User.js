@@ -82,7 +82,7 @@ var User = inherit(ThinkyDocumentModel, {
     return (this.document.roles.indexOf("admin") > -1);
   },
 }, {
-  createOrUpdate: function(userId, accessToken, oauthType){
+  createOrUpdate: function(userId, battletag, accessToken, oauthType){
     return new Promise(function(resolve, reject){
       var user = new User();
       user
@@ -95,9 +95,10 @@ var User = inherit(ThinkyDocumentModel, {
         })
         .finally(function(){
           user.setValues({
-              oauthTokenEncrypted: user.encryptOauthToken(accessToken),
-              oauthType: oauthType,
-              userId: userId
+            userId: userId,
+            nickname: battletag,
+            oauthTokenEncrypted: user.encryptOauthToken(accessToken),
+            oauthType: oauthType,
           })
           .updateTimeLatestLogin()
           .save()
