@@ -7,6 +7,17 @@ Code base for the Starbow website: http://starbowmod.com
 * Database: [RethinkDB](http://rethinkdb.com/docs/install/)
 * Client-side framework: [React](http://facebook.github.io/react/)
 
+## Stack
+
+Below is a list of the most prominent software and libraries used to build this application.
+
+* [Node.js](https://nodejs.org/)
+  * [`express`](https://www.npmjs.com/package/express)
+  * [`passport`](https://www.npmjs.com/package/passport)
+* [RethinkDB](http://rethinkdb.com/docs/install/)
+  * [Thinky](http://thinky.io/) (ORM)
+* [React](http://facebook.github.io/react/)
+
 # Get started
 
 ## Prerequisites
