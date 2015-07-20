@@ -1,10 +1,10 @@
 var modelsPath = __dirname + "/../mvc/models";
 
-module.exports = function(config, thinky){
-  var ConfigModel = require(modelsPath + "/ConfigModel");
-  ConfigModel.init(config);
-  delete ConfigModel.init; // Don't allow "init" to be re-run
+module.exports = function(config, mvcLog, thinky){
+  var UtilityModel = require(modelsPath + "/UtilityModel");
+  UtilityModel.injectDependencies(config, mvcLog);
+  delete UtilityModel.injectDependencies; // Don't allow "injectDependencies" to be re-run
   var ThinkyDocumentModel = require(modelsPath + "/ThinkyDocumentModel");
-  ThinkyDocumentModel.init(thinky);
-  delete ThinkyDocumentModel.init; // Don't allow "init" to be re-run
+  ThinkyDocumentModel.injectDependencies(thinky);
+  delete ThinkyDocumentModel.injectDependencies; // Don't allow "injectDependencies" to be re-run
 };

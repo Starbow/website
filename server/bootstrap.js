@@ -24,7 +24,7 @@ exports.startup = function(app, config, logs){
     var thinky = require("thinky")(config.db.thinky);
 
     // Load and configure certain models
-    require('./bootstrap/models')(config, thinky);
+    require('./bootstrap/models')(config, logs.mvc, thinky);
 
     // Configure passport
     require('./bootstrap/passport')(config, passport);
