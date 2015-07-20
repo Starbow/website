@@ -1,12 +1,12 @@
 "use strict";
 
 var inherit = require("inherit");
-var ConfigModel = require("./ConfigModel");
+var UtilityModel = require("./UtilityModel");
 var Promise = require("bluebird");
 
 var thinky;
 
-var ThinkyDocumentModel = inherit(ConfigModel, {
+var ThinkyDocumentModel = inherit(UtilityModel, {
   __constructor: function(document){
     this.document = document;
   },
@@ -129,6 +129,6 @@ var ThinkyDocumentModel = inherit(ConfigModel, {
 
 module.exports = ThinkyDocumentModel;
 
-module.exports.init = function(_thinky){
+module.exports.injectDependencies = function(_thinky){
   thinky = _thinky;
 };

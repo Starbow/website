@@ -3,29 +3,24 @@ var expect = require('chai').expect;
 var Promise = require("bluebird");
 
 var modelsPath = __dirname + "/../../../../../server/mvc/models"
-  , bogusConfig = {
-    log: {
-      access: {
-        "a": "Just an Object with lots of data"
-      }
-    }
-  }
-  , bogusThinky = require("thinky")({db: "bogus"})
+  , configMock = require("../../../../mocks/server/config/configMock")
+  , logMock = require("../../../../mocks/server/mvc/logMock")
+  , thinky = require("thinky")(configMock.db.thinky)
   , DefaultModel = require(modelsPath + "/DefaultModel")
-  , ConfigModel = require(modelsPath + "/ConfigModel")
+  , UtilityModel = require(modelsPath + "/UtilityModel")
   , ThinkyDocumentModel = require(modelsPath + "/ThinkyDocumentModel")
   , DevExamples;
 
 describe("DevExamples", function(){
   before(function(done){
     var callback = function(){
-      ConfigModel.init(bogusConfig);
-      ThinkyDocumentModel.init(bogusThinky);
+      UtilityModel.injectDependencies(configMock, logMock);
+      ThinkyDocumentModel.injectDependencies(thinky);
       done();
     };
-    bogusThinky.r.tableList().run().then(function(tables){
+    thinky.r.tableList().run().then(function(tables){
       if (tables.indexOf("DevExamples") <= -1) {
-        bogusThinky.r.tableCreate("DevExamples").run().then(function(){
+        thinky.r.tableCreate("DevExamples").run().then(function(){
           callback();
         });
       } else {
@@ -34,7 +29,7 @@ describe("DevExamples", function(){
     });
   });
   after(function(done){
-    bogusThinky.r.table("DevExamples").delete().run().then(function(){
+    thinky.r.table("DevExamples").delete().run().then(function(){
       done();
     });
   });
@@ -44,7 +39,7 @@ describe("DevExamples", function(){
   });
   describe("Instances (i.e.: new DevExamples)", function(){
     beforeEach(function(done){
-      bogusThinky.r.table("DevExamples").delete().run().then(function(){
+      thinky.r.table("DevExamples").delete().run().then(function(){
         DevExamples = require(modelsPath + "/DevExamples");
         done();
       });
@@ -58,7 +53,7 @@ describe("DevExamples", function(){
     it("Should inherit correctly", function(){
       var devExamples = new DevExamples;
       expect(devExamples).to.be.an.instanceOf(DefaultModel);
-      expect(devExamples).to.be.an.instanceOf(ConfigModel);
+      expect(devExamples).to.be.an.instanceOf(UtilityModel);
       expect(devExamples).to.be.an.instanceOf(ThinkyDocumentModel);
       expect(devExamples).to.be.an.instanceOf(DevExamples);
     });
@@ -86,7 +81,10 @@ describe("DevExamples", function(){
       it("Should return raw config data, i.e. no logic", function(){
         var devExamples = new DevExamples;
         var expected = {
-          "a": "Just an Object with lots of data"
+          "format": "short",
+          "options": {
+            "stream": "access.log"
+          }
         };
         assert.deepEqual(devExamples.getAccessLogConfigData(), expected, "Expects a deep Object");
       });

@@ -2,29 +2,28 @@ var assert = require('chai').assert;
 var expect = require('chai').expect;
 
 var modelsPath = __dirname + "/../../../../../server/mvc/models"
-  , bogusConfig = {
-    bogus: "cake"
-  }
-  , bogusThinky = require("thinky")({db: "bogus"})
+  , configMock = require("../../../../mocks/server/config/configMock")
+  , logMock = require("../../../../mocks/server/mvc/logMock")
+  , thinky = require("thinky")(configMock.db.thinky)
   , DefaultModel = require(modelsPath + "/DefaultModel")
-  , ConfigModel = require(modelsPath + "/ConfigModel")
+  , UtilityModel = require(modelsPath + "/UtilityModel")
   , ThinkyDocumentModel = require(modelsPath + "/ThinkyDocumentModel");
 
-var ThinkyModel = bogusThinky.createModel("ThinkyDocumentModel", {
-  foo: bogusThinky.type.string().default(null).min(1).required().allowNull(false),
-  time: bogusThinky.type.date().default(bogusThinky.r.now()).required().allowNull(false),
+var ThinkyModel = thinky.createModel("ThinkyDocumentModel", {
+  foo: thinky.type.string().default(null).min(1).required().allowNull(false),
+  time: thinky.type.date().default(thinky.r.now()).required().allowNull(false),
 });
 
 describe("ThinkyDocumentModel", function(){
   before(function(done){
     var callback = function(){
-      ConfigModel.init(bogusConfig);
-      ThinkyDocumentModel.init(bogusThinky);
+      UtilityModel.injectDependencies(configMock, logMock);
+      ThinkyDocumentModel.injectDependencies(thinky);
       done();
     };
-    bogusThinky.r.tableList().run().then(function(tables){
+    thinky.r.tableList().run().then(function(tables){
       if (tables.indexOf("ThinkyDocumentModel") <= -1) {
-        bogusThinky.r.tableCreate("ThinkyDocumentModel").run().then(function(){
+        thinky.r.tableCreate("ThinkyDocumentModel").run().then(function(){
           callback();
         });
       } else {
@@ -33,22 +32,22 @@ describe("ThinkyDocumentModel", function(){
     });
   });
   after(function(done){
-    bogusThinky.r.table("ThinkyDocumentModel").delete().run().then(function(){
+    thinky.r.table("ThinkyDocumentModel").delete().run().then(function(){
       done();
     });
   });
 
   describe("Static", function(){
     describe("getThinky()", function(){
-      it("Will return the Object as was provided in 'init'", function(){
+      it("Will return the Object as was provided in 'injectDependencies'", function(){
         assert.typeOf(ThinkyDocumentModel.getThinky(), "object");
-        assert.deepEqual(ThinkyDocumentModel.getThinky(), bogusThinky);
+        assert.deepEqual(ThinkyDocumentModel.getThinky(), thinky);
       });
     });
   });
   describe("Instances (i.e.: new ThinkyDocumentModel)", function(){
     beforeEach(function(done){
-      bogusThinky.r.table("ThinkyDocumentModel").delete().run().then(function(){
+      thinky.r.table("ThinkyDocumentModel").delete().run().then(function(){
         done();
       });
     });
@@ -61,7 +60,7 @@ describe("ThinkyDocumentModel", function(){
     it("Should inherit correctly", function(){
       var thinkyDocumentModel = new ThinkyDocumentModel;
       expect(thinkyDocumentModel).to.be.an.instanceOf(DefaultModel);
-      expect(thinkyDocumentModel).to.be.an.instanceOf(ConfigModel);
+      expect(thinkyDocumentModel).to.be.an.instanceOf(UtilityModel);
       expect(thinkyDocumentModel).to.be.an.instanceOf(ThinkyDocumentModel);
     });
     describe("getThinky()", function(){
@@ -84,7 +83,7 @@ describe("ThinkyDocumentModel", function(){
             });
         });
         it("Should be able to save an valid document", function(done){
-          var ThinkyModel = bogusThinky.createModel("ThinkyDocumentModel_807ade1f", {});
+          var ThinkyModel = thinky.createModel("ThinkyDocumentModel_807ade1f", {});
           var thinkyDocumentModel = new ThinkyDocumentModel(new ThinkyModel({}));
           thinkyDocumentModel
             .save()

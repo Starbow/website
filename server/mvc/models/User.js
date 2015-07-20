@@ -1,13 +1,12 @@
 "use strict";
 
-var log = require("../log");
 var inherit = require("inherit");
 var ThinkyDocumentModel = require("./ThinkyDocumentModel");
 var Promise = require("bluebird");
 var sprintf = require("sprintf-js").sprintf;
 var Cryptr = require("cryptr");
 
-var ThinkyUserModel = require("./User/UserMapper")(ThinkyDocumentModel.getThinky());
+var ThinkyUserModel = require("./User/UserMapper");
 
 var User = inherit(ThinkyDocumentModel, {
   __constructor: function(){
@@ -88,10 +87,10 @@ var User = inherit(ThinkyDocumentModel, {
       user
         .findByUserId(userId)
         .then(function(){
-          log.debug(sprintf("Updating existing user: [userId: %s]", userId));
+          this.getLog().debug(sprintf("Updating existing user: [userId: %s]", userId));
         })
         .error(function(err){
-          log.debug(sprintf("Creating new user: [userId: %s]", userId));
+          this.getLog().debug(sprintf("Creating new user: [userId: %s]", userId));
         })
         .finally(function(){
           user.setValues({
@@ -102,7 +101,7 @@ var User = inherit(ThinkyDocumentModel, {
           .updateTimeLatestLogin()
           .save()
           .then(function(){
-            log.debug("User saved successfully. Values:\n", user.getValues());
+            this.getLog().debug("User saved successfully. Values:\n", user.getValues());
             return resolve();
           })
           .error(reject);
