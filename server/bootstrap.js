@@ -16,7 +16,8 @@ var runOnReadyCallback = function(){
 
 exports.startup = function(app, config, logs){
   var log = require('./mvc/log.js');
-  log.init(logs.mvc);
+  log.injectDependencies(logs.mvc);
+  delete log.injectDependencies; // Don't allow "injectDependencies" to be re-run
 
   try {
     // Configure thinky (rethinkdb)

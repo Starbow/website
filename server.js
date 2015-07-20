@@ -24,7 +24,8 @@ if (cluster.isMaster) {
   console.log(" - Configuring logs");
 }
 var logs = require('./server/config/logs');
-logs.init(config);
+logs.injectDependencies(config);
+delete logs.injectDependencies; // Don't allow "injectDependencies" to be re-run
 
 if (cluster.isMaster) {
   var cpuCount = require('os').cpus().length;
