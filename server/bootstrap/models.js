@@ -1,4 +1,4 @@
-var modelsPath = __dirname + "/models";
+var modelsPath = __dirname + "/../mvc/models";
 
 module.exports = function(config, thinky){
   var ConfigModel = require(modelsPath + "/ConfigModel");
