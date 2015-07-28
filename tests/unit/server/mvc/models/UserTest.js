@@ -3,34 +3,24 @@ var expect = require('chai').expect;
 var merge = require("merge");
 
 var modelsPath = __dirname + "/../../../../../server/mvc/models"
-  , bogusConfig = {
-    auth: {
-      bnet: {
-        encryptionSalt: "encryption_salt_123"
-      }
-    },
-    user: {
-      email: {
-        verificationCodeSalt: "7551d612f86269214fd94c498a47e4bf"
-      }
-    }
-  }
-  , bogusThinky = require("thinky")({db: "bogus"})
+  , configMock = require("../../../../mocks/server/config/configMock")
+  , logMock = require("../../../../mocks/server/mvc/logMock")
+  , thinky = require("thinky")(configMock.db.thinky)
   , DefaultModel = require(modelsPath + "/DefaultModel")
-  , ConfigModel = require(modelsPath + "/ConfigModel")
+  , UtilityModel = require(modelsPath + "/UtilityModel")
   , ThinkyDocumentModel = require(modelsPath + "/ThinkyDocumentModel")
   , User;
 
 describe("User", function(){
   before(function(done){
     var callback = function(){
-      ConfigModel.init(bogusConfig);
-      ThinkyDocumentModel.init(bogusThinky);
+      UtilityModel.injectDependencies(configMock, logMock);
+      ThinkyDocumentModel.injectDependencies(thinky);
       done();
     };
-    bogusThinky.r.tableList().run().then(function(tables){
+    thinky.r.tableList().run().then(function(tables){
       if (tables.indexOf("Users") <= -1) {
-        bogusThinky.r.tableCreate("Users").run().then(function(){
+        thinky.r.tableCreate("Users").run().then(function(){
           callback();
         });
       } else {
@@ -39,7 +29,7 @@ describe("User", function(){
     });
   });
   after(function(done){
-    bogusThinky.r.table("Users").delete().run().then(function(){
+    thinky.r.table("Users").delete().run().then(function(){
       done();
     });
   });
@@ -49,7 +39,7 @@ describe("User", function(){
   });
   describe("Instances (i.e.: new User)", function(){
     beforeEach(function(done){
-      bogusThinky.r.table("Users").delete().run().then(function(){
+      thinky.r.table("Users").delete().run().then(function(){
         User = require(modelsPath + "/User");
         done();
       });
@@ -63,7 +53,7 @@ describe("User", function(){
     it("Should inherit correctly", function(){
       var user = new User;
       expect(user).to.be.an.instanceOf(DefaultModel);
-      expect(user).to.be.an.instanceOf(ConfigModel);
+      expect(user).to.be.an.instanceOf(UtilityModel);
       expect(user).to.be.an.instanceOf(ThinkyDocumentModel);
       expect(user).to.be.an.instanceOf(User);
     });

@@ -4,7 +4,7 @@ var inherit = require("inherit");
 var ThinkyDocumentModel = require("./ThinkyDocumentModel");
 var Promise = require("bluebird");
 
-var ThinkyDevExamplesModel = require("./DevExamples/DevExamplesMapper")(ThinkyDocumentModel.getThinky());
+var ThinkyDevExamplesModel = require("./DevExamples/DevExamplesMapper");
 
 module.exports = inherit(ThinkyDocumentModel, {
   __constructor: function(){

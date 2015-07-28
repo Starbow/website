@@ -1,16 +1,11 @@
 "use strict";
 
-var Model;
+var ThinkyDocumentModel = require("../ThinkyDocumentModel");
 
-var getModel = function(thinky){
-  if (Model === undefined) {
-    Model = thinky.createModel("DevExamples", {
-      someText: thinky.type.string().default(null).min(1).required().allowNull(false)
-    });
-  }
-  return Model;
-};
+var thinky = ThinkyDocumentModel.getThinky();
 
-module.exports = function(thinky){
-  return getModel(thinky);
-};
+var Model = thinky.createModel("DevExamples", {
+  someText: thinky.type.string().default(null).min(1).required().allowNull(false)
+});
+
+module.exports = Model;
