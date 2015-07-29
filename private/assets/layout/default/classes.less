@@ -1,0 +1,32 @@
+&.overflowhidden {
+    overflow:hidden;
+}
+div.server-error {
+  > h1:first-child {
+    margin-top:0;
+  }
+}
+pre.phperror {
+    border-color:#521616;
+    background-color:#452B2B;
+    margin:10px;
+}
+body {
+    pre.phperror:first-child {
+        margin-top:54px;
+    }
+}
+
+div.server-error {
+  pre.prettyprint.linenums {
+    span {
+      &.file {
+        color:#999;
+        text-decoration:underline;
+      }
+      &.linenumber {
+        color:#f55;
+      }
+    }
+  }
+}

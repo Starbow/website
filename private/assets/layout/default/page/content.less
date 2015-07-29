@@ -1,0 +1,19 @@
+content {
+    position:relative;
+    z-index:1;
+    width:@CUSTOM-default-page-width;
+    min-height:300px;
+    margin:(@HEADER_HEIGHT + 10px) auto 20px;
+
+    > h1,
+    > h2,
+    > h3,
+    > h4,
+    > h5,
+    > h6
+    > p {
+        &:first-child {
+            margin-top:0;
+        }
+    }
+}

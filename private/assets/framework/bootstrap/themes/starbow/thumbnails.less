@@ -1,0 +1,17 @@
+.thumbnail {
+    .box-shadow(0 1px 2px rgba(0,0,0,.075));
+    background-color: @thumbnail-bg;
+    border-color:@thumbnail-border;
+
+    // Add a hover state for linked versions only
+    a&:hover,
+    a&:focus,
+    a&.active {
+        border-color: @link-color;
+    }
+
+    // Image captions
+    .caption {
+        color: @thumbnail-caption-color;
+    }
+}
