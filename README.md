@@ -71,13 +71,17 @@ The files we compile include:
 
 To compile all files, run:
 
-```
+```bash
 grunt compile
+
+\# or simply
+
+grunt
 ```
 
 To compile all files within a specific namespace/target folder, run:
 
-```
+```bash
 grunt compile [less|js|views]
 ```
 
@@ -86,13 +90,13 @@ grunt compile [less|js|views]
 
 To start a daemon which watches for file changes and compiles them as necessary, run:
 
-```
+```bash
 grunt daemon
 ```
 
 To run the daemon within a specific namespace/target folder:
 
-```
+```bash
 grunt daemon [less|js|views]
 ```
 
