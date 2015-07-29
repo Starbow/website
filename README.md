@@ -78,7 +78,7 @@ grunt [compile]
 To compile all files within a specific namespace/target folder, run:
 
 ```bash
-grunt [compile] [less|js|views]
+grunt [compile] [--less] [--js] [--views]
 ```
 
 <a name="compiling-using-the-daemon"></a>
@@ -93,7 +93,7 @@ grunt daemon
 To run the daemon within a specific namespace/target folder:
 
 ```bash
-grunt daemon [less|js|views]
+grunt daemon [--less] [--js] [--views]
 ```
 
 ## Running the application
