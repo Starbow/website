@@ -153,14 +153,16 @@ module.exports = function(grunt){
   grunt.registerTask('daemon', function(){
     var watchConfig = {};
     var config = grunt.config.get();
-    for (var taskId in config) {
-      for (var subtaskId in config[taskId]) {
-        if (typeof(config[taskId][subtaskId].options) == 'object'
-          && typeof(config[taskId][subtaskId].options.watchFiles) == 'object') {
-          var task = taskId+":"+subtaskId;
-          watchConfig[task] = { // TODO: task?
-            files: config[taskId][subtaskId].options.watchFiles,
-            tasks: tasks
+    for (var i in tasks) {
+      var taskId = tasks[i];
+      var subTasks = config[taskId];
+      for (var subTaskId in subTasks) {
+        if (typeof(config[taskId][subTaskId].options) == 'object'
+          && typeof(config[taskId][subTaskId].options.watchFiles) == 'object') {
+          var taskName = taskId+":"+subTaskId;
+          watchConfig[taskName] = {
+            files: config[taskId][subTaskId].options.watchFiles,
+            tasks: [taskName]
           };
         }
       }
