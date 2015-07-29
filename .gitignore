@@ -37,5 +37,7 @@ public/assets/**/*.js
 public/assets/*.css
 public/assets/*.js
 !public/assets/cdn
-server/mvc/views/**/*.js
-server/mvc/views/*.js
+server/mvc/views/**/*.jsx
+!server/mvc/views/**/*.src.jsx
+server/mvc/views/*.jsx
+!server/mvc/views/*.src.jsx

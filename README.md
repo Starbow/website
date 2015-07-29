@@ -63,7 +63,7 @@ We use Grunt as compiler. The compiler logic is located in the [`Gruntfile.js`](
 
 The files we compile include:
 
-- React files, `*.jsx`, in the [`server/mvc/views`](#folder-server-mvc-views) (sub-)folders. These are compiled into their counterpart `*.js` files placed within the same directory.
+- React files, `*.src.jsx`, source files in the [`server/mvc/views`](#folder-server-mvc-views) (sub-)folders. These are compiled into their counterpart `*.jsx` files placed within the same directory.
 - LESS files, `*.less`, in the [`private/assets`](#folder-private-assets) (sub-)folders. These are compiled into their corresponding optimized and minified `*.css` files at the corresponding file paths under [`public/assets`](#folder-public-assets).
 - Javascript source code files for use client-side, `*.src.js`, in the [`private/assets`](#folder-private-assets) (sub-)folders. These are compiled into their corresponding optimized and minified `*.js` files at the corresponding file paths under [`public/assets`](#folder-public-assets).
 
@@ -284,7 +284,7 @@ Server logic, exclusively.
     Models. They do the hard number crunching and communicates with the database.<br/>
     Please implement models in a way that supports [integration](#folder-tests-integration) and [unit](#folder-tests-unit) tests. Often, this means heavy use of dependency injection.
     * <a name="folder-server-mvc-views"></a>`/views`<br/>
-    React view templates. The source code templates, `*.jsx`, must be compiled before running the application. For details, see [Compiling view files and public assets](#compiling-view-files-and-public-assets).
+    React view templates. The source code templates, `*.src.jsx`, must be compiled before running the application. For details, see [Compiling view files and public assets](#compiling-view-files-and-public-assets).
   * <a name="folder-tests"></a>`/tests`<br/>
   Contains tests written the verify the logic in the application, e.g. for models like "User".
     * <a name="folder-tests-integration"></a>`/integration`<br/>

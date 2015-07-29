@@ -113,17 +113,17 @@ module.exports = function(grunt){
       "/server/mvc/views": {
         options: {
           watchFiles: [
-            SERVER_SIDE_VIEW_FILES + "/*.jsx",
-            SERVER_SIDE_VIEW_FILES + "/**/*.jsx",
+            SERVER_SIDE_VIEW_FILES + "/*.src.jsx",
+            SERVER_SIDE_VIEW_FILES + "/**/*.src.jsx",
           ],
         },
         files: [
           {
             expand: true,
             cwd: SERVER_SIDE_VIEW_FILES,
-            src: ['**/*.jsx'],
+            src: ['**/*.src.jsx'],
             dest: SERVER_SIDE_VIEW_FILES,
-            ext: '.js'
+            ext: '.jsx'
           }
         ]
       }
