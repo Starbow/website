@@ -82,15 +82,16 @@ var User = inherit(ThinkyDocumentModel, {
   },
 }, {
   createOrUpdate: function(userId, accessToken, oauthType){
+    var self = this;
     return new Promise(function(resolve, reject){
       var user = new User();
       user
         .findByUserId(userId)
         .then(function(){
-          this.getLog().debug(sprintf("Updating existing user: [userId: %s]", userId));
+          self.getLog().debug(sprintf("Updating existing user: [userId: %s]", userId));
         })
         .error(function(err){
-          this.getLog().debug(sprintf("Creating new user: [userId: %s]", userId));
+          self.getLog().debug(sprintf("Creating new user: [userId: %s]", userId));
         })
         .finally(function(){
           user.setValues({
@@ -101,7 +102,7 @@ var User = inherit(ThinkyDocumentModel, {
           .updateTimeLatestLogin()
           .save()
           .then(function(){
-            this.getLog().debug("User saved successfully. Values:\n", user.getValues());
+            self.getLog().debug("User saved successfully. Values:\n", user.getValues());
             return resolve();
           })
           .error(reject);
