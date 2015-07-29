@@ -1,0 +1,133 @@
+@import "buttons/button-variant.less";
+
+//
+// Buttons
+// --------------------------------------------------
+
+
+// Base styles
+// --------------------------------------------------
+
+button,
+.btn {
+  .button-size(@padding-base-vertical; @padding-base-horizontal; @font-size-base; @line-height-base; @border-radius-base);
+  .user-select(none);
+  .button-variant(@btn-default-color; @btn-default-bg; @btn-default-border);
+  margin:3px;
+  border-style:solid;
+  background-image:url("/assets/framework/bootstrap/themes/kafoso/buttons/btn-bg.png");
+  background-size:auto 100%;
+  background-repeat:repeat-x;
+  text-shadow:0 0 3px rgba(180,180,180,.4);
+  .box-shadow(none);
+
+  &:hover,
+  &:focus,
+  &.focus {
+    color: @btn-default-color;
+  }
+
+  &:active,
+  &.active {
+    background-image:url("/assets/framework/bootstrap/themes/kafoso/buttons/btn-bg-active.png");
+  }
+
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    &,
+    &.btn-primary,
+    &.btn-success,
+    &.btn-info,
+    &.btn-warning,
+    &.btn-danger {
+      .box-shadow(none);
+      text-shadow:none;
+      color: @btn-link-disabled-color;
+      border-color:@btn-link-disabled-border-color;
+
+      &,
+      &:hover {
+          background-color:@CUSTOM-btn-bg-disabled;
+      }
+    }
+  }
+}
+
+
+// Alternate buttons
+// --------------------------------------------------
+
+//.btn-default { } Unused. Just use <button> or class ".btn"
+.btn-primary {
+  .button-variant(@btn-primary-color; @btn-primary-bg; @btn-primary-border);
+}
+// Success appears as green
+.btn-success {
+  .button-variant(@btn-success-color; @btn-success-bg; @btn-success-border);
+}
+// Info appears as blue-green
+.btn-info {
+  .button-variant(@btn-info-color; @btn-info-bg; @btn-info-border);
+}
+// Warning appears as orange
+.btn-warning {
+  .button-variant(@btn-warning-color; @btn-warning-bg; @btn-warning-border);
+}
+// Danger and error appear as red
+.btn-danger {
+  .button-variant(@btn-danger-color; @btn-danger-bg; @btn-danger-border);
+}
+
+
+// Link buttons
+// -------------------------
+
+// Make a button look and behave like a link
+.btn-link {
+  color: @link-color;
+
+  &,
+  &:hover,
+  &:focus,
+  &:active {
+    background-image:none;
+    text-shadow:none;
+    .box-shadow(none);
+  }
+
+  &:hover,
+  &:focus {
+    color: @link-hover-color;
+  }
+
+  &[disabled],
+  fieldset[disabled] & {
+    &:hover,
+    &:focus {
+      color: @btn-link-disabled-color;
+    }
+  }
+}
+
+
+// Button Sizes
+// --------------------------------------------------
+
+.btn-lg {
+  // line-height: ensure even-numbered height of button next to large input
+  .button-size(@padding-large-vertical; @padding-large-horizontal; @font-size-large; @line-height-large; @border-radius-large);
+  margin:5px;
+  text-shadow:0 0 5px rgba(180,180,180,.4);
+}
+.btn-sm {
+  // line-height: ensure proper height of button next to small input
+  .button-size(@padding-small-vertical; @padding-small-horizontal; @font-size-small; @line-height-small; 4px);
+  margin:2px;
+  text-shadow:0 0 2px rgba(180,180,180,.4);
+}
+.btn-xs {
+  .button-size(@padding-xs-vertical; @padding-xs-horizontal; 10px; @line-height-small; 4px);
+  margin:1px;
+  text-shadow:0 0 1px rgba(180,180,180,.4);
+}

@@ -1,0 +1,61 @@
+/*
+ * Callouts
+ * Same appearance as blockquote, but with colored border-left and headings.
+ * More info: http://cpratt.co/twitter-bootstrap-callout-css-styles/
+ */
+.bs-callout {
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid @CUSTOM-border-color-frombody-bg-lightened;
+    background-color:@CUSTOM-body-bg-lightened;
+    border-left-width: 5px;
+    border-radius: 3px;
+    
+    .bs-callout-heading {
+        font-weight:bold;
+        font-size:@font-size-h4;
+    }
+
+    &.bs-callout-default {
+        border-left-color:#606060;
+        
+        .bs-callout-heading {
+            color:inherit;
+        }
+    }    
+    &.bs-callout-primary {
+        border-left-color:@brand-primary;
+        
+        .bs-callout-heading {
+            color:@brand-primary;
+        }
+    }
+    &.bs-callout-success {
+        border-left-color:@brand-success;
+        
+        .bs-callout-heading {
+            color:@brand-success;
+        }
+    }
+    &.bs-callout-info {
+        border-left-color:@brand-info;
+        
+        .bs-callout-heading {
+            color:@brand-info;
+        }
+    }
+    &.bs-callout-warning {
+        border-left-color:@brand-warning;
+        
+        .bs-callout-heading {
+            color:@brand-warning;
+        }
+    }
+    &.bs-callout-danger {
+        border-left-color:@brand-danger;
+        
+        .bs-callout-heading {
+            color:@brand-danger;
+        }
+    }
+}

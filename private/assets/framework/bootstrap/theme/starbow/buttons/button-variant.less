@@ -1,0 +1,59 @@
+// We override the ".button-variant" function (see default Bootstrap mixins) because we want our buttons to behave
+// differently, e.g. turning lighter instead of darker when hovered.
+
+.button-variant(@color; @background; @border) {
+  color: @color;
+  background-color: @background;
+  border-color: @border;
+
+  &:hover,
+  &:focus,
+  &.focus,
+  &:active,
+  &.active,
+  .open > .dropdown-toggle& {
+    color: @color;
+    background-color: lighten(@background, 26%);
+    border-color: lighten(@border, 16%);
+    text-shadow:0 0 3px rgba(180,180,180,.6);
+    .box-shadow(0 0 3px rgba(255,255,255,.5));
+
+    &.btn-lg {
+      text-shadow:0 0 5px rgba(180,180,180,.6);
+      .box-shadow(0 0 5px rgba(255,255,255,.5));
+    }
+    &.btn-sm {
+      text-shadow:0 0 2px rgba(180,180,180,.6);
+      .box-shadow(0 0 2px rgba(255,255,255,.5));
+    }
+    &.btn-xs {
+      text-shadow:0 0 1px rgba(180,180,180,.6);
+      .box-shadow(0 0 1px rgba(255,255,255,.5));
+    }
+  }
+  &:active,
+  &.active {
+    background-image:url("/assets/framework/bootstrap/themes/kafoso/buttons/btn-bg-active.png");
+  }
+  .open > .dropdown-toggle& {
+    background-image: none;
+  }
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    &,
+    &:hover,
+    &:focus,
+    &.focus,
+    &:active,
+    &.active {
+      background-color: @background;
+          border-color: @border;
+    }
+  }
+
+  .badge {
+    color: @background;
+    background-color: @color;
+  }
+}
