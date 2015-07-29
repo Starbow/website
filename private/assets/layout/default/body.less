@@ -1,0 +1,32 @@
+html,
+body {
+    height:100%;
+    margin:0;
+}
+body {
+    min-width:@CONTENT_WIDTH;
+    min-height:100%;
+    margin:0;
+
+    > noscript {
+        display:block;
+        position:fixed;
+        z-index:100000;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        padding:80px 20px;
+        background:black;
+        text-align:center;
+        font-size:18px;
+    }
+
+    > inlinescript {
+        .custom-element-reset();
+        display:none;
+        visibility:hidden;
+        .opacity(0);
+        clear:none;
+    }
+}

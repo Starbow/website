@@ -1,0 +1,23 @@
+page,
+header,
+content,
+footer,
+nav,
+section {
+    .custom-element-reset();
+}
+
+section {
+    width:100%;
+}
+
+page,
+header,
+content,
+footer {
+    &:before,
+    &:after {
+        display: table;
+        content: " ";
+    }
+}

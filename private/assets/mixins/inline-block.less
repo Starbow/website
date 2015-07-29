@@ -1,0 +1,11 @@
+// The parent to an ".inline-block" element.
+.inline-block-parent(@fontSize:0) {
+    font-size:0;
+}
+.inline-block(@verticalAlign:baseline) {
+    display:inline-block;
+    *display:inline; // IE8 fallback
+    zoom:1; // IE8 hack
+    vertical-align:@verticalAlign;
+    font-size:@font-size-base;
+}
