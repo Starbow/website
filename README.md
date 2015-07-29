@@ -54,7 +54,7 @@ If you don't feel like writing your Git password every time you want to push to 
 <a name="compiling-view-files-and-public-assets"></a>
 ## Compiling view files and public assets
 
-Some files we don't store GitHub, e.g. the `node_modules` folder. Certain other files aren't stored in their optimized versions in GitHub, either, but exist only as source code. To run the application, said files must first be compiled. Compiling can be done [on command](#compiling-on-command) and by [having a daemon running](#compiling-using-the-daemon).
+Some files we don't store GitHub, e.g. the `node_modules` folder. Certain other files aren't stored in their optimized versions in GitHub, either, but exist only in GitHub as source code. To run the application, said files must first be compiled. Compiling can be done [on command](#compiling-on-command) and by [having a daemon running](#compiling-using-the-daemon).
 
 We use Grunt as compiler. The compiler logic is located in the [`Gruntfile.js`](https://github.com/Starbow/website/blob/master/Gruntfile.js) file.
 
