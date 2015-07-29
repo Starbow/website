@@ -26,6 +26,7 @@ var DefaultLayout = React.createClass({
             <content>{this.props.children}</content>
             <footer> </footer>
           </page>
+          <noscript>This website requires that you have Javascript active.</noscript>
         </body>
       </html>
     );
