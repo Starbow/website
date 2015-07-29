@@ -72,17 +72,13 @@ The files we compile include:
 To compile all files, run:
 
 ```bash
-grunt compile
-
-\# or simply
-
-grunt
+grunt [compile]
 ```
 
 To compile all files within a specific namespace/target folder, run:
 
 ```bash
-grunt compile [less|js|views]
+grunt [compile] [less|js|views]
 ```
 
 <a name="compiling-using-the-daemon"></a>
