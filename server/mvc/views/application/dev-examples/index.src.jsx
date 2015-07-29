@@ -12,7 +12,7 @@ var LiAction = React.createClass({
 var Index = React.createClass({
   render: function() {
     return (
-      <DefaultLayout title={this.props.title}>
+      <DefaultLayout title={this.props.title} description={this.props.description}>
         <h1>Development examples</h1>
         <p>These examples are not available in production.</p>
         <ul>
