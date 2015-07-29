@@ -27,30 +27,11 @@ exports = module.exports = function(app, passport){
   /**
    * Admin pages
    */
-   var middlewareRequireThatUserIsLoggedInAndIsAdmin = function(req, res, next){
-     var notFound = function(){
-       res.status(404).render('../error/404', {
-         url: req.originalUrl,
-         error: 'Not found'
-       });
-     };
-     if (!req.isAuthenticated()) {
-       return notFound();
-     }
-     var user = new User();
-     user
-      .findByUserId(req.user.id)
-      .then(function(){
-        if (user.isAdmin()) {
-          return next();
-        }
-        return notFound();
-      })
-      .error(function(err){
-        return notFound();
-      });
-   };
-   app.all('/admin', middlewareRequireThatUserIsLoggedInAndIsAdmin, function(req, res, next){
+   var middlewareUserMustBeAdmin = require("./middleware/userMustBeAdmin");
+   app.all('/admin', middlewareUserMustBeAdmin, function(req, res, next){
+     return next();
+   });
+   app.all('/admin/*', middlewareUserMustBeAdmin, function(req, res, next){
      return next();
    });
    app.get('/admin', AdminController["index"]);
