@@ -111,6 +111,12 @@ module.exports = function(grunt){
     // React view files
     react: {
       "/server/mvc/views": {
+        options: {
+          watchFiles: [
+            SERVER_SIDE_VIEW_FILES + "/*.jsx",
+            SERVER_SIDE_VIEW_FILES + "/**/*.jsx",
+          ],
+        },
         files: [
           {
             expand: true,
