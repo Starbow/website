@@ -28,8 +28,9 @@ The following stacks/software is needed in order to run the server on your local
 1. [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 2. [Node.js](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager#ubuntu-mint-elementary-os)
 3. [RethinkDB](http://rethinkdb.com/docs/install/)
-4. [Grunt](http://gruntjs.com/) (see more under [Compiling view files and public assets](#compiling-view-files-and-public-assets))
-5. [mocha](http://mochajs.org/) (see more under [Tests](#tests))
+4. [nodemon](https://github.com/remy/nodemon)
+5. [Grunt](http://gruntjs.com/) (see more under [Compiling view files and public assets](#compiling-view-files-and-public-assets))
+6. [mocha](http://mochajs.org/) (see more under [Tests](#tests))
 
 ## Installation
 
@@ -100,13 +101,23 @@ grunt daemon [--less] [--js] [--views]
 
 1. Start the database. In a separate tab/window in your terminal write: `rethinkdb`
 2. Start the server:
-  - Run `sudo node server.js` in the root folder (`/website`) to start the application.
+  - Run `sudo ./server.sh` in the root folder (`/website`) to start the application.
   - **Note:** Using port numbers below 3000, which 443 is, requires `sudo` privileges.
-  - If you haven't configured the environment variable `NODE_ENV`, you may need to run: `sudo NODE_ENV=development node server.js`.
+  - If you haven't configured the environment variable `NODE_ENV`, you may need to run: `sudo NODE_ENV=development ./server.sh`.
 3. In your terminal, you'll now see output as the server is being configured or potentially throws errors.
 4. In your browser, go to: [https://localhost](https://localhost)
 
 If your browser complains that `https://localhost` isn't secure (certified SSL/HTTPS), just choose (in your browser) to continue anyway.
+
+### Update application when files are changed
+
+To automatically re-start the application, `server.js`, when files inside it are changed, simply run:
+
+```bash
+./server.sh
+```
+
+This will run [`nodemon`](https://github.com/remy/nodemon), which does the magic for you.
 
 ### Run as background process
 If you want to run the server as a background process - i.e. not having the script "hanging" in your terminal - install a background process manager. PM2 (Process Manager 2) is recommended.
@@ -118,7 +129,7 @@ sudo npm install pm2 -g
 After installation, run:
 
 ```
-sudo pm2 start server.js
+sudo pm2 start server.sh
 ```
 
 For additional help and information on PM2, see: https://www.digitalocean.com/community/tutorials/how-to-set-up-a-node-js-application-for-production-on-ubuntu-14-04
