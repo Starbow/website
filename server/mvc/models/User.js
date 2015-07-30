@@ -29,15 +29,6 @@ var User = inherit(ThinkyDocumentModel, {
     this.document.timeLatestLogin = this.getThinky().r.now();
     return this;
   },
-  encryptOauthToken: function(token){
-    this.guardIsString(token);
-    var cryptr = new Cryptr(this.getConfig().auth.bnet.encryptionSalt);
-    return cryptr.encrypt(token);
-  },
-  decryptOauthToken: function(encryptedToken){
-    this.guardIsString(encryptedToken);
-    var cryptr = new Cryptr(this.getConfig().auth.bnet.encryptionSalt);
-    return cryptr.decrypt(encryptedToken);
   },
   generateEmailVerificationCode: function(){
     this.guardIsValid();
@@ -109,6 +100,16 @@ var User = inherit(ThinkyDocumentModel, {
         });
     });
   }
+  encryptOauthToken: function(token){
+    this.guardIsString(token);
+    var cryptr = new Cryptr(this.getConfig().auth.bnet.encryptionSalt);
+    return cryptr.encrypt(token);
+  },
+  decryptOauthToken: function(encryptedToken){
+    this.guardIsString(encryptedToken);
+    var cryptr = new Cryptr(this.getConfig().auth.bnet.encryptionSalt);
+    return cryptr.decrypt(encryptedToken);
+  },
 });
 
 module.exports = User;
