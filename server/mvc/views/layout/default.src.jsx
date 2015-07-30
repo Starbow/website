@@ -19,6 +19,15 @@ var DefaultLayout = React.createClass({
           <link type="text/css" rel="stylesheet" href="/assets/cdn/bootstrap/3.3.1/css/bootstrap.min.css"/>
           <link type="text/css" rel="stylesheet" href="/assets/framework/bootstrap/themes/starbow.css"/>
           <link type="text/css" rel="stylesheet" href="/assets/layout/default.css"/>
+          {
+            this.props.css
+            ? this.props.css.map(function(href, index) {
+                return (
+                  <link type="text/css" rel="stylesheet" href={href}/>
+                )
+              })
+            : null
+          }
         </head>
         <body>
           <page>

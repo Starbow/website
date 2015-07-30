@@ -8,7 +8,7 @@ var Index = React.createClass({
     return (
       <DefaultLayout title={this.props.title}>
         <h1>Starbow</h1>
-        <p><a href="/auth/bnet">Login via Bnet</a></p>
+        <p><a className="btn btn-primary" href="/login">Login</a></p>
       </DefaultLayout>
     );
   }
