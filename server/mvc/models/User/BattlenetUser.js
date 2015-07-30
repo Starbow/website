@@ -1,6 +1,7 @@
 "use strict";
 
 var inherit = require("inherit");
+var sprintf = require("sprintf-js").sprintf;
 var User = require("../User");
 var Promise = require("bluebird");
 
@@ -30,14 +31,16 @@ var BattlenetUser = inherit(User, {
         })
         .error(function(err){
           self.getLog().debug(sprintf("Creating new user: [userId: %s]", userId));
+          battlenetUser.setValues({
+            userId: userId,
+            battletag: battletag,
+            nickname: battletag,
+          });
         })
         .finally(function(){
           battlenetUser.setValues({
-              battletag: battletag,
-              nickname: battletag,
               oauthTokenEncrypted: BattlenetUser.encryptOauthToken(accessToken),
               oauthType: oauthType,
-              userId: userId
           })
           .updateTimeLatestLogin()
           .save()
