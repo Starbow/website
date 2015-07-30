@@ -35,7 +35,29 @@ describe("User", function(){
   });
 
   describe("Static", function(){
+    beforeEach(function(){
+      User = require(modelsPath + "/User");
+    });
 
+    describe("encryptOauthToken()", function(){
+      it("Throws 'TypeError' when parameter is not a String", function(){
+        assert.throw(function(){User.encryptOauthToken(undefined)}, TypeError);
+      });
+      it("Can encrypt oauth token correctly", function(){
+        var encryptedToken = User.encryptOauthToken("my_little_oauth_token");
+        assert.strictEqual(encryptedToken, "41a65d5a9d2156f20daff6add137ea3465854d5c3c262ddb52ae64251d7a9d9e");
+      });
+    });
+    describe("decryptOauthToken()", function(){
+      it("Throws 'TypeError' when parameter is not a String", function(){
+        assert.throw(function(){User.decryptOauthToken(undefined)}, TypeError);
+      });
+      it("Can decrypt oauth token correctly", function(){
+        var encryptedToken = "41a65d5a9d2156f20daff6add137ea3465854d5c3c262ddb52ae64251d7a9d9e";
+        var token = User.decryptOauthToken(encryptedToken);
+        assert.strictEqual(token, "my_little_oauth_token");
+      });
+    });
   });
   describe("Instances (i.e.: new User)", function(){
     beforeEach(function(done){
@@ -82,6 +104,7 @@ describe("User", function(){
               var user = new User();
               var values = {
                 userId: 1,
+                battletag: "bogus",
                 oauthType: "bogus",
                 oauthTokenEncrypted: "123bogus",
               };
@@ -103,6 +126,7 @@ describe("User", function(){
           user
             .setValues({
               userId: 1,
+              battletag: "bogus",
               oauthType: "bogus",
               oauthTokenEncrypted: "123bogus",
             })
@@ -139,6 +163,7 @@ describe("User", function(){
           user
             .setValues({
               userId: 1,
+              battletag: "bogus",
               oauthType: "bogus",
               oauthTokenEncrypted: "123bogus",
             })
@@ -159,6 +184,7 @@ describe("User", function(){
           user
             .setValues({
               userId: 1,
+              battletag: "bogus",
               oauthType: "bogus",
               oauthTokenEncrypted: "123bogus",
               email: "foo@bar.com"
@@ -182,6 +208,7 @@ describe("User", function(){
           user
             .setValues({
               userId: 1,
+              battletag: "bogus",
               oauthType: "bogus",
               oauthTokenEncrypted: "123bogus",
               email: "foo@bar.com",
@@ -201,29 +228,6 @@ describe("User", function(){
         });
       });
     });
-    describe("encryptOauthToken()", function(){
-      it("Throws 'TypeError' when parameter is not a String", function(){
-        var user = new User();
-        assert.throw(function(){user.encryptOauthToken(undefined)}, TypeError);
-      });
-      it("Can encrypt oauth token correctly", function(){
-        var user = new User();
-        var encryptedToken = user.encryptOauthToken("my_little_oauth_token");
-        assert.strictEqual(encryptedToken, "41a65d5a9d2156f20daff6add137ea3465854d5c3c262ddb52ae64251d7a9d9e");
-      });
-    });
-    describe("decryptOauthToken()", function(){
-      it("Throws 'TypeError' when parameter is not a String", function(){
-        var user = new User();
-        assert.throw(function(){user.decryptOauthToken(undefined)}, TypeError);
-      });
-      it("Can decrypt oauth token correctly", function(){
-        var user = new User();
-        var encryptedToken = "41a65d5a9d2156f20daff6add137ea3465854d5c3c262ddb52ae64251d7a9d9e";
-        var token = user.decryptOauthToken(encryptedToken);
-        assert.strictEqual(token, "my_little_oauth_token");
-      });
-    });
     describe("generateEmailVerificationCode()", function(){
       it("Will fail if user does not exist in database", function(){
         var user = new User();
@@ -234,6 +238,7 @@ describe("User", function(){
         user
           .setValues({
             userId: 1,
+            battletag: "bogus",
             oauthType: "bogus",
             oauthTokenEncrypted: "123bogus",
           })
@@ -254,6 +259,7 @@ describe("User", function(){
         var user = new User();
         user.setValues({
           userId: 1,
+          battletag: "bogus",
           oauthType: "bogus",
           oauthTokenEncrypted: "123bogus",
         });
@@ -270,6 +276,7 @@ describe("User", function(){
         var user = new User();
         user.setValues({
           userId: 1,
+          battletag: "bogus",
           oauthType: "bogus",
           oauthTokenEncrypted: "123bogus",
           homeRegion: "us"
@@ -286,6 +293,7 @@ describe("User", function(){
         var user = new User();
         user.setValues({
           userId: 1,
+          battletag: "bogus",
           oauthType: "bogus",
           oauthTokenEncrypted: "123bogus",
           nickname: "bogus"
@@ -305,6 +313,7 @@ describe("User", function(){
         user
           .setValues({
             userId: 1,
+            battletag: "bogus",
             oauthType: "bogus",
             oauthTokenEncrypted: "123bogus",
             emailVerificationTime: null
@@ -320,6 +329,7 @@ describe("User", function(){
         user
           .setValues({
             userId: 1,
+            battletag: "bogus",
             oauthType: "bogus",
             oauthTokenEncrypted: "123bogus",
             emailVerificationTime: new Date()
@@ -343,6 +353,7 @@ describe("User", function(){
         user
           .setValues({
             userId: 1,
+            battletag: "bogus",
             oauthType: "bogus",
             oauthTokenEncrypted: "123bogus",
             homeRegion: "us",
