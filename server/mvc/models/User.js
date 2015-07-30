@@ -29,6 +29,9 @@ var User = inherit(ThinkyDocumentModel, {
     this.document.timeLatestLogin = this.getThinky().r.now();
     return this;
   },
+  getProfileURL: function(){
+    this.guardExistsInDatabase();
+    return "/user/" + this.getValue("nickname") + "-" + this.getValue("userId");
   },
   generateEmailVerificationCode: function(){
     this.guardIsValid();
