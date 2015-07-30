@@ -10,6 +10,7 @@ module.exports = function (app, logs, passport) {
   app.get('/auth/bnet/callback', passport.authenticate('bnet', {failureRedirect: '/'}), function(req, res){
     res.redirect('/');
   });
+  app.get('/login', IndexController.login);
   app.get('/logout', IndexController.logout);
   app.get('/profile/info', ProfileController.info);
   app.get('/profile/matchhistory', ProfileController.matchhistory);
