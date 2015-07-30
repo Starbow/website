@@ -17,6 +17,11 @@ exports.index = function(req, res){
   );
 };
 
+exports.logout = function(req, res) {
+  req.logout();
+  return res.redirect('/');
+};
+
 exports.userstuff = function(req, res){ // TODO: Temporary function for hacking away at user stuff
   if (!req.isAuthenticated()) {
     return res.send('Not authenticated');
