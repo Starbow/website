@@ -34,7 +34,7 @@ var BattlenetUser = inherit(User, {
         .finally(function(){
           battlenetUser.setValues({
               battletag: battletag,
-              nickname: BattlenetUser.generateNicknameFromBattletag(battletag),
+              nickname: battletag,
               oauthTokenEncrypted: BattlenetUser.encryptOauthToken(accessToken),
               oauthType: oauthType,
               userId: userId
@@ -48,9 +48,6 @@ var BattlenetUser = inherit(User, {
           .error(reject);
         });
     });
-  },
-  generateNicknameFromBattletag: function(battletag){
-    return battletag.replace(/\#\d+$/, "");
   }
 });
 
