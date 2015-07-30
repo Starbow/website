@@ -1,7 +1,7 @@
   "use strict";
 
   var React = require('react');
-  var DefaultLayout = require('../../layout/default');
+  var DefaultLayout = require('../../../layout/default');
 
   var Index = React.createClass({
     render: function() {
