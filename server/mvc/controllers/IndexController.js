@@ -10,7 +10,7 @@ exports.index = function(req, res){
   if(!req.isAuthenticated()) {
     return res.render('index/index', merge({}, commonViewData));
   }
-  res.render('index/indexAuthenticated', merge({
+  res.render('index/index/authenticated', merge({
       userId: req.user.id,
       battletag: req.user.battletag
     }, commonViewData)
