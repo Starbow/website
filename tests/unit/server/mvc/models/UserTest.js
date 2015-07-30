@@ -228,6 +228,25 @@ describe("User", function(){
         });
       });
     });
+    describe("getProfileURL()", function(){
+      it("Will return a (safe) URL to the users profile", function(done){
+        var battletag = "foo#1234";
+        var user = new User();
+        user
+          .setValues({
+            userId: 1,
+            battletag: battletag,
+            nickname: battletag,
+            oauthType: "bogus",
+            oauthTokenEncrypted: "123bogus",
+          })
+          .save()
+          .then(function(){
+            assert.equal("/user/profile/foo-1234", user.getProfileURL());
+            done();
+          });
+      });
+    });
     describe("generateEmailVerificationCode()", function(){
       it("Will fail if user does not exist in database", function(){
         var user = new User();
