@@ -12,7 +12,7 @@ module.exports = function(authBnetConfig){
           .then(function(){
             return done(null, profile)
           })
-          .error(function(){
+          .error(function(err){
             log.error("BnetStrategy (1):", err);
             return done(null, null);
           });
