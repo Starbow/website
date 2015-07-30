@@ -9,7 +9,7 @@ var ucfirst = function(str){
   return str.charAt(0).toUpperCase() + str.substr(1);
 };
 
-module.exports = inherit({
+var StaticMethods = {
   getHumanReadableTypeAndValue: function(v){
     if (v === undefined) {
       return "undefined";
@@ -122,4 +122,24 @@ module.exports = inherit({
     }
     return this;
   },
-});
+};
+
+var DefaultModel = inherit({
+  getHumanReadableTypeAndValue: StaticMethods.getHumanReadableTypeAndValue,
+  validateIsArray: StaticMethods.validateIsArray,
+  validateIsInteger: StaticMethods.validateIsInteger,
+  validateIsNull: StaticMethods.validateIsNull,
+  validateIsNumber: StaticMethods.validateIsNumber,
+  validateIsObject: StaticMethods.validateIsObject,
+  validateIsString: StaticMethods.validateIsString,
+  validateIsUndefined: StaticMethods.validateIsUndefined,
+  guardIsArray: StaticMethods.guardIsArray,
+  guardIsInteger: StaticMethods.guardIsInteger,
+  guardIsNull: StaticMethods.guardIsNull,
+  guardIsNumber: StaticMethods.guardIsNumber,
+  guardIsObject: StaticMethods.guardIsObject,
+  guardIsString: StaticMethods.guardIsString,
+  guardIsUndefined: StaticMethods.guardIsUndefined
+}, StaticMethods);
+
+module.exports = DefaultModel;
