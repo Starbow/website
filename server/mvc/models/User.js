@@ -72,34 +72,6 @@ var User = inherit(ThinkyDocumentModel, {
     return (this.document.roles.indexOf("admin") > -1);
   },
 }, {
-  createOrUpdate: function(userId, accessToken, oauthType){
-    var self = this;
-    return new Promise(function(resolve, reject){
-      var user = new User();
-      user
-        .findByUserId(userId)
-        .then(function(){
-          self.getLog().debug(sprintf("Updating existing user: [userId: %s]", userId));
-        })
-        .error(function(err){
-          self.getLog().debug(sprintf("Creating new user: [userId: %s]", userId));
-        })
-        .finally(function(){
-          user.setValues({
-              oauthTokenEncrypted: user.encryptOauthToken(accessToken),
-              oauthType: oauthType,
-              userId: userId
-          })
-          .updateTimeLatestLogin()
-          .save()
-          .then(function(){
-            self.getLog().debug("User saved successfully. Values:\n", user.getValues());
-            return resolve();
-          })
-          .error(reject);
-        });
-    });
-  }
   encryptOauthToken: function(token){
     this.guardIsString(token);
     var cryptr = new Cryptr(this.getConfig().auth.bnet.encryptionSalt);
