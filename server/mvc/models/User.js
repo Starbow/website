@@ -31,7 +31,8 @@ var User = inherit(ThinkyDocumentModel, {
   },
   getProfileURL: function(){
     this.guardExistsInDatabase();
-    return "/user/" + this.getValue("nickname") + "-" + this.getValue("userId");
+    var urlSafeNickname = this.getValue("nickname").replace("#", "-");
+    return "/user/profile/" + urlSafeNickname;
   },
   generateEmailVerificationCode: function(){
     this.guardIsValid();
