@@ -12,6 +12,16 @@ var DefaultLayout = React.createClass({
           <meta httpEquiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
           <meta name="viewport" content="width=device-width,initial-scale=1"/>
           {
+            this.props.headMeta
+            ? this.props.headMeta.map(function(attributes, index) {
+              console.log("lols", attributes)
+                return (
+                  <meta {...attributes} />
+                )
+              })
+            : null
+          }
+          {
             this.props.description
             ? <meta name="description" content={this.props.description}/>
             : null
