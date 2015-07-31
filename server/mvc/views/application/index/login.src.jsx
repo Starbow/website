@@ -30,7 +30,7 @@ var buttonTextLoginToBattlenet = "Login via Battle.net";
             <li>You will be securely redirected to the Battle.net Login page located under: <a href="https://battle.net">{"https://battle.net"}</a></li>
             <li>You must accept that Starbow is allowed to extract non-sensitive information about your account through the <a href="https://dev.battle.net/">Battle.net API</a>.</li>
             <li>You enter your login credentials that only you and Blizzard Entertainment know and can validate. I.e. Starbow will not know or have access to your e-mail address or password.</li>
-            <li>Upon succesful login you will be redirected back to this website. You may now use the various functions throughout this website, including the forum, chat, and of course matchmaking system allowing you to play ranked Starbow games.</li>
+            <li>Upon succesful login you will be redirected back to this website. You may now use the various functions throughout this website, including the forum, chat, and of course matchmaking system allowing you to play ranked Starbow matches.</li>
           </ul>
           <p>If you have already performed the above steps and you stay logged in at <a href="https://battle.net">Battle.net</a>, the login procedure happens automatically.</p>
         </DefaultLayout>
