@@ -15,7 +15,7 @@ exports.index = function(req, res){
   user.findByUserId(req.user.id)
     .then(function(){
       return res.render('login/index/alreadyLoggedIn', {
-        layout:{
+        layout: {
           title: "You are already logged in",
         },
         userProfileURL: user.getProfileURL(),
