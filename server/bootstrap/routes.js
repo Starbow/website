@@ -1,6 +1,7 @@
 var morgan = require("morgan");
 var sprintf = require("sprintf-js").sprintf;
 var IndexController = require(process.env.ROOT + '/server/mvc/controllers/IndexController.js');
+var LoginController = require(process.env.ROOT + '/server/mvc/controllers/LoginController.js');
 var AdminController = require(process.env.ROOT + '/server/mvc/controllers/AdminController.js');
 var Admin_UsersController = require(process.env.ROOT + '/server/mvc/controllers/Admin/UsersController.js');
 var ProfileController = require(process.env.ROOT + '/server/mvc/controllers/ProfileController.js');
@@ -10,7 +11,7 @@ module.exports = function (app, logs, passport) {
   app.get('/auth/bnet/callback', passport.authenticate('bnet', {failureRedirect: '/'}), function(req, res){
     res.redirect('/');
   });
-  app.get('/login', IndexController.login);
+  app.get('/login', LoginController.index);
   app.get('/logout', IndexController.logout);
   app.get('/profile/info', ProfileController.info);
   app.get('/profile/matchhistory', ProfileController.matchhistory);
