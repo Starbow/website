@@ -8,8 +8,8 @@ var buttonTextLoginToBattlenet = "Login via Battle.net";
 var Login = React.createClass({
   render: function() {
     return (
-      <DefaultLayout title={this.props.title} description={this.props.description} css={this.props.css}>
-        <h1>{this.props.title}</h1>
+      <DefaultLayout layout={this.props.layout}>
+        <h1>{this.props.layout.title}</h1>
         <p>You login to this website through your Battle.net Account.</p>
         <div>
           <div id="battlenetLogin" className="text-center">

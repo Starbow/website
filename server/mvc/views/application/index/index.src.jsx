@@ -6,7 +6,7 @@ var DefaultLayout = require('../../layout/default');
 var Index = React.createClass({
   render: function() {
     return (
-      <DefaultLayout title={this.props.title}>
+      <DefaultLayout layout={this.props.layout}>
         <h1>Starbow</h1>
         <p><a className="btn btn-primary" href="/login">Login</a></p>
       </DefaultLayout>

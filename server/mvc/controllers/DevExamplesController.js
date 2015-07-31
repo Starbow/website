@@ -73,6 +73,9 @@ exports.index = function(req, res){
     });
   }
   return res.render('dev-examples/index', {
+    layout: {
+      title: "Dev Examples",
+    },
     actions: actions
   });
 };

@@ -6,7 +6,7 @@ var DefaultLayout = require('../layout/default');
 var Index = React.createClass({
   render: function() {
     return (
-      <DefaultLayout title={this.props.title}>
+      <DefaultLayout layout={this.props.layout}>
         <h1>404 - You messed up</h1>
       </DefaultLayout>
     );

@@ -6,7 +6,7 @@
   var Index = React.createClass({
     render: function() {
       return (
-        <DefaultLayout title={this.props.title} description={this.props.description}>
+        <DefaultLayout layout={this.props.layout}>
           <h1>Starbow</h1>
           <p>User ID: <strong>{this.props.userId}</strong><br/>
           Battletag: <strong>{this.props.battletag}</strong></p>

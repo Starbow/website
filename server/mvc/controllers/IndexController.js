@@ -4,8 +4,10 @@ var User = require("../models/User");
 
 exports.index = function(req, res){
   var commonViewData = {
-    title: "Starbow",
-    description: "Starbow; the Brood War mod for Starcraft 2"
+    layout: {
+      title: "Starbow",
+      description: "Starbow; the Brood War mod for Starcraft 2"
+    },
   };
   if(!req.isAuthenticated()) {
     return res.render('index/index', merge({}, commonViewData));
@@ -20,15 +22,21 @@ exports.index = function(req, res){
 exports.login = function(req, res){
   if (!req.isAuthenticated()) {
     return res.render('index/login', {
-      title: "Login",
-      css: ["/assets/application/index/login.css"],
+      layout: {
+        title: "Login",
+        css: [
+          "/assets/application/index/login.css"
+        ],
+      },
     });
   }
   var user = new User();
   user.findByUserId(req.user.id)
     .then(function(){
       return res.render('index/login/alreadyLoggedIn', {
-        title: "You are already logged in",
+        layout: {
+          title: "You are already logged in",
+        },
         userProfileURL: user.getProfileURL(),
         userNickname: user.getValue("nickname")
       });

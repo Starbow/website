@@ -8,13 +8,12 @@ var DefaultLayout = React.createClass({
       <html>
         <head>
           <meta charSet="utf-8"/>
-          <title>{this.props.title}</title>
+          <title>{this.props.layout.title ? this.props.layout.title : "Starbow"}</title>
           <meta httpEquiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
           <meta name="viewport" content="width=device-width,initial-scale=1"/>
           {
-            this.props.headMeta
-            ? this.props.headMeta.map(function(attributes, index) {
-              console.log("lols", attributes)
+            this.props.layout.meta
+            ? this.props.layout.meta.map(function(attributes, index) {
                 return (
                   <meta {...attributes} />
                 )
@@ -22,16 +21,16 @@ var DefaultLayout = React.createClass({
             : null
           }
           {
-            this.props.description
-            ? <meta name="description" content={this.props.description}/>
+            this.props.layout.description
+            ? <meta name="description" content={this.props.layout.description}/>
             : null
           }
           <link type="text/css" rel="stylesheet" href="/assets/cdn/bootstrap/3.3.1/css/bootstrap.min.css"/>
           <link type="text/css" rel="stylesheet" href="/assets/framework/bootstrap/themes/starbow.css"/>
           <link type="text/css" rel="stylesheet" href="/assets/layout/default.css"/>
           {
-            this.props.css
-            ? this.props.css.map(function(href, index) {
+            this.props.layout.css
+            ? this.props.layout.css.map(function(href, index) {
                 return (
                   <link type="text/css" rel="stylesheet" href={href}/>
                 )
