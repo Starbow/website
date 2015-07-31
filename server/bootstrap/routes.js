@@ -8,15 +8,17 @@ var ProfileController = require(process.env.ROOT + '/server/mvc/controllers/Prof
 
 module.exports = function (app, logs, passport) {
   app.get('/auth/bnet', passport.authenticate('bnet'));
-  app.get('/auth/bnet/callback', passport.authenticate('bnet', {failureRedirect: '/'}), function(req, res){
+  app.get('/auth/bnet/callback', passport.authenticate('bnet', {failureRedirect: '/login/failure'}), function(req, res){
     res.redirect('/');
   });
-  app.get('/login', LoginController.index);
   app.get('/logout', IndexController.logout);
   app.get('/profile/info', ProfileController.info);
   app.get('/profile/matchhistory', ProfileController.matchhistory);
   app.get('/userstuff', IndexController.userstuff); // TODO: Temporary development endpoint
   app.get('/', IndexController.index);
+
+  app.get('/login', LoginController.index);
+  app.get('/login/failure', LoginController.failure);
 
   /**
    * Admin pages

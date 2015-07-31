@@ -20,3 +20,12 @@ exports.index = function(req, res){
       return res.redirect('/logout?rdr=/login');
     });
 };
+
+exports.failure = function(req, res){
+  return res.render('login/failure', {
+    title: "Login failed",
+    headMeta: [
+      {name: "robots", content: "noindex,nofollow"}
+    ]
+  });
+};
