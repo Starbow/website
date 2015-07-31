@@ -13,9 +13,11 @@ var buttonTextLoginToBattlenet = "Login via Battle.net";
           <p>You login to this website through your Battle.net Account.</p>
           <div>
             <div id="battlenetLogin" className="text-center">
+              <div className="battlnetLogo"></div>
               <a className="btn btn-login" href="/auth/bnet">{buttonTextLoginToBattlenet}</a>
             </div>
           </div>
+          <h2>Prerequisites</h2>
           <p>You need an active Battle.net Account to:</p>
           <ol type="A">
             <li>Login to this website.</li>

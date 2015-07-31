@@ -1,6 +1,19 @@
+@import "../../mixins.less";
+
 #battlenetLogin {
   width:380px;
-  margin:0 auto;
+  margin:20px auto 30px;
+  padding:20px;
+  background:url("https://eu.battle.net/login/static/images/login/background/login-background-1920.jpg") no-repeat 50% 0 transparent;
+  .border-radius(10px);
+  .box-shadow(0 0 20px #0076ad);
+
+  div.battlnetLogo {
+    width: 300px;
+    height: 70px;
+    margin:0 auto;
+    background:url("https://eu.battle.net/login/static/images/toolkit/defaults/logos/bnet/default.png") no-repeat 0 0 transparent;
+  }
 }
 a.btn-login {
   background-color: #098cc8;
@@ -8,6 +21,7 @@ a.btn-login {
   border: 1px solid transparent;
   box-shadow: 0 0 rgba(0,0,0,0);
   border-radius: 2px;
+  margin:20px 0;
   -webkit-transition: background-color .2s,box-shadow .2s,background-color .2s,border-color .2s,color .2s;
   transition: background-color .2s,box-shadow .2s,background-color .2s,border-color .2s,color .2s;
   background-image: -webkit-linear-gradient(top,#0f9ada,#0076ad);
