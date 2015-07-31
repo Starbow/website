@@ -4,16 +4,19 @@ var React = require('react');
 
 var DefaultLayout = React.createClass({
   render: function() {
+    var layout = typeof(this.props.layout) == "object" ? this.props.layout : {};
+    var lang = layout.lang ? layout.lang : "en";
+    var title = layout.title ? layout.title : "Starbow";
     return (
-      <html>
+      <html lang={lang}>
         <head>
           <meta charSet="utf-8"/>
-          <title>{this.props.layout.title ? this.props.layout.title : "Starbow"}</title>
+          <title>{title}</title>
           <meta httpEquiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
           <meta name="viewport" content="width=device-width,initial-scale=1"/>
           {
-            this.props.layout.meta
-            ? this.props.layout.meta.map(function(attributes, index) {
+            layout.meta
+            ? layout.meta.map(function(attributes, index) {
                 return (
                   <meta {...attributes} />
                 )
@@ -21,16 +24,16 @@ var DefaultLayout = React.createClass({
             : null
           }
           {
-            this.props.layout.description
-            ? <meta name="description" content={this.props.layout.description}/>
+            layout.description
+            ? <meta name="description" content={layout.description}/>
             : null
           }
           <link type="text/css" rel="stylesheet" href="/assets/cdn/bootstrap/3.3.1/css/bootstrap.min.css"/>
           <link type="text/css" rel="stylesheet" href="/assets/framework/bootstrap/themes/starbow.css"/>
           <link type="text/css" rel="stylesheet" href="/assets/layout/default.css"/>
           {
-            this.props.layout.css
-            ? this.props.layout.css.map(function(href, index) {
+            layout.css
+            ? layout.css.map(function(href, index) {
                 return (
                   <link type="text/css" rel="stylesheet" href={href}/>
                 )
