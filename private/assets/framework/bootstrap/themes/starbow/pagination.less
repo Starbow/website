@@ -1,0 +1,53 @@
+//
+// Pagination (multiple pages)
+// --------------------------------------------------
+.pagination {
+  > li {
+    display: inline; // Remove list-style and block-level defaults
+
+    > a,
+    > span {
+      color: @pagination-color;
+      background-color: @pagination-bg;
+      border: 1px solid @pagination-border;
+      margin:0 2px;
+      .border-radius(3px);
+    }
+  }
+
+  > li > a,
+  > li > span {
+    &:hover,
+    &:focus {
+      color: @pagination-hover-color;
+      background-color: @pagination-hover-bg;
+      border-color: @pagination-hover-border;
+      box-shadow:inset 0 0 6px fade(@CUSTOM-component-active-bg-darkened, 75%);
+    }
+  }
+
+  > .active > a,
+  > .active > span {
+    &,
+    &:hover,
+    &:focus {
+      color: @pagination-active-color;
+      background-color: @pagination-active-bg;
+      border-color: @pagination-active-border;
+    }
+  }
+
+  > .disabled {
+    > span,
+    > span:hover,
+    > span:focus,
+    > a,
+    > a:hover,
+    > a:focus {
+      color: @pagination-disabled-color;
+      background-color: @pagination-disabled-bg;
+      border-color: @pagination-disabled-border;
+      box-shadow:none;
+    }
+  }
+}

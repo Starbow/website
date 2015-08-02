@@ -1,0 +1,152 @@
+// Fixes various un-though-of things (by Bootstrap) related to ul.nav elements
+
+ul.navlist {
+    background-color:@CUSTOM-body-bg-lightened;
+    .border-radius(3px);
+
+    &,
+    ul {
+        list-style:none;
+        margin:0;
+        padding:0;
+
+        li {
+            display:block;
+        }
+    }
+
+    ul {
+
+    }
+
+    li {
+        min-height:40px;
+
+        &.active {
+            > a {
+                color:white;
+                background-color:lighten(@CUSTOM-body-bg-lightened, 10%);
+            }
+        }
+        &.path {
+            > a {
+                background-color:lighten(@CUSTOM-body-bg-lightened, 4%);
+            }
+        }
+        &.disabled {
+            &,
+            &.active,
+            &.path {
+                a {
+                    color:@pagination-disabled-color;
+                    background-color:transparent;
+                    cursor:default;
+
+                    &:hover,
+                    &:active {
+                        box-shadow:none;
+                        background-color:transparent;
+                    }
+                }
+            }
+        }
+
+        a {
+            display:block;
+            position: relative;
+            margin:0;
+            text-decoration:none;
+            padding: @nav-link-padding;
+            border-top:1px solid #000;
+            border-bottom:1px solid #000;
+            margin-top:-1px;
+            
+            &:hover,
+            &:focus {
+                background-color: @nav-link-hover-bg;
+                box-shadow:inset 0 0 6px fade(@CUSTOM-component-active-bg-darkened, 75%);
+                .border-radius(3px);
+            }
+        }
+    }
+
+    > li {
+        &:first-child {
+            &,
+            > a:first-child {
+                .border-top-left-radius(3px);
+                .border-top-right-radius(3px);
+            }
+
+            > a {
+                border-top:none;
+                margin-top:0;
+            }
+        }
+        &:last-child {
+            &,
+            > a:last-child {
+                .border-bottom-left-radius(3px);
+                .border-bottom-right-radius(3px);
+            }
+        }
+    }
+}
+
+// Nesting & Indentation
+
+@CUSTOM-navlist-indentation-padding:30px;
+ul.navlist {
+    > li {
+        ul {
+            a {
+                padding-left:@CUSTOM-navlist-indentation-padding;
+            }
+            ul {
+                a {
+                    padding-left:(@CUSTOM-navlist-indentation-padding * 2);
+                }
+                ul {
+                    a {
+                        padding-left:(@CUSTOM-navlist-indentation-padding * 3);
+                    }
+                    ul {
+                        a {
+                            padding-left:(@CUSTOM-navlist-indentation-padding * 4);
+                        }
+                        ul {
+                            a {
+                                padding-left:(@CUSTOM-navlist-indentation-padding * 5);
+                            }
+                            ul {
+                                a {
+                                    padding-left:(@CUSTOM-navlist-indentation-padding * 6);
+                                }
+                                ul {
+                                    a {
+                                        padding-left:(@CUSTOM-navlist-indentation-padding * 7);
+                                    }
+                                    ul {
+                                        a {
+                                            padding-left:(@CUSTOM-navlist-indentation-padding * 8);
+                                        }
+                                        ul {
+                                            a {
+                                                padding-left:(@CUSTOM-navlist-indentation-padding * 9);
+                                            }
+                                            ul {
+                                                a {
+                                                    padding-left:(@CUSTOM-navlist-indentation-padding * 10);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,25 @@
+body {
+    background-color:@body-bg;
+    color:@text-color;
+}
+a {
+  color: @link-color;
+
+  &:hover,
+  &:focus {
+    color: @link-hover-color;
+  }
+
+  &:focus {
+    .tab-focus();
+  }
+}
+hr {
+    border-color:@hr-border;
+}
+
+.img-thumbnail {
+    border-color:#999;
+    background-color:@body-bg;
+    .box-shadow(0 1px 2px rgba(0,0,0,.075));
+}

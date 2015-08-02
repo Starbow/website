@@ -30,3 +30,14 @@ node_modules
 server/data/*
 server/config/env/env.*.json
 !server/config/env/env.example.json
+
+# Compiled/optimized files
+public/assets/**/*.css
+public/assets/**/*.js
+public/assets/*.css
+public/assets/*.js
+!public/assets/cdn
+server/mvc/views/**/*.jsx
+!server/mvc/views/**/*.src.jsx
+server/mvc/views/*.jsx
+!server/mvc/views/*.src.jsx

@@ -1,16 +1,20 @@
+var merge = require("merge");
+
 var User = require("../models/User");
 
 exports.index = function(req, res){
+  var commonViewData = {
+    title: "Starbow",
+    description: "Starbow; the Brood War mod for Starcraft 2"
+  };
   if(!req.isAuthenticated()) {
-    return res.render('index/index', {
-      title: 'Starbow'
-    });
+    return res.render('index/index', merge({}, commonViewData));
   }
-  res.render('index/indexAuthenticated', {
-    title: 'Starbow',
-    userId: req.user.id,
-    battletag: req.user.battletag
-  });
+  res.render('index/indexAuthenticated', merge({
+      userId: req.user.id,
+      battletag: req.user.battletag
+    }, commonViewData)
+  );
 };
 
 exports.userstuff = function(req, res){ // TODO: Temporary function for hacking away at user stuff
