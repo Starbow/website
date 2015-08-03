@@ -1,6 +1,7 @@
 "use strict";
 
 var React = require('react');
+var merge = require("merge");
 
 var MetaDescription = React.createClass({
   render: function(){
@@ -28,13 +29,30 @@ var LinkTag = React.createClass({
   }
 });
 
+var ScriptTag = React.createClass({
+  render: function(){
+    return (
+      <script type="text/javascript" src={this.props.src}></script>
+    )
+  }
+});
+
 var DefaultLayout = React.createClass({
   render: function() {
     var layout = typeof(this.props.layout) == "object" ? this.props.layout : {};
     var lang = layout.lang ? layout.lang : "en";
     var title = layout.title ? layout.title : "Starbow";
-    var metaOther = (layout.meta instanceof Array) ? layout.meta : [];
-    var css = (layout.css instanceof Array) ? layout.css : [];
+    var headMeta = (layout.meta instanceof Array) ? layout.meta : [];
+    var headCss = (layout.css instanceof Array) ? layout.css : [];
+    headCss = [
+      "/assets/cdn/bootstrap/3.3.1/css/bootstrap.min.css",
+      "/assets/framework/bootstrap/themes/starbow.css",
+      "/assets/layout/default.css"
+    ].concat(headCss);
+    var headJs = (layout.js instanceof Array) ? layout.js : [];
+    headJs = [
+      "/assets/common/App.js"
+    ].concat(headJs);
     return (
       <html lang={lang}>
         <head>
@@ -43,14 +61,14 @@ var DefaultLayout = React.createClass({
           <meta httpEquiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
           <meta name="viewport" content="width=device-width,initial-scale=1"/>
           <MetaDescription description={layout.description}/>
-          {metaOther.map(function(attributes, index){
+          {headMeta.map(function(attributes, index){
             return <MetaTag attributes={attributes}/>
           })}
-          <link type="text/css" rel="stylesheet" href="/assets/cdn/bootstrap/3.3.1/css/bootstrap.min.css"/>
-          <link type="text/css" rel="stylesheet" href="/assets/framework/bootstrap/themes/starbow.css"/>
-          <link type="text/css" rel="stylesheet" href="/assets/layout/default.css"/>
-          {css.map(function(href, index){
+          {headCss.map(function(href, index){
             return <LinkTag href={href}/>
+          })}
+          {headJs.map(function(src, index){
+            return <ScriptTag src={src}/>
           })}
         </head>
         <body>
